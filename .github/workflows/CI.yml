@@ -49,7 +49,7 @@ jobs:
        uses: 'actions/upload-artifact@v2'
        with:
          name: report.xml
-         path: ${{ github.workspace }}/build/reports/jacoco/testCoverage/testCoverage.xml
+         path: ${{ github.workspace }}/target/site/jacoco/jacoco.xml
         
      - name: Upload coverage to Codecov
        uses: codecov/codecov-action@v3
