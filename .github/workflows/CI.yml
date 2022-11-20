@@ -12,7 +12,7 @@ on:
   workflow_dispatch:
 
 jobs:
-  build:
+  Build:
     runs-on: ubuntu-latest
 
     steps:
@@ -28,8 +28,8 @@ jobs:
     - name: Build with Maven
       run: mvn -B clean package
       
-  test:
-    needs: build
+  Test:
+    needs: Build
     runs-on: ubuntu-latest
     
     steps:
