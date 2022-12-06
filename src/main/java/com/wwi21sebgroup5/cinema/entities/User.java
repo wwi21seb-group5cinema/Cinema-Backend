@@ -5,8 +5,8 @@ import lombok.Getter;
 import lombok.Setter;
 import lombok.ToString;
 
-import javax.persistence.*;
-import javax.validation.constraints.NotNull;
+import jakarta.persistence.*;
+import jakarta.validation.constraints.NotNull;
 import java.util.UUID;
 
 @Getter
@@ -16,6 +16,7 @@ import java.util.UUID;
 @Entity
 @Table(name = "User")
 public class User {
+
     @Id
     @Column
     @NotNull
