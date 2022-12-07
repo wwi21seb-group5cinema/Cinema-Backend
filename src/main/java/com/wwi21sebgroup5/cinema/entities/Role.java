@@ -1,14 +1,12 @@
 package com.wwi21sebgroup5.cinema.entities;
 
-import lombok.EqualsAndHashCode;
-import lombok.Getter;
-import lombok.Setter;
-import lombok.ToString;
+import lombok.*;
 
 import jakarta.persistence.*;
 import jakarta.validation.constraints.NotNull;
 import java.util.UUID;
 
+@NoArgsConstructor
 @Getter
 @Setter
 @EqualsAndHashCode
