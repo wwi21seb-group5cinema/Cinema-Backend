@@ -57,6 +57,6 @@ public class User {
 
     @Column
     @NotNull
-    private String number;
+    private String houseNumber;
 
 }
