@@ -12,7 +12,8 @@ Content-Type: application/json
   "plz": "71672",
   "cityName": "Marbach",
   "street": "Schwabstraße",
-  "houseNumber": "69"
+  "houseNumber": "69",
+  "isAdmin": false
 }
 
 ### Login endpoint

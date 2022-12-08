@@ -12,12 +12,16 @@ import com.wwi21sebgroup5.cinema.requestObjects.LoginRequestObject;
 import com.wwi21sebgroup5.cinema.requestObjects.RegistrationRequestObject;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
+import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
 import java.util.Optional;
 
 @Service
 public class LoginService {
+
+    @Autowired
+    private PasswordEncoder passwordEncoder;
 
     @Autowired
     private UserRepository userRepository;
@@ -63,8 +67,8 @@ public class LoginService {
         }
 
         User newUser = new User(registrationObject.getUserName(),
-                                registrationObject.getPassword(),
-                                new Role("user", "User role"),
+                                passwordEncoder.encode(registrationObject.getPassword()),
+                                registrationObject.isAdmin() ? Role.ADMIN : Role.USER,
                                 registrationObject.getFirstName(),
                                 registrationObject.getLastName(),
                                 registrationObject.getEmail(),
@@ -90,7 +94,7 @@ public class LoginService {
             throw new UsernameNotFoundException(loginObject.getUserName());
         }
 
-        if (!foundUser.get().getPassword().equals(loginObject.getPassword())) {
+        if (!foundUser.get().getPassword().equals(passwordEncoder.encode(loginObject.getPassword()))) {
             throw new PasswordsNotMatchingException(loginObject.getUserName());
         }
 

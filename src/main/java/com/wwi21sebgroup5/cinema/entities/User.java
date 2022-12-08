@@ -29,8 +29,7 @@ public class User {
     @NotNull
     private String password;
 
-    @ManyToOne(fetch = FetchType.LAZY, cascade = CascadeType.ALL)
-    @JoinColumn(name = "role_id", referencedColumnName = "id")
+    @Enumerated(EnumType.STRING)
     private Role role;
 
     @Column
@@ -57,14 +56,6 @@ public class User {
     @NotNull
     private String houseNumber;
 
-    @Column
-    @NotNull
-    private boolean locked;
-
-    @Column
-    @NotNull
-    private boolean enabled;
-
     public User(String userName,
                 String password,
                 Role role,
@@ -83,8 +74,6 @@ public class User {
         this.city = city;
         this.street = street;
         this.houseNumber = houseNumber;
-        this.locked = false;
-        this.enabled = false;
     }
 
 }

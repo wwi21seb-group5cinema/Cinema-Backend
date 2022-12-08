@@ -25,6 +25,10 @@ public class RegistrationRequestObject {
 
     @NotNull
     @NotEmpty
+    private boolean isAdmin;
+
+    @NotNull
+    @NotEmpty
     private String firstName;
 
     @NotNull

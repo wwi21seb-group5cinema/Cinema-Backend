@@ -29,8 +29,10 @@ public class LoginController {
 
         try {
             newUser = loginService.register(registrationObject);
-        } catch (PasswordsNotMatchingException | UserAlreadyExistsException | EmailAlreadyExistsException ex) {
-            return new ResponseEntity<>(ex, HttpStatus.EXPECTATION_FAILED);
+        } catch (UserAlreadyExistsException | EmailAlreadyExistsException ex) {
+            return new ResponseEntity<>(ex.getMessage(), HttpStatus.NOT_ACCEPTABLE);
+        } catch (PasswordsNotMatchingException pnmE) {
+            return new ResponseEntity<>(pnmE.getMessage(), HttpStatus.UNAUTHORIZED);
         }
 
         return new ResponseEntity<>(newUser, HttpStatus.OK);
@@ -38,15 +40,15 @@ public class LoginController {
 
     @PostMapping(path = "/login")
     public ResponseEntity<Object> login(@RequestBody LoginRequestObject loginObject) {
-        User loginUser;
-
         try {
-            loginUser = loginService.login(loginObject);
-        } catch (PasswordsNotMatchingException | UsernameNotFoundException ex) {
-            return new ResponseEntity<>(ex, HttpStatus.EXPECTATION_FAILED);
+            loginService.login(loginObject);
+        } catch (UsernameNotFoundException unfE) {
+            return new ResponseEntity<>(unfE.getMessage(), HttpStatus.NOT_FOUND);
+        } catch (PasswordsNotMatchingException pwnmE) {
+            return new ResponseEntity<>(pwnmE.getMessage(), HttpStatus.UNAUTHORIZED);
         }
 
-        return new ResponseEntity<>(loginUser.getId(), HttpStatus.OK);
+        return new ResponseEntity<>(HttpStatus.OK);
     }
 
 }
