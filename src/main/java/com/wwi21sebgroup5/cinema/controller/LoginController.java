@@ -1,7 +1,9 @@
 package com.wwi21sebgroup5.cinema.controller;
 
 import com.wwi21sebgroup5.cinema.entities.User;
+import com.wwi21sebgroup5.cinema.exceptions.EmailAlreadyExistsException;
 import com.wwi21sebgroup5.cinema.exceptions.PasswordsNotMatchingException;
+import com.wwi21sebgroup5.cinema.exceptions.UserAlreadyExistsException;
 import com.wwi21sebgroup5.cinema.requestObjects.LoginRequestObject;
 import com.wwi21sebgroup5.cinema.requestObjects.RegistrationRequestObject;
 import com.wwi21sebgroup5.cinema.services.LoginService;
@@ -10,6 +12,7 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
@@ -21,20 +24,20 @@ public class LoginController {
     private LoginService loginService;
 
     @PostMapping(path = "/register")
-    public ResponseEntity<Object> register(RegistrationRequestObject registrationObject) {
+    public ResponseEntity<Object> register(@RequestBody RegistrationRequestObject registrationObject) {
         User newUser;
 
         try {
             newUser = loginService.register(registrationObject);
-        } catch (PasswordsNotMatchingException e) {
-            return new ResponseEntity<>(e, HttpStatus.EXPECTATION_FAILED);
+        } catch (PasswordsNotMatchingException | UserAlreadyExistsException | EmailAlreadyExistsException ex) {
+            return new ResponseEntity<>(ex, HttpStatus.EXPECTATION_FAILED);
         }
 
-        return new ResponseEntity<>(newUser.getId(), HttpStatus.OK);
+        return new ResponseEntity<>(newUser, HttpStatus.OK);
     }
 
     @PostMapping(path = "/login")
-    public ResponseEntity<Object> login(LoginRequestObject loginObject) {
+    public ResponseEntity<Object> login(@RequestBody LoginRequestObject loginObject) {
         User loginUser;
 
         try {

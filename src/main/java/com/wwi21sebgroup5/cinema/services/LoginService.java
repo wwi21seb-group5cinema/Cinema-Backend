@@ -3,7 +3,9 @@ package com.wwi21sebgroup5.cinema.services;
 import com.wwi21sebgroup5.cinema.entities.City;
 import com.wwi21sebgroup5.cinema.entities.Role;
 import com.wwi21sebgroup5.cinema.entities.User;
+import com.wwi21sebgroup5.cinema.exceptions.EmailAlreadyExistsException;
 import com.wwi21sebgroup5.cinema.exceptions.PasswordsNotMatchingException;
+import com.wwi21sebgroup5.cinema.exceptions.UserAlreadyExistsException;
 import com.wwi21sebgroup5.cinema.repositories.CityRepository;
 import com.wwi21sebgroup5.cinema.repositories.UserRepository;
 import com.wwi21sebgroup5.cinema.requestObjects.LoginRequestObject;
@@ -23,9 +25,22 @@ public class LoginService {
     @Autowired
     private CityRepository cityRepository;
 
-    public User register(RegistrationRequestObject registrationObject) throws PasswordsNotMatchingException {
+    public User register(RegistrationRequestObject registrationObject) throws PasswordsNotMatchingException,
+            UserAlreadyExistsException, EmailAlreadyExistsException {
         if (!registrationObject.getPassword().equals(registrationObject.getConfirmPassword())) {
             throw new PasswordsNotMatchingException(registrationObject.getUserName());
+        }
+
+        Optional<User> foundUser = userRepository.findByUserName(registrationObject.getUserName());
+
+        if (foundUser.isEmpty()) {
+            foundUser = userRepository.findByEmail(registrationObject.getEmail());
+
+            if (foundUser.isPresent()) {
+                throw new EmailAlreadyExistsException(registrationObject.getEmail());
+            }
+        } else {
+            throw new UserAlreadyExistsException(registrationObject.getUserName());
         }
 
         Optional<City> foundCity = cityRepository.findByPlz(registrationObject.getPlz());
@@ -49,6 +64,7 @@ public class LoginService {
                                 registrationObject.getStreet(),
                                 registrationObject.getHouseNumber());
 
+        userRepository.save(newUser);
         return newUser;
     }
 

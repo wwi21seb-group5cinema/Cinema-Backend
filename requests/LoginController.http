@@ -1,0 +1,25 @@
+### Registration endpoint
+POST http://localhost:8082/v1/register
+Content-Type: application/json
+
+{
+  "userName": "justinStinkt",
+  "password": "hartNachMaggi2",
+  "confirmPassword": "hartNachMaggi2",
+  "firstName": "Kevin",
+  "lastName": "Rieger",
+  "email": "kevin.rieger@gmail.com",
+  "plz": "71672",
+  "cityName": "Marbach",
+  "street": "Schwabstraße",
+  "houseNumber": "69"
+}
+
+### Login endpoint
+POST http://localhost:8082/v1/login
+Content-Type: application/json
+
+{
+  "userName": "justinStinkt",
+  "password": "hartNachMaggi2"
+}
