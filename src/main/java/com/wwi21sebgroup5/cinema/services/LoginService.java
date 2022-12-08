@@ -25,6 +25,14 @@ public class LoginService {
     @Autowired
     private CityRepository cityRepository;
 
+    /**
+     *
+     * @param registrationObject DTO which holds all neccessary attributes for a new user
+     * @return the registered User if registered successfully
+     * @throws PasswordsNotMatchingException Thrown if passwords don't match
+     * @throws UserAlreadyExistsException Thrown if the username already exists
+     * @throws EmailAlreadyExistsException Thrown if the email already exists
+     */
     public User register(RegistrationRequestObject registrationObject) throws PasswordsNotMatchingException,
             UserAlreadyExistsException, EmailAlreadyExistsException {
         if (!registrationObject.getPassword().equals(registrationObject.getConfirmPassword())) {
@@ -68,7 +76,14 @@ public class LoginService {
         return newUser;
     }
 
-    public User login(LoginRequestObject loginObject) throws PasswordsNotMatchingException {
+    /**
+     *
+     * @param loginObject DTO which holds username and password of the login form
+     * @return Returns the user when login was successful
+     * @throws PasswordsNotMatchingException Thrown when password doesn't match the found users password
+     * @throws UsernameNotFoundException Thrown when the username wasn't found
+     */
+    public User login(LoginRequestObject loginObject) throws UsernameNotFoundException, PasswordsNotMatchingException {
         Optional<User> foundUser = userRepository.findByUserName(loginObject.getUserName());
 
         if (foundUser.isEmpty()) {
