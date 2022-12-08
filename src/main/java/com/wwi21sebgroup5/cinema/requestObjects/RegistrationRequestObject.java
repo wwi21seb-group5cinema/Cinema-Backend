@@ -13,7 +13,7 @@ public class RegistrationRequestObject {
 
     @NotNull
     @NotEmpty
-    private String uesrName;
+    private String userName;
 
     @NotNull
     @NotEmpty

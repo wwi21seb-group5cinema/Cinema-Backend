@@ -18,16 +18,6 @@ public class UserController {
     @Autowired
     UserService userService;
 
-    @PostMapping(path = "/register")
-    public ResponseEntity<Object> register() {
-        return userService.register();
-    }
-
-    @PostMapping(path = "/login")
-    public ResponseEntity<Object> login() {
-        return userService.login();
-    }
-
     @GetMapping(path = "/getAll")
     public ResponseEntity<List<User>> getAllUsers() {
         return new ResponseEntity<>(userService.getAllUsers(), HttpStatus.OK);

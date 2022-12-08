@@ -29,4 +29,9 @@ public class Role {
     @NotNull
     private String description;
 
+    public Role(String name, String description) {
+        this.name = name;
+        this.description = description;
+    }
+
 }

@@ -19,8 +19,4 @@ public class LoginRequestObject {
     @NotEmpty
     private String password;
 
-    @NotNull
-    @NotEmpty
-    private String confirmPassword;
-
 }

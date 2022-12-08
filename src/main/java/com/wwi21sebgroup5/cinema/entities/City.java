@@ -28,4 +28,9 @@ public class City {
     @NotNull
     private String name;
 
+    public City(String plz, String name) {
+        this.plz = plz;
+        this.name = name;
+    }
+
 }
