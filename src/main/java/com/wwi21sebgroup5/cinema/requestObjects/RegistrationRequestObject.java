@@ -1,5 +1,6 @@
 package com.wwi21sebgroup5.cinema.requestObjects;
 
+import com.fasterxml.jackson.annotation.JsonProperty;
 import jakarta.validation.constraints.NotEmpty;
 import jakarta.validation.constraints.NotNull;
 import lombok.AllArgsConstructor;
@@ -53,6 +54,7 @@ public class RegistrationRequestObject {
 
     @NotNull
     @NotEmpty
+    @JsonProperty
     private boolean isAdmin;
 
     public RegistrationRequestObject() {

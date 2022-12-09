@@ -1,6 +1,5 @@
 package com.wwi21sebgroup5.cinema.config;
 
-import com.fasterxml.jackson.databind.DeserializationFeature;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.fasterxml.jackson.datatype.hibernate5.jakarta.Hibernate5JakartaModule;
 import org.springframework.context.annotation.Bean;
@@ -21,7 +20,6 @@ public class WebMvcConfig implements WebMvcConfigurer {
         ObjectMapper mapper= new ObjectMapper();
 
         mapper.registerModule(hibernate5JakartaModule());
-        mapper.configure(DeserializationFeature.FAIL_ON_UNKNOWN_PROPERTIES, false);
 
         messageConverter.setObjectMapper(mapper);
         return messageConverter;
