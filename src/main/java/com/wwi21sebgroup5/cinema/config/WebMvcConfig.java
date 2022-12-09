@@ -3,6 +3,7 @@ package com.wwi21sebgroup5.cinema.config;
 import com.fasterxml.jackson.databind.DeserializationFeature;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.fasterxml.jackson.datatype.hibernate5.jakarta.Hibernate5JakartaModule;
+import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.http.converter.HttpMessageConverter;
 import org.springframework.http.converter.json.MappingJackson2HttpMessageConverter;
@@ -19,7 +20,7 @@ public class WebMvcConfig implements WebMvcConfigurer {
         MappingJackson2HttpMessageConverter messageConverter = new MappingJackson2HttpMessageConverter();
         ObjectMapper mapper= new ObjectMapper();
 
-        mapper.registerModule(new Hibernate5JakartaModule());
+        mapper.registerModule(hibernate5JakartaModule());
         mapper.configure(DeserializationFeature.FAIL_ON_UNKNOWN_PROPERTIES, false);
 
         messageConverter.setObjectMapper(mapper);
@@ -31,4 +32,15 @@ public class WebMvcConfig implements WebMvcConfigurer {
         converters.add(jacksonMessageConverter());
         WebMvcConfigurer.super.configureMessageConverters(converters);
     }
+
+    @Bean
+    public Hibernate5JakartaModule hibernate5JakartaModule(){
+        Hibernate5JakartaModule module = new Hibernate5JakartaModule();
+
+        module.enable(Hibernate5JakartaModule.Feature.FORCE_LAZY_LOADING);
+        module.disable(Hibernate5JakartaModule.Feature.USE_TRANSIENT_ANNOTATION);
+
+        return module;
+    }
+
 }
