@@ -83,21 +83,18 @@ public class LoginService {
     /**
      *
      * @param loginObject DTO which holds username and password of the login form
-     * @return Returns the user when login was successful
      * @throws PasswordsNotMatchingException Thrown when password doesn't match the found users password
      * @throws UsernameNotFoundException Thrown when the username wasn't found
      */
-    public User login(LoginRequestObject loginObject) throws UsernameNotFoundException, PasswordsNotMatchingException {
+    public void login(LoginRequestObject loginObject) throws UsernameNotFoundException, PasswordsNotMatchingException {
         Optional<User> foundUser = userRepository.findByUserName(loginObject.getUserName());
 
         if (foundUser.isEmpty()) {
             throw new UsernameNotFoundException(loginObject.getUserName());
         }
 
-        if (!foundUser.get().getPassword().equals(passwordEncoder.encode(loginObject.getPassword()))) {
+        if (!passwordEncoder.matches(loginObject.getPassword(), foundUser.get().getPassword())) {
             throw new PasswordsNotMatchingException(loginObject.getUserName());
         }
-
-        return foundUser.get();
     }
 }

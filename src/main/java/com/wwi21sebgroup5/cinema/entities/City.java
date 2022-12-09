@@ -13,6 +13,7 @@ import java.util.UUID;
 @Entity
 @Table(name = "city")
 public class City {
+
     @Id
     @Column
     @NotNull

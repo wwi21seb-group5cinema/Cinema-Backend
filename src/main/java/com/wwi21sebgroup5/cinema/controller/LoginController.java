@@ -29,10 +29,12 @@ public class LoginController {
 
         try {
             newUser = loginService.register(registrationObject);
-        } catch (UserAlreadyExistsException | EmailAlreadyExistsException ex) {
-            return new ResponseEntity<>(ex.getMessage(), HttpStatus.NOT_ACCEPTABLE);
+        } catch (UserAlreadyExistsException | EmailAlreadyExistsException aeX) {
+            return new ResponseEntity<>(aeX.getMessage(), HttpStatus.NOT_ACCEPTABLE);
         } catch (PasswordsNotMatchingException pnmE) {
             return new ResponseEntity<>(pnmE.getMessage(), HttpStatus.UNAUTHORIZED);
+        } catch (Exception ex) {
+            return new ResponseEntity<>(HttpStatus.INTERNAL_SERVER_ERROR);
         }
 
         return new ResponseEntity<>(newUser, HttpStatus.OK);
@@ -46,6 +48,8 @@ public class LoginController {
             return new ResponseEntity<>(unfE.getMessage(), HttpStatus.NOT_FOUND);
         } catch (PasswordsNotMatchingException pwnmE) {
             return new ResponseEntity<>(pwnmE.getMessage(), HttpStatus.UNAUTHORIZED);
+        } catch (Exception ex) {
+            return new ResponseEntity<>(HttpStatus.INTERNAL_SERVER_ERROR);
         }
 
         return new ResponseEntity<>(HttpStatus.OK);

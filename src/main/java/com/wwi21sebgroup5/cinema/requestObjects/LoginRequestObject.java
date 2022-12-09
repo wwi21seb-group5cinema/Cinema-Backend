@@ -19,4 +19,8 @@ public class LoginRequestObject {
     @NotEmpty
     private String password;
 
+    public LoginRequestObject() {
+        super();
+    }
+
 }

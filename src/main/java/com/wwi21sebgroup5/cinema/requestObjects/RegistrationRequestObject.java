@@ -25,10 +25,6 @@ public class RegistrationRequestObject {
 
     @NotNull
     @NotEmpty
-    private boolean isAdmin;
-
-    @NotNull
-    @NotEmpty
     private String firstName;
 
     @NotNull
@@ -54,5 +50,13 @@ public class RegistrationRequestObject {
     @NotNull
     @NotEmpty
     private String houseNumber;
+
+    @NotNull
+    @NotEmpty
+    private boolean isAdmin;
+
+    public RegistrationRequestObject() {
+        super();
+    }
 
 }

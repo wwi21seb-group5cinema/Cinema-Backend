@@ -44,7 +44,7 @@ public class User {
     @NotNull
     private String email;
 
-    @ManyToOne(fetch = FetchType.LAZY, cascade = CascadeType.ALL)
+    @ManyToOne(fetch = FetchType.LAZY, cascade = CascadeType.PERSIST)
     @JoinColumn(name = "city_id", referencedColumnName = "id")
     private City city;
 
