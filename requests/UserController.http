@@ -1,0 +1,5 @@
+### Request to get every registered user
+GET http://localhost:8082/v1/user/getAll
+
+### Get specific user, replace id value in http-client.env.json
+GET http://localhost:8082/v1/user/{{id}}
