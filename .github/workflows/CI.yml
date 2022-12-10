@@ -37,9 +37,6 @@ jobs:
         java-version: '17'
         distribution: 'microsoft'
         cache: maven
-        
-     - name: Test with JaCoCo
-       run: mvn -B test
       
      - name: Upload Report
        uses: 'actions/upload-artifact@v2'
