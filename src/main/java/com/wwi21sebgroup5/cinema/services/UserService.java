@@ -3,7 +3,6 @@ package com.wwi21sebgroup5.cinema.services;
 import com.wwi21sebgroup5.cinema.entities.User;
 import com.wwi21sebgroup5.cinema.repositories.UserRepository;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
@@ -20,16 +19,20 @@ public class UserService {
         return userRepository.findById(id);
     }
 
-    public ResponseEntity<Object> register() {
-        return null;
+    public Optional<User> getUserByUserName(String userName) {
+        return userRepository.findByUserName(userName);
     }
 
-    public ResponseEntity<Object> login() {
-        return null;
+    public Optional<User> getUserByEmail(String email) {
+        return userRepository.findByEmail(email);
     }
 
     public List<User> getAllUsers() {
         return userRepository.findAll();
     }
 
+
+    public void save(User newUser) {
+        userRepository.save(newUser);
+    }
 }

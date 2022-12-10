@@ -1,6 +1,7 @@
 package com.wwi21sebgroup5.cinema.controller;
 
 import com.wwi21sebgroup5.cinema.entities.User;
+import com.wwi21sebgroup5.cinema.exceptions.CityNotFoundException;
 import com.wwi21sebgroup5.cinema.exceptions.EmailAlreadyExistsException;
 import com.wwi21sebgroup5.cinema.exceptions.PasswordsNotMatchingException;
 import com.wwi21sebgroup5.cinema.exceptions.UserAlreadyExistsException;
@@ -29,8 +30,8 @@ public class LoginController {
 
         try {
             newUser = loginService.register(registrationObject);
-        } catch (UserAlreadyExistsException | EmailAlreadyExistsException aeX) {
-            return new ResponseEntity<>(aeX.getMessage(), HttpStatus.NOT_ACCEPTABLE);
+        } catch (UserAlreadyExistsException | EmailAlreadyExistsException | CityNotFoundException ex) {
+            return new ResponseEntity<>(ex.getMessage(), HttpStatus.NOT_ACCEPTABLE);
         } catch (PasswordsNotMatchingException pnmE) {
             return new ResponseEntity<>(pnmE.getMessage(), HttpStatus.UNAUTHORIZED);
         } catch (Exception ex) {
