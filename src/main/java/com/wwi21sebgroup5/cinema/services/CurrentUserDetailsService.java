@@ -20,6 +20,12 @@ public class CurrentUserDetailsService implements UserDetailsService {
     @Autowired
     private UserRepository userRepository;
 
+    /**
+     *
+     * @param username Username for which UserDetails are requested
+     * @return UserDetails for the requested user
+     * @throws UsernameNotFoundException Thrown when username wasn't found
+     */
     @Override
     public UserDetails loadUserByUsername(String username) throws UsernameNotFoundException {
         Optional<User> foundUser = userRepository.findByUserName(username);

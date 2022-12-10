@@ -17,6 +17,13 @@ public class CsvDataLoader {
 
     private final Logger logger = LoggerFactory.getLogger(CsvDataLoader.class);
 
+    /**
+     *
+     * @param type Class type of the entries in the csv
+     * @param fileName Classpath to the csv resource
+     * @return Returns list of objects within the csv file parsed to the given type
+     * @param <T> Generic type to support multiple entities
+     */
     public <T> List<T> loadObjectList(Class<T> type, String fileName) {
         try {
             CsvSchema bootstrapSchema = CsvSchema.emptySchema().withHeader();

@@ -19,11 +19,17 @@ public class Setup {
 
     private static final String CITY_FILE = "static/data/cities.csv";
 
+    /**
+     * Component which runs after start-up and initializes static data
+     */
     @PostConstruct
     private void setupData() {
         setupCities();
     }
 
+    /**
+     * Setup workflow for cities stored in a csv-file
+     */
     private void setupCities() {
         List<City> cities = csvDataLoader.loadObjectList(City.class, CITY_FILE);
 
