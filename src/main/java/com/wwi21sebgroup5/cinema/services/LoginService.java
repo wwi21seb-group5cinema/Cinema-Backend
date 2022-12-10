@@ -30,12 +30,11 @@ public class LoginService {
     private CityRepository cityRepository;
 
     /**
-     *
      * @param registrationObject DTO which holds all neccessary attributes for a new user
      * @return the registered User if registered successfully
      * @throws PasswordsNotMatchingException Thrown if passwords don't match
-     * @throws UserAlreadyExistsException Thrown if the username already exists
-     * @throws EmailAlreadyExistsException Thrown if the email already exists
+     * @throws UserAlreadyExistsException    Thrown if the username already exists
+     * @throws EmailAlreadyExistsException   Thrown if the email already exists
      */
     public User register(RegistrationRequestObject registrationObject) throws PasswordsNotMatchingException,
             UserAlreadyExistsException, EmailAlreadyExistsException {
@@ -67,24 +66,23 @@ public class LoginService {
         }
 
         User newUser = new User(registrationObject.getUserName(),
-                                passwordEncoder.encode(registrationObject.getPassword()),
-                                registrationObject.isAdmin() ? Role.ADMIN : Role.USER,
-                                registrationObject.getFirstName(),
-                                registrationObject.getLastName(),
-                                registrationObject.getEmail(),
-                                foundCity.get(),
-                                registrationObject.getStreet(),
-                                registrationObject.getHouseNumber());
+                passwordEncoder.encode(registrationObject.getPassword()),
+                registrationObject.isAdmin() ? Role.ADMIN : Role.USER,
+                registrationObject.getFirstName(),
+                registrationObject.getLastName(),
+                registrationObject.getEmail(),
+                foundCity.get(),
+                registrationObject.getStreet(),
+                registrationObject.getHouseNumber());
 
         userRepository.save(newUser);
         return newUser;
     }
 
     /**
-     *
      * @param loginObject DTO which holds username and password of the login form
      * @throws PasswordsNotMatchingException Thrown when password doesn't match the found users password
-     * @throws UsernameNotFoundException Thrown when the username wasn't found
+     * @throws UsernameNotFoundException     Thrown when the username wasn't found
      */
     public void login(LoginRequestObject loginObject) throws UsernameNotFoundException, PasswordsNotMatchingException {
         Optional<User> foundUser = userRepository.findByUserName(loginObject.getUserName());

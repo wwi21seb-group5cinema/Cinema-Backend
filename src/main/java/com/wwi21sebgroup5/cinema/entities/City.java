@@ -2,8 +2,12 @@ package com.wwi21sebgroup5.cinema.entities;
 
 import jakarta.persistence.*;
 import jakarta.validation.constraints.NotNull;
-import lombok.*;
+import lombok.Getter;
+import lombok.NoArgsConstructor;
+import lombok.Setter;
+import lombok.ToString;
 
+import java.util.Objects;
 import java.util.UUID;
 
 @NoArgsConstructor
@@ -33,4 +37,25 @@ public class City {
         this.name = name;
     }
 
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (o == null || getClass() != o.getClass()) return false;
+
+        City city = (City) o;
+
+        if (!Objects.equals(id, city.id)) return false;
+        if (!Objects.equals(plz, city.plz)) return false;
+        return Objects.equals(name, city.name);
+    }
+
+    @Override
+    public int hashCode() {
+        int hash = id != null ? id.hashCode() : 0;
+        int prime = 31;
+
+        hash = prime * hash + (plz != null ? plz.hashCode() : 0);
+        hash = prime * hash + (name != null ? name.hashCode() : 0);
+        return hash;
+    }
 }

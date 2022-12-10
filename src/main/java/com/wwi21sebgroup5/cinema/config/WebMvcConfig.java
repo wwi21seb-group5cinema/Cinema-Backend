@@ -17,7 +17,7 @@ public class WebMvcConfig implements WebMvcConfigurer {
 
     public MappingJackson2HttpMessageConverter jacksonMessageConverter() {
         MappingJackson2HttpMessageConverter messageConverter = new MappingJackson2HttpMessageConverter();
-        ObjectMapper mapper= new ObjectMapper();
+        ObjectMapper mapper = new ObjectMapper();
 
         mapper.registerModule(hibernate5JakartaModule());
 
@@ -32,7 +32,7 @@ public class WebMvcConfig implements WebMvcConfigurer {
     }
 
     @Bean
-    public Hibernate5JakartaModule hibernate5JakartaModule(){
+    public Hibernate5JakartaModule hibernate5JakartaModule() {
         Hibernate5JakartaModule module = new Hibernate5JakartaModule();
 
         module.enable(Hibernate5JakartaModule.Feature.FORCE_LAZY_LOADING);

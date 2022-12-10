@@ -55,20 +55,20 @@ public class SecurityConfig {
         CorsConfiguration configuration = new CorsConfiguration();
 
         configuration.setAllowedOrigins(Arrays.asList(
-                "https://localhost:8000", "http://localhost:8080",
-                "https://localhost:8082", "http://localhost:8082",
-                "https://wwi21seb-group5cinema.azurewebsites.net"
-            )
+                        "https://localhost:8000", "http://localhost:8080",
+                        "https://localhost:8082", "http://localhost:8082",
+                        "https://wwi21seb-group5cinema.azurewebsites.net"
+                )
         );
         configuration.setAllowedMethods(Arrays.asList(
-                "GET", "POST", "PUT", "DELETE"
-            )
+                        "GET", "POST", "PUT", "DELETE"
+                )
         );
         configuration.setAllowCredentials(true);
         configuration.setAllowedHeaders(Arrays.asList("Authorization", "Cache-Control", "Content-Type"));
 
         UrlBasedCorsConfigurationSource source = new UrlBasedCorsConfigurationSource();
-        source.registerCorsConfiguration("/**" ,configuration);
+        source.registerCorsConfiguration("/**", configuration);
 
         return source;
     }

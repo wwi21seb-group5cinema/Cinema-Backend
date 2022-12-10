@@ -34,7 +34,9 @@ public class CurrentUserDetailsService implements UserDetailsService {
                 currentUser.getUserName(),
                 currentUser.getPassword(),
                 Collections.singleton(new SimpleGrantedAuthority(
-                        String.format("%s%s", ROLE_PREFIX, currentUser.getRole().name())))
+                                String.format("%s%s", ROLE_PREFIX, currentUser.getRole().name())
+                        )
+                )
         );
     }
 }
