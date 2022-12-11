@@ -30,10 +30,9 @@ public class LoginController {
 
         try {
             newUser = loginService.register(registrationObject);
-        } catch (UserAlreadyExistsException | EmailAlreadyExistsException | CityNotFoundException ex) {
+        } catch (UserAlreadyExistsException | EmailAlreadyExistsException | CityNotFoundException |
+                 PasswordsNotMatchingException ex) {
             return new ResponseEntity<>(ex.getMessage(), HttpStatus.NOT_ACCEPTABLE);
-        } catch (PasswordsNotMatchingException pnmE) {
-            return new ResponseEntity<>(pnmE.getMessage(), HttpStatus.UNAUTHORIZED);
         } catch (Exception ex) {
             return new ResponseEntity<>(HttpStatus.INTERNAL_SERVER_ERROR);
         }

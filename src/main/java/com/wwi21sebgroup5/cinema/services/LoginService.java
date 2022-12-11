@@ -29,7 +29,7 @@ public class LoginService {
     private CityService cityService;
 
     /**
-     * @param registrationObject DTO which holds all neccessary attributes for a new user
+     * @param registrationObject DTO which holds all necessary attributes for a new user
      * @return the registered User if registered successfully
      * @throws PasswordsNotMatchingException Thrown if passwords don't match
      * @throws UserAlreadyExistsException    Thrown if the username already exists
