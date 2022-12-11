@@ -1,7 +1,6 @@
 package com.wwi21sebgroup5.cinema.services;
 
 import com.wwi21sebgroup5.cinema.entities.User;
-import com.wwi21sebgroup5.cinema.repositories.UserRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.authority.SimpleGrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;
@@ -18,17 +17,16 @@ public class CurrentUserDetailsService implements UserDetailsService {
     private static final String ROLE_PREFIX = "ROLE_";
 
     @Autowired
-    private UserRepository userRepository;
+    private UserService userService;
 
     /**
-     *
      * @param username Username for which UserDetails are requested
      * @return UserDetails for the requested user
      * @throws UsernameNotFoundException Thrown when username wasn't found
      */
     @Override
     public UserDetails loadUserByUsername(String username) throws UsernameNotFoundException {
-        Optional<User> foundUser = userRepository.findByUserName(username);
+        Optional<User> foundUser = userService.getUserByUserName(username);
 
         if (foundUser.isEmpty()) {
             throw new UsernameNotFoundException(String.format("User with the name %s not found", username));

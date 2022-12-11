@@ -24,7 +24,12 @@ public class CityController {
         return new ResponseEntity<>(cityService.getAllCities(), HttpStatus.OK);
     }
 
-    @GetMapping(path = "/getAll/{cityName}")
+    @GetMapping(path = "/get/{plz}")
+    public ResponseEntity<List<City>> getAllCitiesByPlz(@PathVariable String plz) {
+        return new ResponseEntity<>(cityService.getAllCitiesByPlz(plz), HttpStatus.OK);
+    }
+
+    @GetMapping(path = "/get/{cityName}")
     public ResponseEntity<List<City>> getAllCitiesByName(@PathVariable String cityName) {
         return new ResponseEntity<>(cityService.getAllCitiesByName(cityName), HttpStatus.OK);
     }
