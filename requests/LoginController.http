@@ -5,7 +5,6 @@ Content-Type: application/json
 {
   "userName": "justinStinkt",
   "password": "hartNachMaggi2",
-  "confirmPassword": "hartNachMaggi2",
   "firstName": "Kevin",
   "lastName": "Rieger",
   "email": "kevin.rieger@gmail.com",
@@ -32,7 +31,6 @@ Content-Type: application/json
 {
   "userName": "ichBinCool123",
   "password": "alsoEcht4",
-  "confirmPassword": "alsoEcht4",
   "firstName": "Max",
   "lastName": "Mustermann",
   "email": "max.mustermann@gmail.com",

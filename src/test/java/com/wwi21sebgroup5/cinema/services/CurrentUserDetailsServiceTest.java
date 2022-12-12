@@ -16,6 +16,7 @@ import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import java.util.Optional;
 
 import static org.junit.jupiter.api.Assertions.*;
+import static org.mockito.ArgumentMatchers.anyString;
 import static org.mockito.Mockito.when;
 
 @ExtendWith(MockitoExtension.class)
@@ -72,6 +73,7 @@ public class CurrentUserDetailsServiceTest {
     @Test
     @DisplayName("Test finding no user")
     public void testNoUserFound() {
+        when(userService.getUserByUserName(anyString())).thenReturn(Optional.empty());
         assertThrows(UsernameNotFoundException.class, () -> userDetailsService.loadUserByUsername("LarryIsAKek"));
     }
 }
