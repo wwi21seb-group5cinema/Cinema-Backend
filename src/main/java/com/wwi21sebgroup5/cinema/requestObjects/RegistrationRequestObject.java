@@ -20,10 +20,6 @@ public class RegistrationRequestObject {
 
     @NotNull
     @NotEmpty
-    private String confirmPassword;
-
-    @NotNull
-    @NotEmpty
     private String firstName;
 
     @NotNull

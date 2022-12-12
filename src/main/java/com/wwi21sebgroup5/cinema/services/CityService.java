@@ -25,7 +25,7 @@ public class CityService {
      * @param plz Plz which shall be searched in the database
      * @return All cities with the given name
      */
-    public List<City> getAllCitiesByPlz(String plz) {
+    public Optional<City> getCityByPlz(String plz) {
         return cityRepository.findByPlz(plz);
     }
 

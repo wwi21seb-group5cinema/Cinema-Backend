@@ -43,16 +43,13 @@ public class CityServiceTest {
     }
 
     @Test
-    @DisplayName("Test getting all cities by plz")
-    public void testGetAllCitiesByPlz() {
-        List<City> expectedCities = List.of(
-                new City("68259", "Wallstadt"),
-                new City("68259", "Mannheim")
-        );
-        when(cityRepository.findByPlz("68259")).thenReturn(expectedCities);
+    @DisplayName("Test getting city by plz")
+    public void testGetCityByPlz() {
+        City expectedCity = new City("68259", "Mannheim");
+        when(cityRepository.findByPlz("68259")).thenReturn(Optional.of(expectedCity));
 
-        List<City> actualCities = cityService.getAllCitiesByPlz("68259");
-        assertEquals(expectedCities, actualCities, "Returned wrong list of cities");
+        Optional<City> actualCity = cityService.getCityByPlz("68259");
+        assertEquals(expectedCity, actualCity.get(), "Returned wrong list of cities");
     }
 
     @Test

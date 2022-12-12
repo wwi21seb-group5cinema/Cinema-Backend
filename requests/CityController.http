@@ -2,7 +2,7 @@
 GET http://localhost:8082/v1/city/getAll
 
 ### Get city by plz
-GET http://localhost:8082/v1/city/get/{{plz}}
+GET http://localhost:8082/v1/city/getByPlz/{{plz}}
 
 ### Get city by name
-GET http://localhost:8082/v1/city/get/{{cityName}}
+GET http://localhost:8082/v1/city/getByCityName/{{cityName}}

@@ -11,6 +11,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 import java.util.List;
+import java.util.Optional;
 
 @RestController
 @RequestMapping(path = "/v1/city")
@@ -30,18 +31,17 @@ public class CityController {
         }
     }
 
-    @GetMapping(path = "/get/{plz}")
-    public ResponseEntity<List<City>> getAllCitiesByPlz(@PathVariable String plz) {
-        List<City> allCities = cityService.getAllCitiesByPlz(plz);
+    @GetMapping(path = "/getByPlz/{plz}")
+    public ResponseEntity<City> getCityByPlz(@PathVariable String plz) {
+        Optional<City> foundCity = cityService.getCityByPlz(plz);
 
-        if (allCities.isEmpty()) {
-            return new ResponseEntity<>(HttpStatus.NOT_FOUND);
-        } else {
-            return new ResponseEntity<>(allCities, HttpStatus.OK);
-        }
+        return foundCity.map(city ->
+                        new ResponseEntity<>(city, HttpStatus.OK))
+                .orElseGet(() ->
+                        new ResponseEntity<>(HttpStatus.NOT_FOUND));
     }
 
-    @GetMapping(path = "/get/{cityName}")
+    @GetMapping(path = "/getByCityName/{cityName}")
     public ResponseEntity<List<City>> getAllCitiesByName(@PathVariable String cityName) {
         List<City> allCities = cityService.getAllCitiesByName(cityName);
 

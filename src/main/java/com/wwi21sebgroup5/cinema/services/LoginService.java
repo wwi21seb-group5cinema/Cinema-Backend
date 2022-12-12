@@ -34,10 +34,6 @@ public class LoginService {
      */
     public User register(RegistrationRequestObject registrationObject) throws PasswordsNotMatchingException,
             UserAlreadyExistsException, EmailAlreadyExistsException, CityNotFoundException {
-        if (!registrationObject.getPassword().equals(registrationObject.getConfirmPassword())) {
-            throw new PasswordsNotMatchingException(registrationObject.getUserName());
-        }
-
         Optional<User> foundUser = userService.getUserByUserName(registrationObject.getUserName());
 
         if (foundUser.isEmpty()) {
