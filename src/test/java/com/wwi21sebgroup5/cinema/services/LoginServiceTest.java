@@ -50,16 +50,9 @@ public class LoginServiceTest {
         city.setName(cityName);
         city.setPlz(plz);
 
-        User expectedUser = new User();
-        expectedUser.setUserName(userName);
-        expectedUser.setPassword(password);
-        expectedUser.setRole(Role.USER);
-        expectedUser.setFirstName(firstName);
-        expectedUser.setLastName(lastName);
-        expectedUser.setEmail(email);
-        expectedUser.setCity(city);
-        expectedUser.setStreet(street);
-        expectedUser.setHouseNumber(houseNumber);
+        User expectedUser = new User(
+                userName, password, Role.USER, firstName, lastName, email, city, street, houseNumber
+        );
 
         when(userService.getUserByUserName(userName)).thenReturn(Optional.empty());
         when(userService.getUserByEmail(email)).thenReturn(Optional.empty());
