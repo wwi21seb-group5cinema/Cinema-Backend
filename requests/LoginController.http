@@ -21,7 +21,7 @@ POST http://localhost:8082/v1/login
 Content-Type: application/json
 
 {
-  "userName": "justinStinkt",
+  "email": "kevin.rieger@gmail.com",
   "password": "hartNachMaggi2"
 }
 
@@ -36,8 +36,8 @@ Content-Type: application/json
   "firstName": "Max",
   "lastName": "Mustermann",
   "email": "max.mustermann@gmail.com",
-  "plz": "68259",
-  "cityName": "Wallstadt",
+  "plz": "74321",
+  "cityName": "Bietigheim",
   "street": "Rentnerstraße",
   "houseNumber": "5",
   "isAdmin": "false"
@@ -48,6 +48,6 @@ POST http://localhost:8082/v1/login
 Content-Type: application/json
 
 {
-  "userName": "ichBinCool123",
+  "email": "max.mustermann@gmail.com",
   "password": "alsoEcht4"
 }

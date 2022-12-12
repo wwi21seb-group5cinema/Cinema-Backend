@@ -3,10 +3,7 @@ package com.wwi21sebgroup5.cinema.services;
 import com.wwi21sebgroup5.cinema.entities.City;
 import com.wwi21sebgroup5.cinema.entities.Role;
 import com.wwi21sebgroup5.cinema.entities.User;
-import com.wwi21sebgroup5.cinema.exceptions.CityNotFoundException;
-import com.wwi21sebgroup5.cinema.exceptions.EmailAlreadyExistsException;
-import com.wwi21sebgroup5.cinema.exceptions.PasswordsNotMatchingException;
-import com.wwi21sebgroup5.cinema.exceptions.UserAlreadyExistsException;
+import com.wwi21sebgroup5.cinema.exceptions.*;
 import com.wwi21sebgroup5.cinema.requestObjects.LoginRequestObject;
 import com.wwi21sebgroup5.cinema.requestObjects.RegistrationRequestObject;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -79,15 +76,15 @@ public class LoginService {
      * @throws PasswordsNotMatchingException Thrown when password doesn't match the found users password
      * @throws UsernameNotFoundException     Thrown when the username wasn't found
      */
-    public void login(LoginRequestObject loginObject) throws UsernameNotFoundException, PasswordsNotMatchingException {
-        Optional<User> foundUser = userService.getUserByUserName(loginObject.getUserName());
+    public void login(LoginRequestObject loginObject) throws PasswordsNotMatchingException, EmailNotFoundException {
+        Optional<User> foundUser = userService.getUserByEmail(loginObject.getEmail());
 
         if (foundUser.isEmpty()) {
-            throw new UsernameNotFoundException(loginObject.getUserName());
+            throw new EmailNotFoundException(loginObject.getEmail());
         }
 
         if (!passwordEncoder.matches(loginObject.getPassword(), foundUser.get().getPassword())) {
-            throw new PasswordsNotMatchingException(loginObject.getUserName());
+            throw new PasswordsNotMatchingException(loginObject.getEmail());
         }
     }
 }

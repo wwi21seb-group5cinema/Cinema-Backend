@@ -11,6 +11,7 @@ import org.mockito.Mock;
 import org.mockito.junit.jupiter.MockitoExtension;
 import org.springframework.security.core.authority.SimpleGrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;
+import org.springframework.security.core.userdetails.UsernameNotFoundException;
 
 import java.util.Optional;
 
@@ -66,5 +67,11 @@ public class CurrentUserDetailsServiceTest {
                         .contains(new SimpleGrantedAuthority("ROLE_ADMIN")))
         );
 
+    }
+
+    @Test
+    @DisplayName("Test finding no user")
+    public void testNoUserFound() {
+        assertThrows(UsernameNotFoundException.class, () -> userDetailsService.loadUserByUsername("LarryIsAKek"));
     }
 }

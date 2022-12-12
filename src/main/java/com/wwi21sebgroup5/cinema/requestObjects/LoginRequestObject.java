@@ -11,7 +11,7 @@ public class LoginRequestObject {
 
     @NotNull
     @NotEmpty
-    private String userName;
+    private String email;
 
     @NotNull
     @NotEmpty
