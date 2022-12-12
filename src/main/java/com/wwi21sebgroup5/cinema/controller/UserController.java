@@ -23,7 +23,13 @@ public class UserController {
 
     @GetMapping(path = "/getAll")
     public ResponseEntity<List<User>> getAllUsers() {
-        return new ResponseEntity<>(userService.getAllUsers(), HttpStatus.OK);
+        List<User> allUsers = userService.getAllUsers();
+
+        if (allUsers.isEmpty()) {
+            return new ResponseEntity<>(HttpStatus.NOT_FOUND);
+        } else {
+            return new ResponseEntity<>(allUsers, HttpStatus.OK);
+        }
     }
 
     @GetMapping(path = "/{id}")

@@ -21,17 +21,35 @@ public class CityController {
 
     @GetMapping(path = "/getAll")
     public ResponseEntity<List<City>> getAllCities() {
-        return new ResponseEntity<>(cityService.getAllCities(), HttpStatus.OK);
+        List<City> allCities = cityService.getAllCities();
+
+        if (allCities.isEmpty()) {
+            return new ResponseEntity<>(HttpStatus.NOT_FOUND);
+        } else {
+            return new ResponseEntity<>(allCities, HttpStatus.OK);
+        }
     }
 
     @GetMapping(path = "/get/{plz}")
     public ResponseEntity<List<City>> getAllCitiesByPlz(@PathVariable String plz) {
-        return new ResponseEntity<>(cityService.getAllCitiesByPlz(plz), HttpStatus.OK);
+        List<City> allCities = cityService.getAllCitiesByPlz(plz);
+
+        if (allCities.isEmpty()) {
+            return new ResponseEntity<>(HttpStatus.NOT_FOUND);
+        } else {
+            return new ResponseEntity<>(allCities, HttpStatus.OK);
+        }
     }
 
     @GetMapping(path = "/get/{cityName}")
     public ResponseEntity<List<City>> getAllCitiesByName(@PathVariable String cityName) {
-        return new ResponseEntity<>(cityService.getAllCitiesByName(cityName), HttpStatus.OK);
+        List<City> allCities = cityService.getAllCitiesByName(cityName);
+
+        if (allCities.isEmpty()) {
+            return new ResponseEntity<>(HttpStatus.NOT_FOUND);
+        } else {
+            return new ResponseEntity<>(allCities, HttpStatus.OK);
+        }
     }
 
 }
