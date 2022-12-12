@@ -1,0 +1,51 @@
+### Register admin user
+POST http://localhost:8082/v1/register
+Content-Type: application/json
+
+{
+  "userName": "justinStinkt",
+  "password": "hartNachMaggi2",
+  "firstName": "Kevin",
+  "lastName": "Rieger",
+  "email": "kevin.rieger@gmail.com",
+  "plz": "71672",
+  "cityName": "Marbach",
+  "street": "Schwabstraße",
+  "houseNumber": "69",
+  "isAdmin": "true"
+}
+
+### Login endpoint for admin user
+POST http://localhost:8082/v1/login
+Content-Type: application/json
+
+{
+  "email": "kevin.rieger@gmail.com",
+  "password": "hartNachMaggi2"
+}
+
+### Register normal user
+POST http://localhost:8082/v1/register
+Content-Type: application/json
+
+{
+  "userName": "ichBinCool123",
+  "password": "alsoEcht4",
+  "firstName": "Max",
+  "lastName": "Mustermann",
+  "email": "max.mustermann@gmail.com",
+  "plz": "74321",
+  "cityName": "Bietigheim",
+  "street": "Rentnerstraße",
+  "houseNumber": "5",
+  "isAdmin": "false"
+}
+
+### Login endpoint for normal user
+POST http://localhost:8082/v1/login
+Content-Type: application/json
+
+{
+  "email": "max.mustermann@gmail.com",
+  "password": "alsoEcht4"
+}
