@@ -7,6 +7,7 @@ import com.wwi21sebgroup5.cinema.requestObjects.ActorRequestObject;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import java.util.List;
 import java.util.Optional;
 
 @Service
@@ -31,5 +32,8 @@ public class ActorService {
     }
 
 
+    public List<Actor> findAll() {
+        return actorRepository.findAll();
 
+    }
 }
