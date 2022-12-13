@@ -3,7 +3,10 @@ package com.wwi21sebgroup5.cinema.services;
 import com.wwi21sebgroup5.cinema.entities.City;
 import com.wwi21sebgroup5.cinema.entities.Role;
 import com.wwi21sebgroup5.cinema.entities.User;
-import com.wwi21sebgroup5.cinema.exceptions.*;
+import com.wwi21sebgroup5.cinema.exceptions.EmailAlreadyExistsException;
+import com.wwi21sebgroup5.cinema.exceptions.EmailNotFoundException;
+import com.wwi21sebgroup5.cinema.exceptions.PasswordsNotMatchingException;
+import com.wwi21sebgroup5.cinema.exceptions.UserAlreadyExistsException;
 import com.wwi21sebgroup5.cinema.requestObjects.LoginRequestObject;
 import com.wwi21sebgroup5.cinema.requestObjects.RegistrationRequestObject;
 import org.junit.jupiter.api.DisplayName;
@@ -14,6 +17,7 @@ import org.mockito.Mock;
 import org.mockito.junit.jupiter.MockitoExtension;
 import org.springframework.security.crypto.password.PasswordEncoder;
 
+import java.util.List;
 import java.util.Optional;
 
 import static org.junit.jupiter.api.Assertions.*;
@@ -46,9 +50,7 @@ public class LoginServiceTest {
                 userName, password, firstName, lastName, email, plz, cityName, street, houseNumber, isAdmin
         );
 
-        City city = new City();
-        city.setName(cityName);
-        city.setPlz(plz);
+        City city = new City(plz, cityName);
 
         User expectedUser = new User(
                 userName, password, Role.USER, firstName, lastName, email, city, street, houseNumber
@@ -56,15 +58,14 @@ public class LoginServiceTest {
 
         when(userService.getUserByUserName(userName)).thenReturn(Optional.empty());
         when(userService.getUserByEmail(email)).thenReturn(Optional.empty());
-        when(cityService.findByPlzAndName(plz, cityName)).thenReturn(Optional.of(city));
+        when(cityService.getCityByPlz(plz)).thenReturn(Optional.of(city));
         when(passwordEncoder.encode(password)).thenReturn(password);
 
         User actualUser = null;
 
         try {
             actualUser = loginService.register(registrationRequestObject);
-        } catch (UserAlreadyExistsException | EmailAlreadyExistsException |
-                 CityNotFoundException e) {
+        } catch (UserAlreadyExistsException | EmailAlreadyExistsException ex) {
             fail("Test failed during registering a user");
         }
 
@@ -117,10 +118,25 @@ public class LoginServiceTest {
         RegistrationRequestObject registrationRequestObject = new RegistrationRequestObject(
                 userName, password, firstName, lastName, email, plz, cityName, street, houseNumber, isAdmin
         );
+        City city = new City(plz, cityName);
+        User expectedUser = new User(
+                userName, password, Role.USER, firstName, lastName, email, city, street, houseNumber
+        );
 
-        when(cityService.findByPlzAndName(plz, cityName)).thenReturn(Optional.empty());
+        when(cityService.getCityByPlz(plz)).thenReturn(Optional.empty());
+        when(cityService.getAllCitiesByName(cityName)).thenReturn(List.of());
+        when(cityService.save(city)).thenReturn(city);
+        when(passwordEncoder.encode(password)).thenReturn(password);
 
-        assertThrows(CityNotFoundException.class, () -> loginService.register(registrationRequestObject));
+        User actualUser = null;
+
+        try {
+            actualUser = loginService.register(registrationRequestObject);
+        } catch (UserAlreadyExistsException | EmailAlreadyExistsException ex) {
+            fail("Test failed during registering a user");
+        }
+
+        assertEquals(expectedUser, actualUser, "Registered user wrong!");
     }
 
     @Test
