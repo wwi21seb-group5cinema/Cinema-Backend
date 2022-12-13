@@ -26,8 +26,7 @@ public class LoginController {
 
         try {
             newUser = loginService.register(registrationObject);
-        } catch (UserAlreadyExistsException | EmailAlreadyExistsException | CityNotFoundException |
-                 PasswordsNotMatchingException ex) {
+        } catch (UserAlreadyExistsException | EmailAlreadyExistsException | CityNotFoundException ex) {
             return new ResponseEntity<>(ex.getMessage(), HttpStatus.NOT_ACCEPTABLE);
         } catch (Exception ex) {
             return new ResponseEntity<>(HttpStatus.INTERNAL_SERVER_ERROR);

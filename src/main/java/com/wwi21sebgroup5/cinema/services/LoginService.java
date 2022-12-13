@@ -28,12 +28,11 @@ public class LoginService {
     /**
      * @param registrationObject DTO which holds all necessary attributes for a new user
      * @return the registered User if registered successfully
-     * @throws PasswordsNotMatchingException Thrown if passwords don't match
-     * @throws UserAlreadyExistsException    Thrown if the username already exists
-     * @throws EmailAlreadyExistsException   Thrown if the email already exists
+     * @throws UserAlreadyExistsException  Thrown if the username already exists
+     * @throws EmailAlreadyExistsException Thrown if the email already exists
      */
-    public User register(RegistrationRequestObject registrationObject) throws PasswordsNotMatchingException,
-            UserAlreadyExistsException, EmailAlreadyExistsException, CityNotFoundException {
+    public User register(RegistrationRequestObject registrationObject) throws UserAlreadyExistsException,
+            EmailAlreadyExistsException, CityNotFoundException {
         Optional<User> foundUser = userService.getUserByUserName(registrationObject.getUserName());
 
         if (foundUser.isEmpty()) {
