@@ -63,7 +63,7 @@ public class LoginServiceTest {
 
         try {
             actualUser = loginService.register(registrationRequestObject);
-        } catch (PasswordsNotMatchingException | UserAlreadyExistsException | EmailAlreadyExistsException |
+        } catch (UserAlreadyExistsException | EmailAlreadyExistsException |
                  CityNotFoundException e) {
             fail("Test failed during registering a user");
         }
