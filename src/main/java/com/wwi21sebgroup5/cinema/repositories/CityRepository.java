@@ -17,4 +17,5 @@ public interface CityRepository extends JpaRepository<City, UUID> {
 
     Optional<City> findByPlzAndNameContaining(String plz, String name);
 
+
 }
