@@ -1,9 +1,6 @@
 package com.wwi21sebgroup5.cinema.entities;
 
-import jakarta.persistence.Column;
-import jakarta.persistence.Entity;
-import jakarta.persistence.Id;
-import jakarta.persistence.Table;
+import jakarta.persistence.*;
 import jakarta.validation.constraints.NotNull;
 import lombok.Getter;
 import lombok.Setter;
@@ -21,6 +18,7 @@ public class Director {
     @Id
     @Column
     @NotNull
+    @GeneratedValue(strategy = GenerationType.AUTO)
     private UUID id;
 
 }
