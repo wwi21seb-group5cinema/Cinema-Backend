@@ -25,6 +25,7 @@ public class Actor {
 
     @Id
     @Column
+    @NotNull
     @GeneratedValue(strategy = GenerationType.AUTO)
     private UUID id;
 
