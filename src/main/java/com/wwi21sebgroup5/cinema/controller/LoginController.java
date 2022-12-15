@@ -44,8 +44,8 @@ public class LoginController {
             loginService.login(loginObject);
         } catch (EmailNotFoundException enfE) {
             return new ResponseEntity<>(enfE.getMessage(), HttpStatus.NOT_FOUND);
-        } catch (PasswordsNotMatchingException pwnmE) {
-            return new ResponseEntity<>(pwnmE.getMessage(), HttpStatus.UNAUTHORIZED);
+        } catch (PasswordsNotMatchingException pnmE) {
+            return new ResponseEntity<>(pnmE.getMessage(), HttpStatus.UNAUTHORIZED);
         } catch (Exception ex) {
             return new ResponseEntity<>(HttpStatus.INTERNAL_SERVER_ERROR);
         }
