@@ -38,15 +38,13 @@ public class LoginService {
     public User register(RegistrationRequestObject registrationObject) throws UserAlreadyExistsException,
             EmailAlreadyExistsException {
         Optional<User> foundUser = userService.getUserByUserName(registrationObject.getUserName());
-
-        if (foundUser.isEmpty()) {
-            foundUser = userService.getUserByEmail(registrationObject.getEmail());
-
-            if (foundUser.isPresent()) {
-                throw new EmailAlreadyExistsException(registrationObject.getEmail());
-            }
-        } else {
+        if (foundUser.isPresent()) {
             throw new UserAlreadyExistsException(registrationObject.getUserName());
+        }
+
+        foundUser = userService.getUserByEmail(registrationObject.getEmail());
+        if (foundUser.isPresent()) {
+            throw new EmailAlreadyExistsException(registrationObject.getEmail());
         }
 
         Optional<City> foundCity = cityService.getCityByPlz(registrationObject.getPlz());
