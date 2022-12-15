@@ -3,7 +3,10 @@ package com.wwi21sebgroup5.cinema.controller;
 import com.wwi21sebgroup5.cinema.entities.City;
 import com.wwi21sebgroup5.cinema.entities.Role;
 import com.wwi21sebgroup5.cinema.entities.User;
-import com.wwi21sebgroup5.cinema.exceptions.*;
+import com.wwi21sebgroup5.cinema.exceptions.EmailAlreadyExistsException;
+import com.wwi21sebgroup5.cinema.exceptions.EmailNotFoundException;
+import com.wwi21sebgroup5.cinema.exceptions.PasswordsNotMatchingException;
+import com.wwi21sebgroup5.cinema.exceptions.UserAlreadyExistsException;
 import com.wwi21sebgroup5.cinema.requestObjects.LoginRequestObject;
 import com.wwi21sebgroup5.cinema.requestObjects.RegistrationRequestObject;
 import com.wwi21sebgroup5.cinema.services.LoginService;
@@ -44,7 +47,7 @@ public class LoginControllerTest {
 
         try {
             when(loginService.register(registrationRequestObject)).thenReturn(expectedUser);
-        } catch (UserAlreadyExistsException | EmailAlreadyExistsException | CityNotFoundException e) {
+        } catch (UserAlreadyExistsException | EmailAlreadyExistsException e) {
             fail("Registration failed");
         }
 
@@ -69,7 +72,7 @@ public class LoginControllerTest {
         try {
             when(loginService.register(registrationRequestObject)).thenThrow(new UserAlreadyExistsException(
                     "TestUserName"));
-        } catch (UserAlreadyExistsException | EmailAlreadyExistsException | CityNotFoundException e) {
+        } catch (UserAlreadyExistsException | EmailAlreadyExistsException e) {
             fail("Registration failed");
         }
 
@@ -94,7 +97,7 @@ public class LoginControllerTest {
         try {
             when(loginService.register(registrationRequestObject)).thenThrow(new EmailAlreadyExistsException(
                     "TestEmail"));
-        } catch (UserAlreadyExistsException | EmailAlreadyExistsException | CityNotFoundException e) {
+        } catch (UserAlreadyExistsException | EmailAlreadyExistsException e) {
             fail("Registration failed");
         }
 
@@ -104,31 +107,6 @@ public class LoginControllerTest {
                 "Validating response ...",
                 () -> assertEquals(HttpStatus.NOT_ACCEPTABLE, response.getStatusCode()),
                 () -> assertEquals("The email TestEmail is already in use!", response.getBody())
-        );
-    }
-
-    @Test
-    @DisplayName("Test city not found during registration")
-    public void testCityNotFoundDuringRegistration() {
-        RegistrationRequestObject registrationRequestObject = new RegistrationRequestObject(
-                "TestUserName", "TestLastName", "TestFirstName", "TestLastName",
-                "TestEmail", "67065", "Maudach", "TestStreet", "TestHouseNumber",
-                false
-        );
-
-        try {
-            when(loginService.register(registrationRequestObject)).thenThrow(new CityNotFoundException("67065",
-                    "Maudach"));
-        } catch (UserAlreadyExistsException | EmailAlreadyExistsException | CityNotFoundException e) {
-            fail("Registration failed");
-        }
-
-        ResponseEntity<Object> response = loginController.register(registrationRequestObject);
-
-        assertAll(
-                "Validating response ...",
-                () -> assertEquals(HttpStatus.NOT_ACCEPTABLE, response.getStatusCode()),
-                () -> assertEquals("City with PLZ: 67065 and NAME: Maudach not found!", response.getBody())
         );
     }
 

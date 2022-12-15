@@ -53,7 +53,7 @@ public class CityService {
      *
      * @param city City to be persisted
      */
-    public void save(City city) {
-        cityRepository.save(city);
+    public City save(City city) {
+        return cityRepository.save(city);
     }
 }
