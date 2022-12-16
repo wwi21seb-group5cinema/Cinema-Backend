@@ -1,6 +1,5 @@
 package com.wwi21sebgroup5.cinema.entities;
 
-import com.wwi21sebgroup5.cinema.enums.SeatState;
 import jakarta.persistence.*;
 import jakarta.validation.constraints.NotNull;
 import lombok.Getter;
@@ -15,8 +14,9 @@ import java.util.UUID;
 @Setter
 @ToString
 @Entity
-@Table(name = "seat")
-public class Seat {
+@Table(name = "seatblueprint")
+public class SeatBlueprint {
+
     @Id
     @Column
     @NotNull
@@ -33,14 +33,6 @@ public class Seat {
     @ToString.Exclude
     private SeatType seatType;
 
-    @Enumerated(EnumType.STRING)
-    private SeatState seatState;
-
-    @ManyToOne(fetch = FetchType.LAZY, cascade = CascadeType.PERSIST)
-    @JoinColumn(name = "event_id", referencedColumnName = "id")
-    @ToString.Exclude
-    private Event event;
-
     @Column
     @NotNull
     private int row;
@@ -49,10 +41,9 @@ public class Seat {
     @NotNull
     private int place;
 
-    public Seat(SeatingPlan seatingPlan, SeatType seatType, Event event, int row, int place) {
+    public SeatBlueprint(SeatingPlan seatingPlan, SeatType seatType, int row, int place) {
         this.seatingPlan = seatingPlan;
         this.seatType = seatType;
-        this.event = event;
         this.row = row;
         this.place = place;
     }

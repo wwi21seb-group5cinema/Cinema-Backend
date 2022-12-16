@@ -7,6 +7,7 @@ import lombok.NoArgsConstructor;
 import lombok.Setter;
 import lombok.ToString;
 
+import java.util.List;
 import java.util.UUID;
 
 @NoArgsConstructor
@@ -25,6 +26,10 @@ public class SeatingPlan {
 
     @OneToOne(mappedBy = "seatingPlan")
     private CinemaHall cinemaHall;
+
+    @OneToMany(mappedBy = "seatingPlan", cascade = CascadeType.ALL)
+    @ToString.Exclude
+    private List<SeatBlueprint> seats;
 
     @Column
     @NotNull
