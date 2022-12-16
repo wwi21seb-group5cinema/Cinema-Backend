@@ -28,7 +28,7 @@ public class CinemaHall {
     private Cinema cinema;
 
     @OneToOne(cascade = CascadeType.ALL)
-    @JoinColumn(name = "seatingPlan_id", referencedColumnName = "id")
+    @JoinColumn(name = "seatingplan_id", referencedColumnName = "id")
     private SeatingPlan seatingPlan;
 
     @Column

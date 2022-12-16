@@ -30,4 +30,9 @@ public class SeatingPlan {
     @NotNull
     private int rows;
 
+    public SeatingPlan(CinemaHall cinemaHall, int rows) {
+        this.cinemaHall = cinemaHall;
+        this.rows = rows;
+    }
+
 }
