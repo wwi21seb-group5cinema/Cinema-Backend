@@ -21,4 +21,11 @@ public class Director {
     @GeneratedValue(strategy = GenerationType.AUTO)
     private UUID id;
 
+    @Column
+    @NotNull
+    private String first_name;
+
+    @Column
+    @NotNull
+    private String last_name;
 }

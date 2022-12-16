@@ -12,8 +12,8 @@ import java.util.UUID;
 @Setter
 @ToString
 @Entity
-@Table(name = "producer")
-public class Producer {
+@Table(name = "FSK")
+public class FSK {
 
     @Id
     @Column
@@ -23,6 +23,5 @@ public class Producer {
 
     @NotNull
     @Column
-    private String name;
-    
+    private int age_limit;
 }
