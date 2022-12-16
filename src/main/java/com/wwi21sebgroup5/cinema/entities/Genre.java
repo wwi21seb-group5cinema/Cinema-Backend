@@ -19,4 +19,8 @@ public class Genre {
     @GeneratedValue(strategy = GenerationType.AUTO)
     private Long id;
 
+    @Column
+    @NotNull
+    private String genre_designation;
+
 }

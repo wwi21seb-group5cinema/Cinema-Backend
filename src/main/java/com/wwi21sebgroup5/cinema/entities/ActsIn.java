@@ -1,4 +1,5 @@
 package com.wwi21sebgroup5.cinema.entities;
+// Relation between Actor in Movie. Many Actors act in many movies
 
 import jakarta.persistence.*;
 import jakarta.validation.constraints.NotNull;
@@ -12,8 +13,8 @@ import java.util.UUID;
 @Setter
 @ToString
 @Entity
-@Table(name = "event")
-public class Event {
+@Table(name = "ActsIn")
+public class ActsIn {
 
     @Id
     @Column
@@ -22,9 +23,15 @@ public class Event {
     private UUID id;
 
     @NotNull
-    @ToString.Exclude
     @ManyToOne
-    @JoinColumn(name = "Movie", referencedColumnName = "id")
+    @JoinColumn(name = "Movie_Id", referencedColumnName = "id")
+    @ToString.Exclude
     private Movie movie;
-    
+
+    @NotNull
+    @ManyToOne
+    @JoinColumn(name = "Actor_Id", referencedColumnName = "id")
+    @ToString.Exclude
+    private Actor actor;
+
 }
