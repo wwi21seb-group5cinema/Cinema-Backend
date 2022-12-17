@@ -1,27 +1,25 @@
 package com.wwi21sebgroup5.cinema.entities;
 
-import jakarta.persistence.*;
-import jakarta.validation.constraints.NotNull;
-import lombok.Getter;
-import lombok.Setter;
-import lombok.ToString;
+import com.wwi21sebgroup5.cinema.exceptions.FSKNotFoundException;
 
-import java.util.UUID;
+public enum FSK {
+    ZERO, SIX, TWELVE, SIXTEEN, EIGHTEEN;
 
-@Getter
-@Setter
-@ToString
-@Entity
-@Table(name = "FSK")
-public class FSK {
 
-    @Id
-    @Column
-    @NotNull
-    @GeneratedValue(strategy = GenerationType.AUTO)
-    private UUID id;
-
-    @NotNull
-    @Column
-    private int age_limit;
+    public static FSK getFSKFromInt(int value) throws FSKNotFoundException {
+        switch (value) {
+            case 0:
+                return FSK.ZERO;
+            case 6:
+                return FSK.SIX;
+            case 12:
+                return FSK.TWELVE;
+            case 16:
+                return FSK.SIXTEEN;
+            case 18:
+                return FSK.EIGHTEEN;
+            default:
+                throw new FSKNotFoundException(value);
+        }
+    }
 }

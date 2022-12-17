@@ -1,0 +1,51 @@
+### Get all Movies
+GET http://localhost:8082/v1/movie/getAll
+Content-Type: application/json
+
+### Add a new Movie
+POST http://localhost:8082/v1/movie/add
+Content-Type: application/json
+
+{
+  "producerName": "MarvelStudios",
+  "directorFirstName": "Quentin",
+  "directorLastName": "Tarrentino",
+  "fsk": 12,
+  "genre": "Action",
+  "name": "Der große Testfilm",
+  "description": "Dieser Film ist ein Test",
+  "start_date": "12131415",
+  "end_date": "18192021"
+}
+
+### Add a new Movie with false Genre
+POST http://localhost:8082/v1/movie/add
+Content-Type: application/json
+
+{
+  "producerName": "MarvelStudios",
+  "directorFirstName": "Quentin",
+  "directorLastName": "Tarrentino",
+  "fsk": 12,
+  "genre": "ActionPP",
+  "name": "Der große Testfilm",
+  "description": "Dieser Film ist ein Test",
+  "start_date": "12131415",
+  "end_date": "18192021"
+}
+
+### Add a new Movie with false FSK
+POST http://localhost:8082/v1/movie/add
+Content-Type: application/json
+
+{
+  "producerName": "MarvelStudios",
+  "directorFirstName": "Quentin",
+  "directorLastName": "Tarrentino",
+  "fsk": 10,
+  "genre": "ActionPP",
+  "name": "Der große Testfilm",
+  "description": "Dieser Film ist ein Test",
+  "start_date": "12131415",
+  "end_date": "18192021"
+}

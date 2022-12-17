@@ -3,24 +3,29 @@ package com.wwi21sebgroup5.cinema.entities;
 import jakarta.persistence.*;
 import jakarta.validation.constraints.NotNull;
 import lombok.Getter;
+import lombok.NoArgsConstructor;
 import lombok.Setter;
 import lombok.ToString;
+
+import java.util.UUID;
 
 @Getter
 @Setter
 @ToString
 @Entity
 @Table(name = "genre")
+@NoArgsConstructor
+
 public class Genre {
 
     @Id
     @Column
     @NotNull
     @GeneratedValue(strategy = GenerationType.AUTO)
-    private Long id;
+    private UUID id;
 
     @Column
     @NotNull
-    private String genre_designation;
+    private String name;
 
 }

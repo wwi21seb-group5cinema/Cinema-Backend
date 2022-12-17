@@ -7,9 +7,10 @@ import lombok.NoArgsConstructor;
 import lombok.Setter;
 import lombok.ToString;
 
-import java.util.Date;
+import java.sql.Date;
 import java.util.UUID;
 
+@NoArgsConstructor
 @Getter
 @Setter
 @ToString
@@ -35,9 +36,7 @@ public class Movie {
     @ToString.Exclude
     private Director director;
 
-    @NotNull
-    @ManyToOne
-    @JoinColumn(name = "FSK_id", referencedColumnName = "id")
+    @Enumerated(EnumType.STRING)
     private FSK fsk;
 
     @NotNull
@@ -47,10 +46,36 @@ public class Movie {
 
     @NotNull
     @Column
-    private Date start_date;
+    private String name;
 
     @NotNull
     @Column
+    private String description;
+
+    @NotNull
+    @Column
+    private Date start_date;
+
+    @Column
     private Date end_date;
 
+    public Movie(Producer producer,
+                 Director director,
+                 FSK fsk,
+                 Genre genre,
+                 String name,
+                 String description,
+                 Date start_date,
+                 Date end_date) {
+        this.producer = producer;
+        this.director = director;
+        this.fsk = fsk;
+        this.genre = genre;
+        this.name = name;
+        this.description = description;
+        this.start_date = start_date;
+        this.end_date = end_date;
     }
+
+
+}

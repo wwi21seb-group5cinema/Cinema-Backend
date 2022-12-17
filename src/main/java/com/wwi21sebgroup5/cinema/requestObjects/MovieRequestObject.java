@@ -1,0 +1,53 @@
+package com.wwi21sebgroup5.cinema.requestObjects;
+
+import jakarta.validation.constraints.NotEmpty;
+import jakarta.validation.constraints.NotNull;
+import lombok.AllArgsConstructor;
+import lombok.Data;
+
+import java.sql.Date;
+
+@AllArgsConstructor
+@Data
+public class MovieRequestObject {
+
+    @NotEmpty
+    @NotNull
+    private String producerName;
+
+    @NotEmpty
+    @NotNull
+    private String directorFirstName;
+
+    @NotEmpty
+    @NotNull
+    private String directorLastName;
+
+    @NotEmpty
+    @NotNull
+    private int fsk;
+
+    @NotEmpty
+    @NotNull
+    private String genre;
+
+    @NotEmpty
+    @NotNull
+    private String name;
+
+    @NotEmpty
+    @NotNull
+    private String description;
+
+    @NotEmpty
+    @NotNull
+    private Date start_date;
+
+    @NotEmpty
+    @NotNull
+    private Date end_date;
+
+    public MovieRequestObject() {
+        super();
+    }
+}

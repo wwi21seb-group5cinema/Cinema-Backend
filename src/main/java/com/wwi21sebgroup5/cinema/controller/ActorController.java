@@ -26,7 +26,7 @@ public class ActorController {
     }
 
     @PostMapping(path = "/add")
-    public ResponseEntity<Object> putAll(@RequestBody ActorRequestObject actorObject) {
+    public ResponseEntity<Object> put(@RequestBody ActorRequestObject actorObject) {
         Actor a;
         try {
             a = actorService.add(actorObject);
