@@ -2,6 +2,7 @@ package com.wwi21sebgroup5.cinema.controller;
 
 import com.wwi21sebgroup5.cinema.entities.Actor;
 import com.wwi21sebgroup5.cinema.exceptions.ActorAlreadyExistsException;
+import com.wwi21sebgroup5.cinema.exceptions.ActorNotFoundException;
 import com.wwi21sebgroup5.cinema.requestObjects.ActorRequestObject;
 import com.wwi21sebgroup5.cinema.services.ActorService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -22,8 +23,20 @@ public class ActorController {
 
     @GetMapping("/getAll")
     public ResponseEntity<List<Actor>> getAll() {
+
         return new ResponseEntity<>(actorService.findAll(), HttpStatus.OK);
     }
+
+    @GetMapping("/get/{name}/{firstName}")
+    public ResponseEntity<Object> getAll(@PathVariable String name, @PathVariable String firstName) {
+        try {
+            return new ResponseEntity<>(
+                    actorService.findByNameAndFirstName(name, firstName), HttpStatus.OK);
+        } catch (ActorNotFoundException e) {
+            return new ResponseEntity<>(e.getMessage(), HttpStatus.NOT_FOUND);
+        }
+    }
+
 
     @PostMapping(path = "/add")
     public ResponseEntity<Object> put(@RequestBody ActorRequestObject actorObject) {

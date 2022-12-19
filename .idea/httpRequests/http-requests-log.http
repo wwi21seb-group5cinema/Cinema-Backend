@@ -1,0 +1,787 @@
+GET http://localhost:8082/v1/actor/get/Bahde/*
+Content-Type: application/json
+
+<> 2022-12-19T155147.404.json
+
+###
+
+GET http://localhost:8082/v1/actor/get/Bahde/Paul
+Content-Type: application/json
+
+<> 2022-12-19T155102.200.json
+
+###
+
+POST http://localhost:8082/v1/actor/add
+Content-Type: application/json
+
+{
+  "name": "Bahde",
+  "firstName": "Paul"
+}
+
+<> 2022-12-19T155058.201.json
+
+###
+
+GET http://localhost:8082/v1/actor/get/Bahde/Paul
+Content-Type: application/json
+
+<> 2022-12-19T155053.404.json
+
+###
+
+GET http://localhost:8082/v1/actor/getAll
+Content-Type: application/json
+
+<> 2022-12-19T155046.200.json
+
+###
+
+GET http://localhost:8082/v1/movie/getAll
+Content-Type: application/json
+
+<> 2022-12-19T152709.200.json
+
+###
+
+POST http://localhost:8082/v1/movie/add
+Content-Type: application/json
+
+{
+  "producerName": "MarvelStudios",
+  "directorFirstName": "Quentin",
+  "directorLastName": "Tarrentino",
+  "actors": [
+
+  ],
+  "fsk": 12,
+  "genre": "Action",
+  "name": "Der große Testfilm",
+  "description": "Dieser Film ist ein Test",
+  "start_date": "12131415",
+  "end_date": "18192021"
+}
+
+<> 2022-12-19T152543.201.json
+
+###
+
+POST http://localhost:8082/v1/movie/add
+Content-Type: application/json
+
+{
+  "producerName": "MarvelStudios",
+  "directorFirstName": "Quentin",
+  "directorLastName": "Tarrentino",
+  "fsk": 10,
+  "genre": "ActionPP",
+  "name": "Der große Testfilm",
+  "description": "Dieser Film ist ein Test",
+  "start_date": "12131415",
+  "end_date": "18192021"
+}
+
+<> 2022-12-19T152522.406.json
+
+###
+
+POST http://localhost:8082/v1/movie/add
+Content-Type: application/json
+
+{
+  "producerName": "MarvelStudios",
+  "directorFirstName": "Quentin",
+  "directorLastName": "Tarrentino",
+  "actors": [
+    "13fc962e-d622-443a-83da-b3f42194211a"
+  ],
+  "fsk": 12,
+  "genre": "Action",
+  "name": "Der große Testfilm",
+  "description": "Dieser Film ist ein Test",
+  "start_date": "12131415",
+  "end_date": "18192021"
+}
+
+<> 2022-12-19T152505.201.json
+
+###
+
+GET http://localhost:8082/v1/actor/getAll
+Content-Type: application/json
+
+<> 2022-12-19T152329.200.json
+
+###
+
+POST http://localhost:8082/v1/actor/add
+Content-Type: application/json
+
+{
+  "name": "Bahde",
+  "firstName": "Paul"
+}
+
+<> 2022-12-19T152326.201.json
+
+###
+
+POST http://localhost:8082/v1/movie/add
+Content-Type: application/json
+
+{
+  "producerName": "MarvelStudios",
+  "directorFirstName": "Quentin",
+  "directorLastName": "Tarrentino",
+  "actors": [
+    "856a2f9d-1efc-414a-96fa-f24f2ce93f06"
+  ],
+  "fsk": 12,
+  "genre": "Action",
+  "name": "Der große Testfilm",
+  "description": "Dieser Film ist ein Test",
+  "start_date": "12131415",
+  "end_date": "18192021"
+}
+
+<> 2022-12-19T152315.406.json
+
+###
+
+POST http://localhost:8082/v1/login
+Content-Type: application/json
+
+{
+  "email": "kevin.rieger@gmail.com",
+  "password": "hartNachMaggi2"
+}
+
+###
+
+POST http://localhost:8082/v1/register
+Content-Type: application/json
+
+{
+  "userName": "justinStinkt",
+  "password": "hartNachMaggi2",
+  "firstName": "Kevin",
+  "lastName": "Rieger",
+  "email": "kevin.rieger@gmail.com",
+  "plz": "71672",
+  "cityName": "Marbach",
+  "street": "Schwabstraße",
+  "houseNumber": "69",
+  "isAdmin": "true"
+}
+
+<> 2022-12-19T152303.201.json
+
+###
+
+POST http://localhost:8082/v1/movie/add
+Content-Type: application/json
+
+{
+  "producerName": "MarvelStudios",
+  "directorFirstName": "Quentin",
+  "directorLastName": "Tarrentino",
+  "actors": [
+    "856a2f9d-1efc-414a-96fa-f24f2ce93f06"
+  ],
+  "fsk": 12,
+  "genre": "Action",
+  "name": "Der große Testfilm",
+  "description": "Dieser Film ist ein Test",
+  "start_date": "12131415",
+  "end_date": "18192021"
+}
+
+###
+
+POST http://localhost:8082/v1/movie/add
+Content-Type: application/json
+
+{
+  "producerName": "MarvelStudios",
+  "directorFirstName": "Quentin",
+  "directorLastName": "Tarrentino",
+  "actors": [
+    "856a2f9d-1efc-414a-96fa-f24f2ce93f07"
+  ],
+  "fsk": 12,
+  "genre": "Action",
+  "name": "Der große Testfilm",
+  "description": "Dieser Film ist ein Test",
+  "start_date": "12131415",
+  "end_date": "18192021"
+}
+
+<> 2022-12-19T151930.201.json
+
+###
+
+POST http://localhost:8082/v1/movie/add
+Content-Type: application/json
+
+{
+  "producerName": "MarvelStudios",
+  "directorFirstName": "Quentin",
+  "directorLastName": "Tarrentino",
+  "actors": [
+    "856a2f9d-1efc-414a-96fa-f24f2ce93f07"
+  ],
+  "fsk": 12,
+  "genre": "Action",
+  "name": "Der große Testfilm",
+  "description": "Dieser Film ist ein Test",
+  "start_date": "12131415",
+  "end_date": "18192021"
+}
+
+<> 2022-12-19T151928.201.json
+
+###
+
+POST http://localhost:8082/v1/movie/add
+Content-Type: application/json
+
+{
+  "producerName": "MarvelStudios",
+  "directorFirstName": "Quentin",
+  "directorLastName": "Tarrentino",
+  "actors": [
+    "856a2f9d-1efc-414a-96fa-f24f2ce93f07"
+  ],
+  "fsk": 12,
+  "genre": "Action",
+  "name": "Der große Testfilm",
+  "description": "Dieser Film ist ein Test",
+  "start_date": "12131415",
+  "end_date": "18192021"
+}
+
+<> 2022-12-19T151913.201.json
+
+###
+
+POST http://localhost:8082/v1/movie/add
+Content-Type: application/json
+
+{
+  "producerName": "MarvelStudios",
+  "directorFirstName": "Quentin",
+  "directorLastName": "Tarrentino",
+  "actors": [
+    "856a2f9d-1efc-414a-96fa-f24f2ce93f05"
+  ],
+  "fsk": 12,
+  "genre": "Action",
+  "name": "Der große Testfilm",
+  "description": "Dieser Film ist ein Test",
+  "start_date": "12131415",
+  "end_date": "18192021"
+}
+
+###
+
+POST http://localhost:8082/v1/movie/add
+Content-Type: application/json
+
+{
+  "producerName": "MarvelStudios",
+  "directorFirstName": "Quentin",
+  "directorLastName": "Tarrentino",
+  "actors": [
+    "856a2f9d-1efc-414a-96fa-f24f2ce93f0"
+  ],
+  "fsk": 12,
+  "genre": "Action",
+  "name": "Der große Testfilm",
+  "description": "Dieser Film ist ein Test",
+  "start_date": "12131415",
+  "end_date": "18192021"
+}
+
+###
+
+POST http://localhost:8082/v1/movie/add
+Content-Type: application/json
+
+{
+  "producerName": "MarvelStudios",
+  "directorFirstName": "Quentin",
+  "directorLastName": "Tarrentino",
+  "actors": [
+    "856a2f9d-1efc-414a-96fa-f24f2ce93f07"
+  ],
+  "fsk": 12,
+  "genre": "Action",
+  "name": "Der große Testfilm",
+  "description": "Dieser Film ist ein Test",
+  "start_date": "12131415",
+  "end_date": "18192021"
+}
+
+<> 2022-12-19T151753.201.json
+
+###
+
+GET http://localhost:8082/v1/actor/getAll
+Content-Type: application/json
+
+<> 2022-12-19T151539.200.json
+
+###
+
+POST http://localhost:8082/v1/actor/add
+Content-Type: application/json
+
+{
+  "name": "Bahde",
+  "firstName": "Paul"
+}
+
+<> 2022-12-19T151525.406.json
+
+###
+
+POST http://localhost:8082/v1/actor/add
+Content-Type: application/json
+
+{
+  "name": "Bahde",
+  "firstName": "Paul"
+}
+
+<> 2022-12-19T151524.201.json
+
+###
+
+POST http://localhost:8082/v1/login
+Content-Type: application/json
+
+{
+  "email": "kevin.rieger@gmail.com",
+  "password": "hartNachMaggi2"
+}
+
+###
+
+POST http://localhost:8082/v1/register
+Content-Type: application/json
+
+{
+  "userName": "justinStinkt",
+  "password": "hartNachMaggi2",
+  "firstName": "Kevin",
+  "lastName": "Rieger",
+  "email": "kevin.rieger@gmail.com",
+  "plz": "71672",
+  "cityName": "Marbach",
+  "street": "Schwabstraße",
+  "houseNumber": "69",
+  "isAdmin": "true"
+}
+
+<> 2022-12-19T151507.201.json
+
+###
+
+POST http://localhost:8082/v1/movie/add
+Content-Type: application/json
+
+{
+  "producerName": "MarvelStudios",
+  "directorFirstName": "Quentin",
+  "directorLastName": "Tarrentino",
+  "fsk": 10,
+  "genre": "ActionPP",
+  "name": "Der große Testfilm",
+  "description": "Dieser Film ist ein Test",
+  "start_date": "12131415",
+  "end_date": "18192021"
+}
+
+<> 2022-12-17T141828.406.json
+
+###
+
+POST http://localhost:8082/v1/movie/add
+Content-Type: application/json
+
+{
+  "producerName": "MarvelStudios",
+  "directorFirstName": "Quentin",
+  "directorLastName": "Tarrentino",
+  "fsk": 12,
+  "genre": "ActionPP",
+  "name": "Der große Testfilm",
+  "description": "Dieser Film ist ein Test",
+  "start_date": "12131415",
+  "end_date": "18192021"
+}
+
+<> 2022-12-17T141822.406.json
+
+###
+
+GET http://localhost:8082/v1/movie/getAll
+Content-Type: application/json
+
+<> 2022-12-17T141710.200.json
+
+###
+
+POST http://localhost:8082/v1/movie/add
+Content-Type: application/json
+
+{
+  "producerName": "MarvelStudios",
+  "directorFirstName": "Quentin",
+  "directorLastName": "Tarrentino",
+  "fsk": 12,
+  "genre": "Action",
+  "name": "Der große Testfilm",
+  "description": "Dieser Film ist ein Test",
+  "start_date": "12131415",
+  "end_date": "18192021"
+}
+
+<> 2022-12-17T141659.201.json
+
+###
+
+POST http://localhost:8082/v1/movie/add
+Content-Type: application/json
+
+{
+  "producerName": "MarvelStudios",
+  "directorFirstName": "Quentin",
+  "directorLastName": "Tarrentino",
+  "fsk": 12,
+  "genre": "Action",
+  "name": "Der große Testfilm",
+  "description": "Dieser Film ist ein Test",
+  "start_date": "12131415",
+  "end_date": "18192021"
+}
+
+<> 2022-12-17T141646.201.json
+
+###
+
+POST http://localhost:8082/v1/login
+Content-Type: application/json
+
+{
+  "email": "kevin.rieger@gmail.com",
+  "password": "hartNachMaggi2"
+}
+
+###
+
+POST http://localhost:8082/v1/register
+Content-Type: application/json
+
+{
+  "userName": "justinStinkt",
+  "password": "hartNachMaggi2",
+  "firstName": "Kevin",
+  "lastName": "Rieger",
+  "email": "kevin.rieger@gmail.com",
+  "plz": "71672",
+  "cityName": "Marbach",
+  "street": "Schwabstraße",
+  "houseNumber": "69",
+  "isAdmin": "true"
+}
+
+<> 2022-12-17T141636.201.json
+
+###
+
+POST http://localhost:8082/v1/movie/add
+Content-Type: application/json
+
+{
+  "producerName": "MarvelStudios",
+  "directorFirstName": "Quentin",
+  "directorLastName": "Tarrentino",
+  "fsk": 12,
+  "genre": "Action",
+  "name": "Der große Testfilm",
+  "description": "Dieser Film ist ein Test",
+  "start_date": "12131415",
+  "end_date": "18192021"
+}
+
+<> 2022-12-17T140403.406.json
+
+###
+
+POST http://localhost:8082/v1/movie/add
+Content-Type: application/json
+
+{
+  "producerName": "MarvelStudios",
+  "directorFirstName": "Quentin",
+  "directorLastName": "Tarrentino",
+  "fsk": 12,
+  "genre": "Action",
+  "name": "Der große Testfilm",
+  "description": "Dieser Film ist ein Test",
+  "start_date": "12131415",
+  "end_date": "18192021"
+}
+
+<> 2022-12-17T140401.406.json
+
+###
+
+POST http://localhost:8082/v1/movie/add
+Content-Type: application/json
+
+{
+  "producerName": "MarvelStudios",
+  "directorFirstName": "Quentin",
+  "directorLastName": "Tarrentino",
+  "fsk": 12,
+  "genre": "Action",
+  "name": "Der große Testfilm",
+  "description": "Dieser Film ist ein Test",
+  "start_date": "12131415",
+  "end_date": "18192021"
+}
+
+<> 2022-12-17T140358.406.json
+
+###
+
+POST http://localhost:8082/v1/movie/add
+Content-Type: application/json
+
+{
+  "producerName": "MarvelStudios",
+  "directorFirstName": "Quentin",
+  "directorLastName": "Tarrentino",
+  "fsk": 12,
+  "genre": "Action",
+  "name": "Der große Testfilm",
+  "description": "Dieser Film ist ein Test",
+  "start_date": "12131415",
+  "end_date": "18192021"
+}
+
+<> 2022-12-17T140354.406.json
+
+###
+
+POST http://localhost:8082/v1/login
+Content-Type: application/json
+
+{
+  "email": "kevin.rieger@gmail.com",
+  "password": "hartNachMaggi2"
+}
+
+###
+
+POST http://localhost:8082/v1/register
+Content-Type: application/json
+
+{
+  "userName": "justinStinkt",
+  "password": "hartNachMaggi2",
+  "firstName": "Kevin",
+  "lastName": "Rieger",
+  "email": "kevin.rieger@gmail.com",
+  "plz": "71672",
+  "cityName": "Marbach",
+  "street": "Schwabstraße",
+  "houseNumber": "69",
+  "isAdmin": "true"
+}
+
+<> 2022-12-17T140341.201.json
+
+###
+
+POST http://localhost:8082/v1/movie/add
+Content-Type: application/json
+
+{
+  "producerName": "MarvelStudios",
+  "directorFirstName": "Quentin",
+  "directorLastName": "Tarrentino",
+  "fsk": 12,
+  "genre": "Action",
+  "name": "Der große Testfilm",
+  "description": "Dieser Film ist ein Test",
+  "start_date": "12131415",
+  "end_date": "18192021"
+}
+
+###
+
+POST http://localhost:8082/v1/movie/add
+Content-Type: application/json
+
+{
+  "producerName": "MarvelStudios",
+  "directorFirstName": "Quentin",
+  "directorLastName": "Tarrentino",
+  "fsk": 12,
+  "genre": "Action",
+  "name": "Der große Testfilm",
+  "description": "Dieser Film ist ein Test",
+  "start_date": "12131415",
+  "end_date": "18192021"
+}
+
+###
+
+POST http://localhost:8082/v1/movie/add
+Content-Type: application/json
+
+{
+  "producerName": "MarvelStudios",
+  "directorFirstName": "Quentin",
+  "directorLastName": "Tarrentino",
+  "fsk": 12,
+  "genre": "Action",
+  "name": "Der große Testfilm",
+  "description": "Dieser Film ist ein Test",
+  "start_date": "12131415",
+  "end_date": "18192021"
+}
+
+###
+
+POST http://localhost:8082/v1/movie/add
+Content-Type: application/json
+
+{
+  "producerName": "MarvelStudios",
+  "directorFirstName": "Quentin",
+  "directorLastName": "Tarrentino",
+  "fsk": 12,
+  "genre": "Action",
+  "name": "Der große Testfilm",
+  "description": "Dieser Film ist ein Test",
+  "start_date": "12131415",
+  "end_date": "18192021"
+}
+
+<> 2022-12-17T140010.406.json
+
+###
+
+POST http://localhost:8082/v1/login
+Content-Type: application/json
+
+{
+  "email": "kevin.rieger@gmail.com",
+  "password": "hartNachMaggi2"
+}
+
+###
+
+POST http://localhost:8082/v1/register
+Content-Type: application/json
+
+{
+  "userName": "justinStinkt",
+  "password": "hartNachMaggi2",
+  "firstName": "Kevin",
+  "lastName": "Rieger",
+  "email": "kevin.rieger@gmail.com",
+  "plz": "71672",
+  "cityName": "Marbach",
+  "street": "Schwabstraße",
+  "houseNumber": "69",
+  "isAdmin": "true"
+}
+
+<> 2022-12-17T135955.201.json
+
+###
+
+POST http://localhost:8082/v1/movie/add
+Content-Type: application/json
+
+{
+  "producerName": "MarvelStudios",
+  "directorFirstName": "Quentin",
+  "directorLastName": "Tarrentino",
+  "fsk": 12,
+  "genre": "Action",
+  "name": "Der große Testfilm",
+  "description": "Dieser Film ist ein Test",
+  "start_date": "12131415",
+  "end_date": "18192021"
+}
+
+###
+
+POST http://localhost:8082/v1/movie/add
+Content-Type: application/json
+
+{
+  "producerName": "MarvelStudios",
+  "directorFirstName": "Quentin",
+  "directorLastName": "Tarrentino",
+  "fsk": 12,
+  "genre": "Action",
+  "name": "Der große Testfilm",
+  "description": "Dieser Film ist ein Test",
+  "start_date": "12131415",
+  "end_date": "18192021"
+}
+
+###
+
+POST http://localhost:8082/v1/login
+Content-Type: application/json
+
+{
+  "email": "kevin.rieger@gmail.com",
+  "password": "hartNachMaggi2"
+}
+
+###
+
+POST http://localhost:8082/v1/movie/add
+Content-Type: application/json
+
+{
+  "producerName": "MarvelStudios",
+  "directorFirstName": "Quentin",
+  "directorLastName": "Tarrentino",
+  "fsk": 12,
+  "genre": "Action",
+  "name": "Der große Testfilm",
+  "description": "Dieser Film ist ein Test",
+  "start_date": "12131415",
+  "end_date": "18192021"
+}
+
+###
+
+POST http://localhost:8082/v1/movie/add
+Content-Type: application/json
+
+{
+  "producerName": "MarvelStudios",
+  "directorFirstName": "Quentin",
+  "directorLastName": "Tarrentino",
+  "fsk": 12,
+  "genre": "Action",
+  "name": "Der große Testfilm",
+  "description": "Dieser Film ist ein Test",
+  "start_date": "12131415",
+  "end_date": "18192021"
+}
+
+###
+
