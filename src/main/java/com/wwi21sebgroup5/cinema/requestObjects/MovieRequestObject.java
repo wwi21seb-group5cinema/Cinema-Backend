@@ -6,6 +6,8 @@ import lombok.AllArgsConstructor;
 import lombok.Data;
 
 import java.sql.Date;
+import java.util.List;
+import java.util.UUID;
 
 @AllArgsConstructor
 @Data
@@ -22,6 +24,9 @@ public class MovieRequestObject {
     @NotEmpty
     @NotNull
     private String directorLastName;
+
+    @NotNull
+    private List<UUID> actors;
 
     @NotEmpty
     @NotNull

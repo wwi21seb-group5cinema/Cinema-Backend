@@ -7,8 +7,6 @@ POST http://localhost:8082/v1/actor/add
 Content-Type: application/json
 
 {
-  "name":"Bahde",
-  "firstName": "Paul",
-  "birthdate": "1234"
-
+  "name": "Bahde",
+  "firstName": "Paul"
 }

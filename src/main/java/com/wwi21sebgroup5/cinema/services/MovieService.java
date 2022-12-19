@@ -1,10 +1,7 @@
 package com.wwi21sebgroup5.cinema.services;
 
 import com.wwi21sebgroup5.cinema.entities.*;
-import com.wwi21sebgroup5.cinema.exceptions.DirectorAlreadyExistsException;
-import com.wwi21sebgroup5.cinema.exceptions.FSKNotFoundException;
-import com.wwi21sebgroup5.cinema.exceptions.GenreDoesNotExistException;
-import com.wwi21sebgroup5.cinema.exceptions.ProducerAlreadyExistsException;
+import com.wwi21sebgroup5.cinema.exceptions.*;
 import com.wwi21sebgroup5.cinema.repositories.MovieRepository;
 import com.wwi21sebgroup5.cinema.requestObjects.DirectorRequestObject;
 import com.wwi21sebgroup5.cinema.requestObjects.MovieRequestObject;
@@ -12,8 +9,10 @@ import com.wwi21sebgroup5.cinema.requestObjects.ProducerRequestObject;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
+import java.util.UUID;
 
 @Service
 public class MovieService {
@@ -26,8 +25,14 @@ public class MovieService {
     DirectorService directorService;
     @Autowired
     GenreService genreService;
+    @Autowired
+    ActorService actorService;
 
-    public Movie add(MovieRequestObject movieObject) throws GenreDoesNotExistException, FSKNotFoundException {
+    @Autowired
+    ActsInService actsInService;
+
+    public Movie add(MovieRequestObject movieObject)
+            throws GenreDoesNotExistException, FSKNotFoundException, ActorNotFoundException {
         Optional<Producer> foundProducer = producerService.findByName(movieObject.getProducerName());
         if (foundProducer.isEmpty()) {
             try {
@@ -51,6 +56,15 @@ public class MovieService {
             throw new GenreDoesNotExistException(movieObject.getGenre());
         }
 
+        ArrayList<Actor> actors = new ArrayList<>();
+        for (UUID id : movieObject.getActors()) {
+            Optional<Actor> a = actorService.findById(id);
+            if (a.isEmpty()) {
+                throw new ActorNotFoundException(id);
+            }
+            actors.add(a.get());
+        }
+
 
         Movie m = new Movie(
                 foundProducer.get(),
@@ -62,6 +76,11 @@ public class MovieService {
                 movieObject.getStart_date(),
                 movieObject.getEnd_date());
         movieRepository.save(m);
+
+        for (Actor a : actors) {
+            actsInService.save(m, a);
+        }
+
         return m;
     }
 

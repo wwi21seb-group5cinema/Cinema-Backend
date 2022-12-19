@@ -4,6 +4,7 @@ package com.wwi21sebgroup5.cinema.entities;
 import jakarta.persistence.*;
 import jakarta.validation.constraints.NotNull;
 import lombok.Getter;
+import lombok.NoArgsConstructor;
 import lombok.Setter;
 import lombok.ToString;
 
@@ -13,6 +14,7 @@ import java.util.UUID;
 @Setter
 @ToString
 @Entity
+@NoArgsConstructor
 @Table(name = "ActsIn")
 public class ActsIn {
 
@@ -33,5 +35,10 @@ public class ActsIn {
     @JoinColumn(name = "Actor_Id", referencedColumnName = "id")
     @ToString.Exclude
     private Actor actor;
+
+    public ActsIn(Movie movie, Actor actor) {
+        this.movie = movie;
+        this.actor = actor;
+    }
 
 }

@@ -9,6 +9,7 @@ import org.springframework.stereotype.Service;
 
 import java.util.List;
 import java.util.Optional;
+import java.util.UUID;
 
 @Service
 public class ActorService {
@@ -17,16 +18,19 @@ public class ActorService {
 
     public Actor add(ActorRequestObject actorObject) throws ActorAlreadyExistsException {
 
-        Optional<Actor> foundActor = actorRepository.findByNameAndFirstNameAndBirthdate(
-                                                                                    actorObject.getName(),
-                                                                                    actorObject.getFirstName(),
-                                                                                    actorObject.getBirthdate());
+        Optional<Actor> foundActor = actorRepository.findByNameAndFirstName(
+                actorObject.getName(),
+                actorObject.getFirstName());
         if (foundActor.isPresent()) {
-            throw new ActorAlreadyExistsException(actorObject.getName(),actorObject.getFirstName(),actorObject.getBirthdate());
+            throw new ActorAlreadyExistsException(
+                    actorObject.getName(),
+                    actorObject.getFirstName());
         }
-        Actor a = new Actor(actorObject.getName(),
-                            actorObject.getFirstName(),
-                            actorObject.getBirthdate());
+
+        Actor a = new Actor(
+                actorObject.getName(),
+                actorObject.getFirstName());
+
         actorRepository.save(a);
         return a;
     }
@@ -34,6 +38,11 @@ public class ActorService {
 
     public List<Actor> findAll() {
         return actorRepository.findAll();
+
+    }
+
+    public Optional<Actor> findById(UUID id) {
+        return actorRepository.findById(id);
 
     }
 }

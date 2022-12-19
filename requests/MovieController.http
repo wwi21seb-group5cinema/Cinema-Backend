@@ -3,6 +3,7 @@ GET http://localhost:8082/v1/movie/getAll
 Content-Type: application/json
 
 ### Add a new Movie
+### Get example Data for Actors from http://localhost:8082/v1/actor/getAll (ActorController.http)
 POST http://localhost:8082/v1/movie/add
 Content-Type: application/json
 
@@ -10,6 +11,9 @@ Content-Type: application/json
   "producerName": "MarvelStudios",
   "directorFirstName": "Quentin",
   "directorLastName": "Tarrentino",
+  "actors": [
+    "13fc962e-d622-443a-83da-b3f42194211a"
+  ],
   "fsk": 12,
   "genre": "Action",
   "name": "Der große Testfilm",
@@ -26,6 +30,9 @@ Content-Type: application/json
   "producerName": "MarvelStudios",
   "directorFirstName": "Quentin",
   "directorLastName": "Tarrentino",
+  "actors": [
+    "13fc962e-d622-443a-83da-b3f42194211a"
+  ],
   "fsk": 12,
   "genre": "ActionPP",
   "name": "Der große Testfilm",
@@ -42,6 +49,9 @@ Content-Type: application/json
   "producerName": "MarvelStudios",
   "directorFirstName": "Quentin",
   "directorLastName": "Tarrentino",
+  "actors": [
+    "13fc962e-d622-443a-83da-b3f42194211a"
+  ],
   "fsk": 10,
   "genre": "ActionPP",
   "name": "Der große Testfilm",

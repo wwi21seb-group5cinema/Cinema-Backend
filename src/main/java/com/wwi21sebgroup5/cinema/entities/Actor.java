@@ -7,7 +7,6 @@ import lombok.NoArgsConstructor;
 import lombok.Setter;
 import lombok.ToString;
 
-import java.sql.Date;
 import java.util.UUID;
 
 @NoArgsConstructor
@@ -29,14 +28,10 @@ public class Actor {
     @Column
     @NotNull
     private String firstName;
-    @Column
-    @NotNull
-    private Date birthdate;
 
-    public Actor(String name, String firstName, Date birthdate) {
+    public Actor(String name, String firstName) {
         this.name = name;
         this.firstName = firstName;
-        this.birthdate = birthdate;
     }
 
 

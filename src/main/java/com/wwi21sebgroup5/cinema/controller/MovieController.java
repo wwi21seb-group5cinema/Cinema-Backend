@@ -1,6 +1,7 @@
 package com.wwi21sebgroup5.cinema.controller;
 
 import com.wwi21sebgroup5.cinema.entities.Movie;
+import com.wwi21sebgroup5.cinema.exceptions.ActorNotFoundException;
 import com.wwi21sebgroup5.cinema.exceptions.FSKNotFoundException;
 import com.wwi21sebgroup5.cinema.exceptions.GenreDoesNotExistException;
 import com.wwi21sebgroup5.cinema.requestObjects.MovieRequestObject;
@@ -31,7 +32,7 @@ public class MovieController {
         Movie m;
         try {
             m = movieService.add(movieObject);
-        } catch (GenreDoesNotExistException | FSKNotFoundException e) {
+        } catch (GenreDoesNotExistException | FSKNotFoundException | ActorNotFoundException e) {
             return new ResponseEntity<>(e.getMessage(), HttpStatus.NOT_ACCEPTABLE);
         } catch (Exception e) {
             e.printStackTrace();
