@@ -17,6 +17,7 @@ import java.util.UUID;
 @Entity
 @Table(name = "seat")
 public class Seat {
+
     @Id
     @Column
     @NotNull
