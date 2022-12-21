@@ -45,6 +45,11 @@ public class Movie {
     private Genre genre;
 
     @NotNull
+    @OneToOne
+    @JoinColumn(name = "Image_id", referencedColumnName = "id")
+    private ImageData image;
+
+    @NotNull
     @Column
     private String name;
 
@@ -58,11 +63,12 @@ public class Movie {
 
     @Column
     private Date end_date;
-
+    
     public Movie(Producer producer,
                  Director director,
                  FSK fsk,
                  Genre genre,
+                 ImageData image,
                  String name,
                  String description,
                  Date start_date,
@@ -71,6 +77,7 @@ public class Movie {
         this.director = director;
         this.fsk = fsk;
         this.genre = genre;
+        this.image = image;
         this.name = name;
         this.description = description;
         this.start_date = start_date;

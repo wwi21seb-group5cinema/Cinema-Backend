@@ -1,14 +1,23 @@
-GET http://localhost:8082/v1/actor/get/Bahde/*
+POST http://localhost:8082/v1/movie/add
 Content-Type: application/json
 
-<> 2022-12-19T155147.404.json
+{
+  "producerName": "MarvelStudios",
+  "directorFirstName": "Quentin",
+  "directorLastName": "Tarrentino",
+  "actors": [
+    "c64f659c-17cd-4262-b511-ffa774f62403"
+  ],
+  "image": "5336cb4b-1279-4a31-97fb-df1a7acdd047",
+  "fsk": 12,
+  "genre": "Action",
+  "name": "Der große Testfilm",
+  "description": "Dieser Film ist ein Test",
+  "start_date": "12131415",
+  "end_date": "18192021"
+}
 
-###
-
-GET http://localhost:8082/v1/actor/get/Bahde/Paul
-Content-Type: application/json
-
-<> 2022-12-19T155102.200.json
+<> 2022-12-21T135134.201.json
 
 ###
 
@@ -20,69 +29,7 @@ Content-Type: application/json
   "firstName": "Paul"
 }
 
-<> 2022-12-19T155058.201.json
-
-###
-
-GET http://localhost:8082/v1/actor/get/Bahde/Paul
-Content-Type: application/json
-
-<> 2022-12-19T155053.404.json
-
-###
-
-GET http://localhost:8082/v1/actor/getAll
-Content-Type: application/json
-
-<> 2022-12-19T155046.200.json
-
-###
-
-GET http://localhost:8082/v1/movie/getAll
-Content-Type: application/json
-
-<> 2022-12-19T152709.200.json
-
-###
-
-POST http://localhost:8082/v1/movie/add
-Content-Type: application/json
-
-{
-  "producerName": "MarvelStudios",
-  "directorFirstName": "Quentin",
-  "directorLastName": "Tarrentino",
-  "actors": [
-
-  ],
-  "fsk": 12,
-  "genre": "Action",
-  "name": "Der große Testfilm",
-  "description": "Dieser Film ist ein Test",
-  "start_date": "12131415",
-  "end_date": "18192021"
-}
-
-<> 2022-12-19T152543.201.json
-
-###
-
-POST http://localhost:8082/v1/movie/add
-Content-Type: application/json
-
-{
-  "producerName": "MarvelStudios",
-  "directorFirstName": "Quentin",
-  "directorLastName": "Tarrentino",
-  "fsk": 10,
-  "genre": "ActionPP",
-  "name": "Der große Testfilm",
-  "description": "Dieser Film ist ein Test",
-  "start_date": "12131415",
-  "end_date": "18192021"
-}
-
-<> 2022-12-19T152522.406.json
+<> 2022-12-21T135033.201.json
 
 ###
 
@@ -96,6 +43,7 @@ Content-Type: application/json
   "actors": [
     "13fc962e-d622-443a-83da-b3f42194211a"
   ],
+  "image": "5336cb4b-1279-4a31-97fb-df1a7acdd047",
   "fsk": 12,
   "genre": "Action",
   "name": "Der große Testfilm",
@@ -104,26 +52,7 @@ Content-Type: application/json
   "end_date": "18192021"
 }
 
-<> 2022-12-19T152505.201.json
-
-###
-
-GET http://localhost:8082/v1/actor/getAll
-Content-Type: application/json
-
-<> 2022-12-19T152329.200.json
-
-###
-
-POST http://localhost:8082/v1/actor/add
-Content-Type: application/json
-
-{
-  "name": "Bahde",
-  "firstName": "Paul"
-}
-
-<> 2022-12-19T152326.201.json
+<> 2022-12-21T135021.406.json
 
 ###
 
@@ -135,285 +64,9 @@ Content-Type: application/json
   "directorFirstName": "Quentin",
   "directorLastName": "Tarrentino",
   "actors": [
-    "856a2f9d-1efc-414a-96fa-f24f2ce93f06"
+    "13fc962e-d622-443a-83da-b3f42194211a"
   ],
-  "fsk": 12,
-  "genre": "Action",
-  "name": "Der große Testfilm",
-  "description": "Dieser Film ist ein Test",
-  "start_date": "12131415",
-  "end_date": "18192021"
-}
-
-<> 2022-12-19T152315.406.json
-
-###
-
-POST http://localhost:8082/v1/login
-Content-Type: application/json
-
-{
-  "email": "kevin.rieger@gmail.com",
-  "password": "hartNachMaggi2"
-}
-
-###
-
-POST http://localhost:8082/v1/register
-Content-Type: application/json
-
-{
-  "userName": "justinStinkt",
-  "password": "hartNachMaggi2",
-  "firstName": "Kevin",
-  "lastName": "Rieger",
-  "email": "kevin.rieger@gmail.com",
-  "plz": "71672",
-  "cityName": "Marbach",
-  "street": "Schwabstraße",
-  "houseNumber": "69",
-  "isAdmin": "true"
-}
-
-<> 2022-12-19T152303.201.json
-
-###
-
-POST http://localhost:8082/v1/movie/add
-Content-Type: application/json
-
-{
-  "producerName": "MarvelStudios",
-  "directorFirstName": "Quentin",
-  "directorLastName": "Tarrentino",
-  "actors": [
-    "856a2f9d-1efc-414a-96fa-f24f2ce93f06"
-  ],
-  "fsk": 12,
-  "genre": "Action",
-  "name": "Der große Testfilm",
-  "description": "Dieser Film ist ein Test",
-  "start_date": "12131415",
-  "end_date": "18192021"
-}
-
-###
-
-POST http://localhost:8082/v1/movie/add
-Content-Type: application/json
-
-{
-  "producerName": "MarvelStudios",
-  "directorFirstName": "Quentin",
-  "directorLastName": "Tarrentino",
-  "actors": [
-    "856a2f9d-1efc-414a-96fa-f24f2ce93f07"
-  ],
-  "fsk": 12,
-  "genre": "Action",
-  "name": "Der große Testfilm",
-  "description": "Dieser Film ist ein Test",
-  "start_date": "12131415",
-  "end_date": "18192021"
-}
-
-<> 2022-12-19T151930.201.json
-
-###
-
-POST http://localhost:8082/v1/movie/add
-Content-Type: application/json
-
-{
-  "producerName": "MarvelStudios",
-  "directorFirstName": "Quentin",
-  "directorLastName": "Tarrentino",
-  "actors": [
-    "856a2f9d-1efc-414a-96fa-f24f2ce93f07"
-  ],
-  "fsk": 12,
-  "genre": "Action",
-  "name": "Der große Testfilm",
-  "description": "Dieser Film ist ein Test",
-  "start_date": "12131415",
-  "end_date": "18192021"
-}
-
-<> 2022-12-19T151928.201.json
-
-###
-
-POST http://localhost:8082/v1/movie/add
-Content-Type: application/json
-
-{
-  "producerName": "MarvelStudios",
-  "directorFirstName": "Quentin",
-  "directorLastName": "Tarrentino",
-  "actors": [
-    "856a2f9d-1efc-414a-96fa-f24f2ce93f07"
-  ],
-  "fsk": 12,
-  "genre": "Action",
-  "name": "Der große Testfilm",
-  "description": "Dieser Film ist ein Test",
-  "start_date": "12131415",
-  "end_date": "18192021"
-}
-
-<> 2022-12-19T151913.201.json
-
-###
-
-POST http://localhost:8082/v1/movie/add
-Content-Type: application/json
-
-{
-  "producerName": "MarvelStudios",
-  "directorFirstName": "Quentin",
-  "directorLastName": "Tarrentino",
-  "actors": [
-    "856a2f9d-1efc-414a-96fa-f24f2ce93f05"
-  ],
-  "fsk": 12,
-  "genre": "Action",
-  "name": "Der große Testfilm",
-  "description": "Dieser Film ist ein Test",
-  "start_date": "12131415",
-  "end_date": "18192021"
-}
-
-###
-
-POST http://localhost:8082/v1/movie/add
-Content-Type: application/json
-
-{
-  "producerName": "MarvelStudios",
-  "directorFirstName": "Quentin",
-  "directorLastName": "Tarrentino",
-  "actors": [
-    "856a2f9d-1efc-414a-96fa-f24f2ce93f0"
-  ],
-  "fsk": 12,
-  "genre": "Action",
-  "name": "Der große Testfilm",
-  "description": "Dieser Film ist ein Test",
-  "start_date": "12131415",
-  "end_date": "18192021"
-}
-
-###
-
-POST http://localhost:8082/v1/movie/add
-Content-Type: application/json
-
-{
-  "producerName": "MarvelStudios",
-  "directorFirstName": "Quentin",
-  "directorLastName": "Tarrentino",
-  "actors": [
-    "856a2f9d-1efc-414a-96fa-f24f2ce93f07"
-  ],
-  "fsk": 12,
-  "genre": "Action",
-  "name": "Der große Testfilm",
-  "description": "Dieser Film ist ein Test",
-  "start_date": "12131415",
-  "end_date": "18192021"
-}
-
-<> 2022-12-19T151753.201.json
-
-###
-
-GET http://localhost:8082/v1/actor/getAll
-Content-Type: application/json
-
-<> 2022-12-19T151539.200.json
-
-###
-
-POST http://localhost:8082/v1/actor/add
-Content-Type: application/json
-
-{
-  "name": "Bahde",
-  "firstName": "Paul"
-}
-
-<> 2022-12-19T151525.406.json
-
-###
-
-POST http://localhost:8082/v1/actor/add
-Content-Type: application/json
-
-{
-  "name": "Bahde",
-  "firstName": "Paul"
-}
-
-<> 2022-12-19T151524.201.json
-
-###
-
-POST http://localhost:8082/v1/login
-Content-Type: application/json
-
-{
-  "email": "kevin.rieger@gmail.com",
-  "password": "hartNachMaggi2"
-}
-
-###
-
-POST http://localhost:8082/v1/register
-Content-Type: application/json
-
-{
-  "userName": "justinStinkt",
-  "password": "hartNachMaggi2",
-  "firstName": "Kevin",
-  "lastName": "Rieger",
-  "email": "kevin.rieger@gmail.com",
-  "plz": "71672",
-  "cityName": "Marbach",
-  "street": "Schwabstraße",
-  "houseNumber": "69",
-  "isAdmin": "true"
-}
-
-<> 2022-12-19T151507.201.json
-
-###
-
-POST http://localhost:8082/v1/movie/add
-Content-Type: application/json
-
-{
-  "producerName": "MarvelStudios",
-  "directorFirstName": "Quentin",
-  "directorLastName": "Tarrentino",
-  "fsk": 10,
-  "genre": "ActionPP",
-  "name": "Der große Testfilm",
-  "description": "Dieser Film ist ein Test",
-  "start_date": "12131415",
-  "end_date": "18192021"
-}
-
-<> 2022-12-17T141828.406.json
-
-###
-
-POST http://localhost:8082/v1/movie/add
-Content-Type: application/json
-
-{
-  "producerName": "MarvelStudios",
-  "directorFirstName": "Quentin",
-  "directorLastName": "Tarrentino",
+  "image": "5336cb4b-1279-4a31-97fb-df1a7acdd047",
   "fsk": 12,
   "genre": "ActionPP",
   "name": "Der große Testfilm",
@@ -422,62 +75,499 @@ Content-Type: application/json
   "end_date": "18192021"
 }
 
-<> 2022-12-17T141822.406.json
+<> 2022-12-21T134951.406.json
 
 ###
 
-GET http://localhost:8082/v1/movie/getAll
-Content-Type: application/json
+GET http://localhost:8082/v1/image/get/5336cb4b-1279-4a31-97fb-df1a7acdd047
 
-<> 2022-12-17T141710.200.json
-
-###
-
-POST http://localhost:8082/v1/movie/add
-Content-Type: application/json
-
-{
-  "producerName": "MarvelStudios",
-  "directorFirstName": "Quentin",
-  "directorLastName": "Tarrentino",
-  "fsk": 12,
-  "genre": "Action",
-  "name": "Der große Testfilm",
-  "description": "Dieser Film ist ein Test",
-  "start_date": "12131415",
-  "end_date": "18192021"
-}
-
-<> 2022-12-17T141659.201.json
+<> 2022-12-21T133556.200.jpeg
 
 ###
 
-POST http://localhost:8082/v1/movie/add
-Content-Type: application/json
+POST http://localhost:8082/v1/image/add
+Content-Type: multipart/form-data; boundary=WebAppBoundary
 
-{
-  "producerName": "MarvelStudios",
-  "directorFirstName": "Quentin",
-  "directorLastName": "Tarrentino",
-  "fsk": 12,
-  "genre": "Action",
-  "name": "Der große Testfilm",
-  "description": "Dieser Film ist ein Test",
-  "start_date": "12131415",
-  "end_date": "18192021"
-}
+--WebAppBoundary
+Content-Disposition: form-data; name="image"; filename="file.jpg"
+Content-Type: image/jpeg
 
-<> 2022-12-17T141646.201.json
+< C:\Users\I550790\OneDrive - Erlebniswelt Sport GmbH\DHBW\Semester3\KinoWebsite\Cinema-Backend\requests\ressources\beispielbild.jpg
+--WebAppBoundary--
+
+<> 2022-12-21T133532.200.json
 
 ###
 
-POST http://localhost:8082/v1/login
+GET http://localhost:8082/v1/image/get/72849e44-d5d8-4f27-ba83-168a397b41de
+
+<> 2022-12-21T133525.200.png
+
+###
+
+POST http://localhost:8082/v1/image/add
+Content-Type: multipart/form-data; boundary=WebAppBoundary
+
+--WebAppBoundary
+Content-Disposition: form-data; name="image"; filename="file.png"
+Content-Type: image/png
+
+< C:\Users\I550790\OneDrive - Erlebniswelt Sport GmbH\DHBW\Semester3\KinoWebsite\Cinema-Backend\requests\ressources\beispielbild2.png
+--WebAppBoundary--
+
+<> 2022-12-21T133509.200.json
+
+###
+
+GET http://localhost:8082/v1/actor/get?name=Bahde&firstName=Paul
 Content-Type: application/json
 
-{
-  "email": "kevin.rieger@gmail.com",
-  "password": "hartNachMaggi2"
-}
+<> 2022-12-21T133504.404.json
+
+###
+
+POST http://localhost:8082/v1/image/add
+Content-Type: multipart/form-data; boundary=WebAppBoundary
+
+--WebAppBoundary
+Content-Disposition: form-data; name="image"; filename="file.jpg"
+Content-Type: image/jpeg
+
+< C:\Users\I550790\OneDrive - Erlebniswelt Sport GmbH\DHBW\Semester3\KinoWebsite\Cinema-Backend\requests\ressources\beispielbild.jpg
+--WebAppBoundary--
+
+<> 2022-12-21T132925.200.json
+
+###
+
+POST http://localhost:8082/v1/image/add
+Content-Type: multipart/form-data; boundary=WebAppBoundary
+
+--WebAppBoundary
+Content-Disposition: form-data; name="image"; filename="file.jpg"
+Content-Type: image/jpeg
+
+< C:\Users\I550790\OneDrive - Erlebniswelt Sport GmbH\DHBW\Semester3\KinoWebsite\Cinema-Backend\requests\ressources\beispielbild.jpg
+--WebAppBoundary--
+
+<> 2022-12-21T132449.200.json
+
+###
+
+POST http://localhost:8082/v1/image/add
+Content-Type: multipart/form-data; boundary=WebAppBoundary
+
+--WebAppBoundary
+Content-Disposition: form-data; name="image"; filename="file.jpg"
+Content-Type: image/jpeg
+
+< C:\Users\I550790\OneDrive - Erlebniswelt Sport GmbH\DHBW\Semester3\KinoWebsite\Cinema-Backend\requests\ressources\beispielbild.jpg
+--WebAppBoundary--
+
+<> 2022-12-21T132401.200.json
+
+###
+
+POST http://localhost:8082/v1/image/add
+Content-Type: multipart/form-data; boundary=WebAppBoundary
+
+--WebAppBoundary
+Content-Disposition: form-data; name="image"; filename="file.png"
+Content-Type: image/png
+
+< C:\Users\I550790\OneDrive - Erlebniswelt Sport GmbH\DHBW\Semester3\KinoWebsite\Cinema-Backend\requests\ressources\beispielbild2.png
+--WebAppBoundary--
+
+<> 2022-12-21T132350.200.json
+
+###
+
+POST http://localhost:8082/v1/image/add
+Content-Type: multipart/form-data; boundary=WebAppBoundary
+
+--WebAppBoundary
+Content-Disposition: form-data; name="image"; filename="file.jpg"
+Content-Type: image/jpeg
+
+< C:\Users\I550790\OneDrive - Erlebniswelt Sport GmbH\DHBW\Semester3\KinoWebsite\Cinema-Backend\requests\ressources\beispielbild.jpg
+--WebAppBoundary--
+
+<> 2022-12-21T130557.200.json
+
+###
+
+POST http://localhost:8082/v1/image/add
+Content-Type: multipart/form-data; boundary=WebAppBoundary
+
+--WebAppBoundary
+Content-Disposition: form-data; name="image"; filename="file.jpg"
+Content-Type: image/jpeg
+
+< C:\Users\I550790\OneDrive - Erlebniswelt Sport GmbH\DHBW\Semester3\KinoWebsite\Cinema-Backend\requests\ressources\beispielbild.jpg
+--WebAppBoundary--
+
+<> 2022-12-21T130307.200.json
+
+###
+
+POST http://localhost:8082/v1/image/add
+Content-Type: multipart/form-data; boundary=WebAppBoundary
+
+--WebAppBoundary
+Content-Disposition: form-data; name="image"; filename="file.png"
+Content-Type: image/png
+
+< C:\Users\I550790\OneDrive - Erlebniswelt Sport GmbH\DHBW\Semester3\KinoWebsite\Cinema-Backend\requests\ressources\beispielbild2.png
+--WebAppBoundary--
+
+<> 2022-12-21T124106.200.json
+
+###
+
+POST http://localhost:8082/v1/image/add
+Content-Type: multipart/form-data; boundary=WebAppBoundary
+
+--WebAppBoundary
+Content-Disposition: form-data; name="image"; filename="file.png"
+Content-Type: image/png
+
+< C:\Users\I550790\OneDrive - Erlebniswelt Sport GmbH\DHBW\Semester3\KinoWebsite\Cinema-Backend\requests\ressources\beispielbild2.png
+--WebAppBoundary--
+
+<> 2022-12-21T121119.200.json
+
+###
+
+POST http://localhost:8082/v1/image/add
+Content-Type: multipart/form-data; boundary=WebAppBoundary
+
+--WebAppBoundary
+Content-Disposition: form-data; name="image"; filename="file.png"
+Content-Type: image/png
+
+< C:\Users\I550790\OneDrive - Erlebniswelt Sport GmbH\DHBW\Semester3\KinoWebsite\Cinema-Backend\requests\ressources\beispielbild2.png
+--WebAppBoundary--
+
+<> 2022-12-21T120956.200.json
+
+###
+
+POST http://localhost:8082/v1/image/add
+Content-Type: multipart/form-data; boundary=WebAppBoundary
+
+--WebAppBoundary
+Content-Disposition: form-data; name="image"; filename="file.png"
+Content-Type: image/png
+
+< C:\Users\I550790\OneDrive - Erlebniswelt Sport GmbH\DHBW\Semester3\KinoWebsite\Cinema-Backend\requests\ressources\beispielbild2.png
+--WebAppBoundary--
+
+<> 2022-12-21T120939.200.json
+
+###
+
+POST http://localhost:8082/v1/image/add
+Content-Type: multipart/form-data; boundary=WebAppBoundary
+
+--WebAppBoundary
+Content-Disposition: form-data; name="image"; filename="file.png"
+Content-Type: image/png
+
+< C:\Users\I550790\OneDrive - Erlebniswelt Sport GmbH\DHBW\Semester3\KinoWebsite\Cinema-Backend\requests\ressources\img.png
+--WebAppBoundary--
+
+<> 2022-12-20T134832.200.json
+
+###
+
+GET http://localhost:8082/v1/image/get/01739e2c-8b76-40f9-8ced-6a901645ab6a
+
+<> 2022-12-20T134556.404.json
+
+###
+
+POST http://localhost:8082/v1/image/add
+Content-Type: multipart/form-data; boundary=WebAppBoundary
+
+--WebAppBoundary
+Content-Disposition: form-data; name="image"; filename="file.jpg"
+Content-Type: image/jpeg
+
+< C:\Users\I550790\OneDrive - Erlebniswelt Sport GmbH\DHBW\Semester3\KinoWebsite\Cinema-Backend\requests\ressources\beispielbild.jpg
+--WebAppBoundary--
+
+<> 2022-12-20T134550.200.json
+
+###
+
+POST http://localhost:8082/v1/image/add
+Content-Type: multipart/form-data; boundary=WebAppBoundary
+
+--WebAppBoundary
+Content-Disposition: form-data; name="image"; filename="file.png"
+Content-Type: image/png
+
+< C:\Users\I550790\OneDrive - Erlebniswelt Sport GmbH\DHBW\Semester3\KinoWebsite\Cinema-Backend\requests\ressources\img.png
+--WebAppBoundary--
+
+<> 2022-12-20T134541.200.json
+
+###
+
+POST http://localhost:8082/v1/image/add
+Content-Type: multipart/form-data; boundary=WebAppBoundary
+
+--WebAppBoundary
+Content-Disposition: form-data; name="image"; filename="file.png"
+Content-Type: image/png
+
+< C:\Users\I550790\OneDrive - Erlebniswelt Sport GmbH\DHBW\Semester3\KinoWebsite\Cinema-Backend\requests\ressources\img.png
+--WebAppBoundary--
+
+###
+
+POST http://localhost:8082/v1/image/add
+Content-Type: multipart/form-data; boundary=WebAppBoundary
+
+--WebAppBoundary
+Content-Disposition: form-data; name="image"; filename="file.png"
+Content-Type: image/png
+
+< C:\Users\I550790\OneDrive - Erlebniswelt Sport GmbH\DHBW\Semester3\KinoWebsite\Cinema-Backend\requests\ressources\img.png
+--WebAppBoundary--
+
+###
+
+POST http://localhost:8082/v1/image/add
+Content-Type: multipart/form-data; boundary=WebAppBoundary
+
+--WebAppBoundary
+Content-Disposition: form-data; name="image"; filename="file.png"
+Content-Type: image/png
+
+< C:\Users\I550790\OneDrive - Erlebniswelt Sport GmbH\DHBW\Semester3\KinoWebsite\Cinema-Backend\requests\ressources\img.png
+--WebAppBoundary--
+
+###
+
+POST http://localhost:8082/v1/image/add
+Content-Type: multipart/form-data; boundary=WebAppBoundary
+
+--WebAppBoundary
+Content-Disposition: form-data; name="image"; filename="file.png"
+Content-Type: image/png
+
+< C:\Users\I550790\OneDrive - Erlebniswelt Sport GmbH\DHBW\Semester3\KinoWebsite\Cinema-Backend\requests\ressources\beispielbild2.png
+--WebAppBoundary--
+
+###
+
+POST http://localhost:8082/v1/image/add
+Content-Type: multipart/form-data; boundary=WebAppBoundary
+
+--WebAppBoundary
+Content-Disposition: form-data; name="image"; filename="file.jpg"
+Content-Type: image/jpeg
+
+< C:\Users\I550790\OneDrive - Erlebniswelt Sport GmbH\DHBW\Semester3\KinoWebsite\Cinema-Backend\requests\ressources\beispielbild.jpg
+--WebAppBoundary--
+
+###
+
+POST http://localhost:8082/v1/image/add
+Content-Type: multipart/form-data; boundary=WebAppBoundary
+
+--WebAppBoundary
+Content-Disposition: form-data; name="image"; filename="file.png"
+Content-Type: image/png
+
+< C:\Users\I550790\OneDrive - Erlebniswelt Sport GmbH\DHBW\Semester3\KinoWebsite\Cinema-Backend\requests\ressources\beispielbild2.png
+--WebAppBoundary--
+
+<> 2022-12-20T133132.200.json
+
+###
+
+POST http://localhost:8082/v1/image/add
+Content-Type: multipart/form-data; boundary=WebAppBoundary
+
+--WebAppBoundary
+Content-Disposition: form-data; name="image"; filename="file.jpg"
+Content-Type: image/jpeg
+
+< C:\Users\I550790\OneDrive - Erlebniswelt Sport GmbH\DHBW\Semester3\KinoWebsite\Cinema-Backend\requests\ressources\beispielbild.jpg
+--WebAppBoundary--
+
+###
+
+GET http://localhost:8082/v1/image/get/01739e2c-8b76-40f9-8ced-6a901645ab6a
+
+<> 2022-12-20T121824.200.jpeg
+
+###
+
+GET http://localhost:8082/v1/image/01739e2c-8b76-40f9-8ced-6a901645ab6a
+
+###
+
+POST http://localhost:8082/v1/image/add
+Content-Type: multipart/form-data; boundary=WebAppBoundary
+
+--WebAppBoundary
+Content-Disposition: form-data; name="image"; filename="file.png"
+Content-Type: image/png
+
+< C:\Users\I550790\OneDrive - Erlebniswelt Sport GmbH\DHBW\Semester3\KinoWebsite\Cinema-Backend\requests\ressources\beispielbild2.png
+--WebAppBoundary--
+
+<> 2022-12-20T121800.200.json
+
+###
+
+POST http://localhost:8082/v1/image/add
+Content-Type: multipart/form-data; boundary=WebAppBoundary
+
+--WebAppBoundary
+Content-Disposition: form-data; name="image"; filename="file.png"
+
+< C:\Users\I550790\OneDrive - Erlebniswelt Sport GmbH\DHBW\Semester3\KinoWebsite\Cinema-Backend\requests\ressources\beispielbild2.png
+--WebAppBoundary--
+
+<> 2022-12-20T121142.200.json
+
+###
+
+POST http://localhost:8082/v1/image/add
+Content-Type: multipart/image/png; boundary=WebAppBoundary
+
+--WebAppBoundary
+Content-Disposition: image/png; name="image"; filename="file.png"
+
+// The 'input.txt' file will be uploaded
+‰PNG
+
+   
+IHDR   d   d   J,   PLTEÿÿÿ   UÂÓ~  ƒIDAT8x‡ú ÿø           ¿ÿô           ßÿò           ïÿñ           ÷ÿð€          ûÿð@          ýÿð           þÿð          ÿð          ÿ¿ð          ÿßð          ÿïð          ÿ÷ð €         ÿûð @         ÿýð           ÿþð          ÿÿp          ÿÿ°          ÿÿÐ          ÿÿà          € ÿÿ€        @ ÿÿ@          
+ÿÿ          ÿÿ         ÿ         ¿ÿ         ßÿ         ïÿ         €÷ÿ €        @ûÿ @         ýÿ          þÿ         ÿ         ÿ¿         ÿß         ÿï          �ÿ÷  €        Oÿû  @        /ÿý           ÿþ            ÿø          ¿ÿô          ßÿò          ïÿñ         € ÷ÿð€        @ ûÿð@          ýÿð          þÿð         ÿð         ÿ¿ð         ÿßð         ÿïð         €ÿ÷ð €        @ÿûð @         ÿýð          ÿþð         ÿÿp         ÿÿ°         ÿÿÐ         ÿÿà          € ÿÿ€        @ ÿÿ@          
+ÿÿ          ÿÿ         ÿ         ¿ÿ         ßÿ         ïÿ         €÷ÿ €        @ûÿ @         ýÿ          þÿ         ÿ         ÿ¿         ÿß         ÿï          �ÿ÷  €        Oÿû  @        /ÿý           ÿþ            ÿð          ¿ÿð          ßÿð          ïÿð         € ÷ÿð         @ ûÿð           ýÿð          þÿð          ÿð          ÿ¿ð          ÿßð          ÿïð          €ÿ÷ð          @ÿûð           ÿýð          ÿþð          ÿÿp          ÿÿ°          ÿÿÐ          ÿÿà±@è:öS    IEND®B`‚
+--WebAppBoundary
+
+###
+
+POST http://localhost:8082/v1/image/add
+Content-Type: multipart/form-data; boundary=WebAppBoundary
+
+--WebAppBoundary
+Content-Disposition: image/png; name="image"; filename="file.png"
+
+< C:\Users\I550790\OneDrive - Erlebniswelt Sport GmbH\DHBW\Semester3\KinoWebsite\Cinema-Backend\requests\ressources\beispielbild2.png
+--WebAppBoundary--
+
+###
+
+POST http://localhost:8082/v1/image/add
+Content-Type: image/png; boundary=WebAppBoundary
+
+--WebAppBoundary
+Content-Disposition: form-data; name="image"; filename="file.png"
+
+// The 'input.txt' file will be uploaded
+‰PNG
+
+   
+IHDR   d   d   J,   PLTEÿÿÿ   UÂÓ~  ƒIDAT8x‡ú ÿø           ¿ÿô           ßÿò           ïÿñ           ÷ÿð€          ûÿð@          ýÿð           þÿð          ÿð          ÿ¿ð          ÿßð          ÿïð          ÿ÷ð €         ÿûð @         ÿýð           ÿþð          ÿÿp          ÿÿ°          ÿÿÐ          ÿÿà          € ÿÿ€        @ ÿÿ@          
+ÿÿ          ÿÿ         ÿ         ¿ÿ         ßÿ         ïÿ         €÷ÿ €        @ûÿ @         ýÿ          þÿ         ÿ         ÿ¿         ÿß         ÿï          �ÿ÷  €        Oÿû  @        /ÿý           ÿþ            ÿø          ¿ÿô          ßÿò          ïÿñ         € ÷ÿð€        @ ûÿð@          ýÿð          þÿð         ÿð         ÿ¿ð         ÿßð         ÿïð         €ÿ÷ð €        @ÿûð @         ÿýð          ÿþð         ÿÿp         ÿÿ°         ÿÿÐ         ÿÿà          € ÿÿ€        @ ÿÿ@          
+ÿÿ          ÿÿ         ÿ         ¿ÿ         ßÿ         ïÿ         €÷ÿ €        @ûÿ @         ýÿ          þÿ         ÿ         ÿ¿         ÿß         ÿï          �ÿ÷  €        Oÿû  @        /ÿý           ÿþ            ÿð          ¿ÿð          ßÿð          ïÿð         € ÷ÿð         @ ûÿð           ýÿð          þÿð          ÿð          ÿ¿ð          ÿßð          ÿïð          €ÿ÷ð          @ÿûð           ÿýð          ÿþð          ÿÿp          ÿÿ°          ÿÿÐ          ÿÿà±@è:öS    IEND®B`‚
+--WebAppBoundary
+
+###
+
+POST http://localhost:8082/v1/image/add
+Content-Type: multipart/image/png; boundary=WebAppBoundary
+
+--WebAppBoundary
+Content-Disposition: form-data; name="image"; filename="file.png"
+
+// The 'input.txt' file will be uploaded
+‰PNG
+
+   
+IHDR   d   d   J,   PLTEÿÿÿ   UÂÓ~  ƒIDAT8x‡ú ÿø           ¿ÿô           ßÿò           ïÿñ           ÷ÿð€          ûÿð@          ýÿð           þÿð          ÿð          ÿ¿ð          ÿßð          ÿïð          ÿ÷ð €         ÿûð @         ÿýð           ÿþð          ÿÿp          ÿÿ°          ÿÿÐ          ÿÿà          € ÿÿ€        @ ÿÿ@          
+ÿÿ          ÿÿ         ÿ         ¿ÿ         ßÿ         ïÿ         €÷ÿ €        @ûÿ @         ýÿ          þÿ         ÿ         ÿ¿         ÿß         ÿï          �ÿ÷  €        Oÿû  @        /ÿý           ÿþ            ÿø          ¿ÿô          ßÿò          ïÿñ         € ÷ÿð€        @ ûÿð@          ýÿð          þÿð         ÿð         ÿ¿ð         ÿßð         ÿïð         €ÿ÷ð €        @ÿûð @         ÿýð          ÿþð         ÿÿp         ÿÿ°         ÿÿÐ         ÿÿà          € ÿÿ€        @ ÿÿ@          
+ÿÿ          ÿÿ         ÿ         ¿ÿ         ßÿ         ïÿ         €÷ÿ €        @ûÿ @         ýÿ          þÿ         ÿ         ÿ¿         ÿß         ÿï          �ÿ÷  €        Oÿû  @        /ÿý           ÿþ            ÿð          ¿ÿð          ßÿð          ïÿð         € ÷ÿð         @ ûÿð           ýÿð          þÿð          ÿð          ÿ¿ð          ÿßð          ÿïð          €ÿ÷ð          @ÿûð           ÿýð          ÿþð          ÿÿp          ÿÿ°          ÿÿÐ          ÿÿà±@è:öS    IEND®B`‚
+--WebAppBoundary
+
+###
+
+GET http://localhost:8082/v1/image/get/193d0e9d-4beb-4403-a8e7-188ef64a8400
+
+<> 2022-12-20T120638.500.json
+
+###
+
+POST http://localhost:8082/v1/image/add
+Content-Type: multipart/form-data; boundary=WebAppBoundary
+
+--WebAppBoundary
+Content-Disposition: form-data; name="image"; filename="file.png"
+
+< C:\Users\I550790\OneDrive - Erlebniswelt Sport GmbH\DHBW\Semester3\KinoWebsite\Cinema-Backend\requests\ressources\beispielbild2.png
+--WebAppBoundary--
+
+<> 2022-12-20T120624.200.json
+
+###
+
+POST http://localhost:8082/v1/image/add
+Content-Type: multipart/form-data; boundary=WebAppBoundary
+
+--WebAppBoundary
+Content-Disposition: form-data; name="image"; filename="file.png"
+
+< C:\Users\I550790\OneDrive - Erlebniswelt Sport GmbH\DHBW\Semester3\KinoWebsite\Cinema-Backend\requests\ressources\beispielbild2.png
+--WebAppBoundary--
+
+<> 2022-12-20T120347.200.json
+
+###
+
+GET http://localhost:8082/v1/image/file.png
+
+<> 2022-12-20T113539.200.png
+
+###
+
+GET http://localhost:8082/v1/image/file.png
+
+<> 2022-12-20T113338.200.png
+
+###
+
+GET http://localhost:8082/v1/image/Demograph.png
+
+###
+
+POST http://localhost:8082/v1/image
+Content-Type: multipart/form-data; boundary=WebAppBoundary
+
+--WebAppBoundary
+Content-Disposition: form-data; name="image"; filename="file.png"
+
+< C:\Users\I550790\OneDrive - Erlebniswelt Sport GmbH\DHBW\Semester3\KinoWebsite\Cinema-Backend\src\main\resources\beispielbild2.png
+--WebAppBoundary--
+
+<> 2022-12-20T113303.200.json
+
+###
+
+POST http://localhost:8082/v1/image/add
+Content-Type: multipart/form-data; boundary=WebAppBoundary
+
+--WebAppBoundary
+Content-Disposition: form-data; name="image"; filename="file.png"
+
+< C:\Users\I550790\OneDrive - Erlebniswelt Sport GmbH\DHBW\Semester3\KinoWebsite\Cinema-Backend\src\main\resources\beispielbild2.png
+--WebAppBoundary--
 
 ###
 
@@ -497,291 +587,37 @@ Content-Type: application/json
   "isAdmin": "true"
 }
 
-<> 2022-12-17T141636.201.json
+<> 2022-12-20T102410.201.json
 
 ###
 
-POST http://localhost:8082/v1/movie/add
-Content-Type: application/json
-
-{
-  "producerName": "MarvelStudios",
-  "directorFirstName": "Quentin",
-  "directorLastName": "Tarrentino",
-  "fsk": 12,
-  "genre": "Action",
-  "name": "Der große Testfilm",
-  "description": "Dieser Film ist ein Test",
-  "start_date": "12131415",
-  "end_date": "18192021"
-}
-
-<> 2022-12-17T140403.406.json
+GET http://localhost:8082/v1/image/dacf197b-3631-4f9b-9a7c-86f90389ef96
 
 ###
 
-POST http://localhost:8082/v1/movie/add
-Content-Type: application/json
+POST http://localhost:8082/v1/image/add
+Content-Type: multipart/form-data; boundary=WebAppBoundary
 
-{
-  "producerName": "MarvelStudios",
-  "directorFirstName": "Quentin",
-  "directorLastName": "Tarrentino",
-  "fsk": 12,
-  "genre": "Action",
-  "name": "Der große Testfilm",
-  "description": "Dieser Film ist ein Test",
-  "start_date": "12131415",
-  "end_date": "18192021"
-}
+--WebAppBoundary
+Content-Disposition: form-data; name="image"; filename="file.png"
 
-<> 2022-12-17T140401.406.json
+< C:\Users\I550790\OneDrive - Erlebniswelt Sport GmbH\DHBW\Semester3\KinoWebsite\Cinema-Backend\src\main\resources\beispielbild2.png
+--WebAppBoundary--
+
+<> 2022-12-20T101247.200.json
 
 ###
 
-POST http://localhost:8082/v1/movie/add
-Content-Type: application/json
+POST http://localhost:8082/v1/image/add
+Content-Type: multipart/form-data; boundary=WebAppBoundary
 
-{
-  "producerName": "MarvelStudios",
-  "directorFirstName": "Quentin",
-  "directorLastName": "Tarrentino",
-  "fsk": 12,
-  "genre": "Action",
-  "name": "Der große Testfilm",
-  "description": "Dieser Film ist ein Test",
-  "start_date": "12131415",
-  "end_date": "18192021"
-}
+--WebAppBoundary
+Content-Disposition: form-data; name="image"; filename="file.png"
 
-<> 2022-12-17T140358.406.json
+< C:\Users\I550790\OneDrive - Erlebniswelt Sport GmbH\DHBW\Semester3\KinoWebsite\Cinema-Backend\src\main\resources\beispielbild2.png
+--WebAppBoundary--
 
-###
-
-POST http://localhost:8082/v1/movie/add
-Content-Type: application/json
-
-{
-  "producerName": "MarvelStudios",
-  "directorFirstName": "Quentin",
-  "directorLastName": "Tarrentino",
-  "fsk": 12,
-  "genre": "Action",
-  "name": "Der große Testfilm",
-  "description": "Dieser Film ist ein Test",
-  "start_date": "12131415",
-  "end_date": "18192021"
-}
-
-<> 2022-12-17T140354.406.json
-
-###
-
-POST http://localhost:8082/v1/login
-Content-Type: application/json
-
-{
-  "email": "kevin.rieger@gmail.com",
-  "password": "hartNachMaggi2"
-}
-
-###
-
-POST http://localhost:8082/v1/register
-Content-Type: application/json
-
-{
-  "userName": "justinStinkt",
-  "password": "hartNachMaggi2",
-  "firstName": "Kevin",
-  "lastName": "Rieger",
-  "email": "kevin.rieger@gmail.com",
-  "plz": "71672",
-  "cityName": "Marbach",
-  "street": "Schwabstraße",
-  "houseNumber": "69",
-  "isAdmin": "true"
-}
-
-<> 2022-12-17T140341.201.json
-
-###
-
-POST http://localhost:8082/v1/movie/add
-Content-Type: application/json
-
-{
-  "producerName": "MarvelStudios",
-  "directorFirstName": "Quentin",
-  "directorLastName": "Tarrentino",
-  "fsk": 12,
-  "genre": "Action",
-  "name": "Der große Testfilm",
-  "description": "Dieser Film ist ein Test",
-  "start_date": "12131415",
-  "end_date": "18192021"
-}
-
-###
-
-POST http://localhost:8082/v1/movie/add
-Content-Type: application/json
-
-{
-  "producerName": "MarvelStudios",
-  "directorFirstName": "Quentin",
-  "directorLastName": "Tarrentino",
-  "fsk": 12,
-  "genre": "Action",
-  "name": "Der große Testfilm",
-  "description": "Dieser Film ist ein Test",
-  "start_date": "12131415",
-  "end_date": "18192021"
-}
-
-###
-
-POST http://localhost:8082/v1/movie/add
-Content-Type: application/json
-
-{
-  "producerName": "MarvelStudios",
-  "directorFirstName": "Quentin",
-  "directorLastName": "Tarrentino",
-  "fsk": 12,
-  "genre": "Action",
-  "name": "Der große Testfilm",
-  "description": "Dieser Film ist ein Test",
-  "start_date": "12131415",
-  "end_date": "18192021"
-}
-
-###
-
-POST http://localhost:8082/v1/movie/add
-Content-Type: application/json
-
-{
-  "producerName": "MarvelStudios",
-  "directorFirstName": "Quentin",
-  "directorLastName": "Tarrentino",
-  "fsk": 12,
-  "genre": "Action",
-  "name": "Der große Testfilm",
-  "description": "Dieser Film ist ein Test",
-  "start_date": "12131415",
-  "end_date": "18192021"
-}
-
-<> 2022-12-17T140010.406.json
-
-###
-
-POST http://localhost:8082/v1/login
-Content-Type: application/json
-
-{
-  "email": "kevin.rieger@gmail.com",
-  "password": "hartNachMaggi2"
-}
-
-###
-
-POST http://localhost:8082/v1/register
-Content-Type: application/json
-
-{
-  "userName": "justinStinkt",
-  "password": "hartNachMaggi2",
-  "firstName": "Kevin",
-  "lastName": "Rieger",
-  "email": "kevin.rieger@gmail.com",
-  "plz": "71672",
-  "cityName": "Marbach",
-  "street": "Schwabstraße",
-  "houseNumber": "69",
-  "isAdmin": "true"
-}
-
-<> 2022-12-17T135955.201.json
-
-###
-
-POST http://localhost:8082/v1/movie/add
-Content-Type: application/json
-
-{
-  "producerName": "MarvelStudios",
-  "directorFirstName": "Quentin",
-  "directorLastName": "Tarrentino",
-  "fsk": 12,
-  "genre": "Action",
-  "name": "Der große Testfilm",
-  "description": "Dieser Film ist ein Test",
-  "start_date": "12131415",
-  "end_date": "18192021"
-}
-
-###
-
-POST http://localhost:8082/v1/movie/add
-Content-Type: application/json
-
-{
-  "producerName": "MarvelStudios",
-  "directorFirstName": "Quentin",
-  "directorLastName": "Tarrentino",
-  "fsk": 12,
-  "genre": "Action",
-  "name": "Der große Testfilm",
-  "description": "Dieser Film ist ein Test",
-  "start_date": "12131415",
-  "end_date": "18192021"
-}
-
-###
-
-POST http://localhost:8082/v1/login
-Content-Type: application/json
-
-{
-  "email": "kevin.rieger@gmail.com",
-  "password": "hartNachMaggi2"
-}
-
-###
-
-POST http://localhost:8082/v1/movie/add
-Content-Type: application/json
-
-{
-  "producerName": "MarvelStudios",
-  "directorFirstName": "Quentin",
-  "directorLastName": "Tarrentino",
-  "fsk": 12,
-  "genre": "Action",
-  "name": "Der große Testfilm",
-  "description": "Dieser Film ist ein Test",
-  "start_date": "12131415",
-  "end_date": "18192021"
-}
-
-###
-
-POST http://localhost:8082/v1/movie/add
-Content-Type: application/json
-
-{
-  "producerName": "MarvelStudios",
-  "directorFirstName": "Quentin",
-  "directorLastName": "Tarrentino",
-  "fsk": 12,
-  "genre": "Action",
-  "name": "Der große Testfilm",
-  "description": "Dieser Film ist ein Test",
-  "start_date": "12131415",
-  "end_date": "18192021"
-}
+<> 2022-12-20T101113.200.json
 
 ###
 

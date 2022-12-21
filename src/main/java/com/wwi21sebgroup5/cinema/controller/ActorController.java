@@ -27,8 +27,8 @@ public class ActorController {
         return new ResponseEntity<>(actorService.findAll(), HttpStatus.OK);
     }
 
-    @GetMapping("/get/{name}/{firstName}")
-    public ResponseEntity<Object> getAll(@PathVariable String name, @PathVariable String firstName) {
+    @GetMapping(value = "/get", params = {"name", "firstName"})
+    public ResponseEntity<Object> getAll(@RequestParam("name") String name, @RequestParam("firstName") String firstName) {
         try {
             return new ResponseEntity<>(
                     actorService.findByNameAndFirstName(name, firstName), HttpStatus.OK);

@@ -1,0 +1,30 @@
+### Upload a new PNG file
+POST http://localhost:8082/v1/image/add
+Content-Type: multipart/form-data; boundary=WebAppBoundary
+
+--WebAppBoundary
+Content-Disposition: form-data; name="image"; filename="file.png"
+Content-Type: image/png
+
+// The 'input.txt' file will be uploaded
+< ./ressources/beispielbild2.png
+--WebAppBoundary
+
+### Upload a new JPG file
+// File takes a long time to load, when tried to download from database.
+POST http://localhost:8082/v1/image/add
+Content-Type: multipart/form-data; boundary=WebAppBoundary
+
+--WebAppBoundary
+Content-Disposition: form-data; name="image"; filename="file.jpg"
+Content-Type: image/jpeg
+
+// The 'input.txt' file will be uploaded
+< ./ressources/beispielbild.jpg
+--WebAppBoundary
+
+
+
+### Download the requested image. Set the UUID yourself
+GET http://localhost:8082/v1/image/get/5336cb4b-1279-4a31-97fb-df1a7acdd047
+

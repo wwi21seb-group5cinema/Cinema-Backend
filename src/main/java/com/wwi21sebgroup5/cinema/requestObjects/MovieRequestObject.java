@@ -30,6 +30,10 @@ public class MovieRequestObject {
 
     @NotEmpty
     @NotNull
+    private UUID image;
+
+    @NotEmpty
+    @NotNull
     private int fsk;
 
     @NotEmpty
@@ -51,6 +55,7 @@ public class MovieRequestObject {
     @NotEmpty
     @NotNull
     private Date end_date;
+
 
     public MovieRequestObject() {
         super();

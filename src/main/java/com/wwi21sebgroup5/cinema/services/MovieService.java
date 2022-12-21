@@ -2,6 +2,7 @@ package com.wwi21sebgroup5.cinema.services;
 
 import com.wwi21sebgroup5.cinema.entities.*;
 import com.wwi21sebgroup5.cinema.exceptions.*;
+import com.wwi21sebgroup5.cinema.repositories.ImageDataRepository;
 import com.wwi21sebgroup5.cinema.repositories.MovieRepository;
 import com.wwi21sebgroup5.cinema.requestObjects.DirectorRequestObject;
 import com.wwi21sebgroup5.cinema.requestObjects.MovieRequestObject;
@@ -30,9 +31,11 @@ public class MovieService {
 
     @Autowired
     ActsInService actsInService;
+    @Autowired
+    private ImageDataRepository imageDataRepository;
 
     public Movie add(MovieRequestObject movieObject)
-            throws GenreDoesNotExistException, FSKNotFoundException, ActorNotFoundException {
+            throws GenreDoesNotExistException, FSKNotFoundException, ActorNotFoundException, ImageNotFoundException {
         Optional<Producer> foundProducer = producerService.findByName(movieObject.getProducerName());
         if (foundProducer.isEmpty()) {
             try {
@@ -65,12 +68,17 @@ public class MovieService {
             actors.add(a.get());
         }
 
+        Optional<ImageData> foundImageData = imageDataRepository.findById(movieObject.getImage());
+        if (foundImageData.isEmpty()) {
+            throw new ImageNotFoundException(movieObject.getImage());
+        }
 
         Movie m = new Movie(
                 foundProducer.get(),
                 foundDirector.get(),
                 FSK.getFSKFromInt(movieObject.getFsk()),
                 foundGenre.get(),
+                foundImageData.get(),
                 movieObject.getName(),
                 movieObject.getDescription(),
                 movieObject.getStart_date(),
@@ -83,7 +91,6 @@ public class MovieService {
 
         return m;
     }
-
 
     public List<Movie> findAll() {
         return movieRepository.findAll();

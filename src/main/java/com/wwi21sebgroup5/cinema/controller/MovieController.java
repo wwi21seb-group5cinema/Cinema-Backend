@@ -4,6 +4,7 @@ import com.wwi21sebgroup5.cinema.entities.Movie;
 import com.wwi21sebgroup5.cinema.exceptions.ActorNotFoundException;
 import com.wwi21sebgroup5.cinema.exceptions.FSKNotFoundException;
 import com.wwi21sebgroup5.cinema.exceptions.GenreDoesNotExistException;
+import com.wwi21sebgroup5.cinema.exceptions.ImageNotFoundException;
 import com.wwi21sebgroup5.cinema.requestObjects.MovieRequestObject;
 import com.wwi21sebgroup5.cinema.services.MovieService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -32,7 +33,8 @@ public class MovieController {
         Movie m;
         try {
             m = movieService.add(movieObject);
-        } catch (GenreDoesNotExistException | FSKNotFoundException | ActorNotFoundException e) {
+        } catch (GenreDoesNotExistException | FSKNotFoundException | ActorNotFoundException |
+                 ImageNotFoundException e) {
             return new ResponseEntity<>(e.getMessage(), HttpStatus.NOT_ACCEPTABLE);
         } catch (Exception e) {
             e.printStackTrace();
