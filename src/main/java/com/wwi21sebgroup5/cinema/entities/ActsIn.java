@@ -8,6 +8,7 @@ import lombok.NoArgsConstructor;
 import lombok.Setter;
 import lombok.ToString;
 
+import java.util.Objects;
 import java.util.UUID;
 
 @Getter
@@ -41,4 +42,21 @@ public class ActsIn {
         this.actor = actor;
     }
 
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (!(o instanceof ActsIn actsIn)) return false;
+
+        if (!Objects.equals(id, actsIn.id)) return false;
+        if (!Objects.equals(movie, actsIn.movie)) return false;
+        return Objects.equals(actor, actsIn.actor);
+    }
+
+    @Override
+    public int hashCode() {
+        int result = id != null ? id.hashCode() : 0;
+        result = 31 * result + (movie != null ? movie.hashCode() : 0);
+        result = 31 * result + (actor != null ? actor.hashCode() : 0);
+        return result;
+    }
 }

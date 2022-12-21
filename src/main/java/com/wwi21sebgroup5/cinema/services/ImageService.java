@@ -18,8 +18,14 @@ public class ImageService {
     @Autowired
     private ImageDataRepository repository;
 
+    /**
+     * @param file
+     * @return the stored ImageData Object (with its UUID)
+     * @throws IOException
+     * @throws InternalError
+     */
     public ImageData uploadImage(MultipartFile file) throws IOException, InternalError {
-
+        // In the moment the method compressImage() doesn´t do anything
         ImageData imageData = repository.save(new ImageData(
                 file.getContentType(),
                 ImageCompressor.compressImage(file.getBytes())
@@ -30,10 +36,13 @@ public class ImageService {
         return imageData;
     }
 
+    /**
+     * @param id
+     * @return the ImageData object with the matching id
+     * @throws ImageNotFoundException
+     */
     public ImageData downloadImage(UUID id) throws ImageNotFoundException {
-        System.out.println("SERVICE");
         Optional<ImageData> imageData = repository.findById(id);
-        System.out.println("REPO");
         if (imageData.isEmpty()) {
             throw new ImageNotFoundException(id);
         }

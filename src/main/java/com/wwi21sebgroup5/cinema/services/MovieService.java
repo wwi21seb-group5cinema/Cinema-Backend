@@ -34,6 +34,18 @@ public class MovieService {
     @Autowired
     private ImageDataRepository imageDataRepository;
 
+
+    /**
+     * @param movieObject
+     * @return the newly created movie object
+     * @throws GenreDoesNotExistException thrown if the genre can´t be found
+     * @throws FSKNotFoundException       thrown if the fsk cant´t be found
+     * @throws ActorNotFoundException     thrown if an actor can´t be found
+     * @throws ImageNotFoundException     thrown if the imageDataobject can´t be found
+     *                                    If there is no matching producer in the database, a new one is created.
+     *                                    If there is no matching director in the database, a new one is created.
+     *                                    For each actor a new entry is made to the ActsIn Entity, which connects actor and movie
+     */
     public Movie add(MovieRequestObject movieObject)
             throws GenreDoesNotExistException, FSKNotFoundException, ActorNotFoundException, ImageNotFoundException {
         Optional<Producer> foundProducer = producerService.findByName(movieObject.getProducerName());

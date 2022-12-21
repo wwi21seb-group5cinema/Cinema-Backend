@@ -18,6 +18,11 @@ public class DirectorService {
     @Autowired
     ProducerRepository producerRepository;
 
+    /**
+     * @param directorObject
+     * @return the newly created director
+     * @throws DirectorAlreadyExistsException if there already is an actor with the same name and firstname
+     */
     public Director add(DirectorRequestObject directorObject) throws DirectorAlreadyExistsException {
 
         Optional<Director> foundDirector = directorRepository.findByNameAndFirstName(
@@ -31,6 +36,11 @@ public class DirectorService {
         return d;
     }
 
+    /**
+     * @param name
+     * @param firstname
+     * @return a director with matching params in form of an optional
+     */
     public Optional<Director> findByNameAndFirstName(String name, String firstname) {
         return directorRepository.findByNameAndFirstName(name, firstname);
 

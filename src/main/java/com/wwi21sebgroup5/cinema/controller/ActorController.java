@@ -27,6 +27,11 @@ public class ActorController {
         return new ResponseEntity<>(actorService.findAll(), HttpStatus.OK);
     }
 
+    /**
+     * @param name
+     * @param firstName
+     * @return the actor with the matching first- and lastname
+     */
     @GetMapping(value = "/get", params = {"name", "firstName"})
     public ResponseEntity<Object> getAll(@RequestParam("name") String name, @RequestParam("firstName") String firstName) {
         try {
@@ -38,8 +43,12 @@ public class ActorController {
     }
 
 
+    /**
+     * @param actorObject
+     * @return The newly created actor-object
+     */
     @PostMapping(path = "/add")
-    public ResponseEntity<Object> put(@RequestBody ActorRequestObject actorObject) {
+    public ResponseEntity<Object> add(@RequestBody ActorRequestObject actorObject) {
         Actor a;
         try {
             a = actorService.add(actorObject);

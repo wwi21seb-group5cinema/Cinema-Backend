@@ -23,11 +23,18 @@ public class MovieController {
     @Autowired
     MovieService movieService;
 
+    /**
+     * @return all existing Movies
+     */
     @GetMapping("/getAll")
     public ResponseEntity<List<Movie>> getAll() {
         return new ResponseEntity<>(movieService.findAll(), HttpStatus.OK);
     }
 
+    /**
+     * @param movieObject
+     * @return the newly created movie-object
+     */
     @PostMapping(path = "/add")
     public ResponseEntity<Object> add(@RequestBody MovieRequestObject movieObject) {
         Movie m;

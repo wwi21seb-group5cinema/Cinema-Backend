@@ -15,6 +15,11 @@ public class ProducerService {
     @Autowired
     ProducerRepository producerRepository;
 
+    /**
+     * @param producerObject
+     * @return the newly created movie object
+     * @throws ProducerAlreadyExistsException thrown if there is already a producer with the same name
+     */
     public Producer add(ProducerRequestObject producerObject) throws ProducerAlreadyExistsException {
 
         Optional<Producer> foundProducer = producerRepository.findByName(

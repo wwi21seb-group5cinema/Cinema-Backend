@@ -17,6 +17,11 @@ public class ActorService {
     @Autowired
     ActorRepository actorRepository;
 
+    /**
+     * @param actorObject which shall be stored in database
+     * @return actor which was created
+     * @throws ActorAlreadyExistsException if an actor with the same name and firstname already exists
+     */
     public Actor add(ActorRequestObject actorObject) throws ActorAlreadyExistsException {
 
         Optional<Actor> foundActor = actorRepository.findByNameAndFirstName(
@@ -36,17 +41,29 @@ public class ActorService {
         return a;
     }
 
-
+    /**
+     * @return all actors in form of an list
+     */
     public List<Actor> findAll() {
         return actorRepository.findAll();
 
     }
 
+    /**
+     * @param id which actor should be given back
+     * @return the actor matching the id in form of an optional
+     */
     public Optional<Actor> findById(UUID id) {
         return actorRepository.findById(id);
 
     }
 
+    /**
+     * @param name
+     * @param firstName
+     * @return the actor matching the given parameters
+     * @throws ActorNotFoundException thrown if there is no matching actor
+     */
     public Actor findByNameAndFirstName(String name, String firstName) throws ActorNotFoundException {
         Optional<Actor> a = actorRepository.findByNameAndFirstName(name, firstName);
         if (a.isEmpty()) {

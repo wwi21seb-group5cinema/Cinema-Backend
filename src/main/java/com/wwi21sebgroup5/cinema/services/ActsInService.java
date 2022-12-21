@@ -13,7 +13,6 @@ public class ActsInService {
     @Autowired
     ActsInRepository actsInRepository;
 
-
     public void save(Movie m, Actor a) {
         actsInRepository.save(new ActsIn(m, a));
     }

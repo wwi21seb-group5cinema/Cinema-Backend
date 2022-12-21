@@ -7,6 +7,7 @@ import lombok.NoArgsConstructor;
 import lombok.Setter;
 import lombok.ToString;
 
+import java.util.Objects;
 import java.util.UUID;
 
 @NoArgsConstructor
@@ -34,5 +35,23 @@ public class Actor {
         this.firstName = firstName;
     }
 
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (o == null || getClass() != o.getClass()) return false;
 
+        Actor actor = (Actor) o;
+
+        if (!Objects.equals(id, actor.id)) return false;
+        if (!Objects.equals(name, actor.name)) return false;
+        return Objects.equals(firstName, actor.firstName);
+    }
+
+    @Override
+    public int hashCode() {
+        int result = id != null ? id.hashCode() : 0;
+        result = 31 * result + (name != null ? name.hashCode() : 0);
+        result = 31 * result + (firstName != null ? firstName.hashCode() : 0);
+        return result;
+    }
 }

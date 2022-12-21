@@ -22,6 +22,10 @@ public class ImageController {
     private ImageService service;
 
 
+    /**
+     * @param file (Multipart file - Content-Type should be an image-format)
+     * @return the newly created image-object
+     */
     @PostMapping("/add")
     public ResponseEntity<?> add(@RequestParam("image") MultipartFile file) {
         try {
@@ -34,11 +38,15 @@ public class ImageController {
     }
 
 
+    /**
+     * @param id
+     * @return the Image with the matching ID in the appropriate format
+     */
     @GetMapping(value = "/get/{id}")
     public ResponseEntity<?> downloadImage(@PathVariable UUID id) {
-        System.out.println("POST");
         try {
             ImageData imageData = service.downloadImage(id);
+            // In the Moment decompress Image doesn't do anything
             byte[] bytes = ImageCompressor.decompressImage(imageData.getImageData());
             return ResponseEntity.status(HttpStatus.OK)
                     .contentType(MediaType.valueOf(imageData.getType()))

@@ -6,6 +6,11 @@ public enum FSK {
     ZERO, SIX, TWELVE, SIXTEEN, EIGHTEEN;
 
 
+    /**
+     * @param value
+     * @return The enumeration-value matching the parameter
+     * @throws FSKNotFoundException
+     */
     public static FSK getFSKFromInt(int value) throws FSKNotFoundException {
         switch (value) {
             case 0:
