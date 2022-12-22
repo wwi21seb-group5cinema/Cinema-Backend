@@ -21,6 +21,6 @@ public class Genre {
 
     @Column
     @NotNull
-    private String genre_designation;
+    private String name;
 
 }
