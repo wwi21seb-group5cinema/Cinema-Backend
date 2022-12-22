@@ -18,6 +18,7 @@ target/
 *.iws
 *.iml
 *.ipr
+.jpb/jpb-settings.xml
 
 ### NetBeans ###
 /nbproject/private/
