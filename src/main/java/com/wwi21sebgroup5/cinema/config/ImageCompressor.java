@@ -1,15 +1,12 @@
 package com.wwi21sebgroup5.cinema.config;
 
-import java.io.IOException;
-import java.util.zip.DataFormatException;
-
 public class ImageCompressor {
 
     /**
      * Die Methoden compressImage und decompressImage können zu späterem Zeitpunkt durch funktionierende Methoden ersetzt werden
      */
 
-    public static byte[] compressImage(byte[] input) throws IOException {
+    public static byte[] compressImage(byte[] input) {
         /*
         int compressionLevel = Deflater.BEST_COMPRESSION;
         boolean GZIPFormat = false;
@@ -46,8 +43,7 @@ public class ImageCompressor {
         return input;
     }
 
-    public static byte[] decompressImage(byte[] input)
-            throws IOException, DataFormatException {
+    public static byte[] decompressImage(byte[] input) {
 
         /*System.out.println(input.length);
         boolean GZIPFormat = false;

@@ -1,6 +1,5 @@
 package com.wwi21sebgroup5.cinema.controller;
 
-import com.wwi21sebgroup5.cinema.config.ImageCompressor;
 import com.wwi21sebgroup5.cinema.entities.ImageData;
 import com.wwi21sebgroup5.cinema.exceptions.ImageNotFoundException;
 import com.wwi21sebgroup5.cinema.services.ImageService;
@@ -46,7 +45,8 @@ public class ImageController {
         try {
             ImageData imageData = service.downloadImage(id);
             // In the Moment decompress Image doesn't do anything
-            byte[] bytes = ImageCompressor.decompressImage(imageData.getImageData());
+            //byte[] bytes = ImageCompressor.decompressImage(imageData.getImageData());
+            byte[] bytes = imageData.getImageData();
             return ResponseEntity.status(HttpStatus.OK)
                     .contentType(MediaType.valueOf(imageData.getType()))
                     .body(bytes);

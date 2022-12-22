@@ -1,6 +1,5 @@
 package com.wwi21sebgroup5.cinema.services;
 
-import com.wwi21sebgroup5.cinema.config.ImageCompressor;
 import com.wwi21sebgroup5.cinema.entities.ImageData;
 import com.wwi21sebgroup5.cinema.exceptions.ImageNotFoundException;
 import com.wwi21sebgroup5.cinema.repositories.ImageDataRepository;
@@ -26,13 +25,12 @@ public class ImageService {
      */
     public ImageData uploadImage(MultipartFile file) throws IOException, InternalError {
         // In the moment the method compressImage() doesn´t do anything
+        //byte[] bytes = ImageCompressor.compressImage(file.getBytes());
+        byte[] bytes = file.getBytes();
         ImageData imageData = repository.save(new ImageData(
                 file.getContentType(),
-                ImageCompressor.compressImage(file.getBytes())
+                bytes
         ));
-        if (imageData == null) {
-            throw new InternalError("Image could not be saved");
-        }
         return imageData;
     }
 
