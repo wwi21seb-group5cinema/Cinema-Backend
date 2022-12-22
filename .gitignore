@@ -15,6 +15,7 @@ target/
 
 ### IntelliJ IDEA ###
 .idea
+.idea/httpRequests/http-requests-log.http
 *.iws
 *.iml
 *.ipr
