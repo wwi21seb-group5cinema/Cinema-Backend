@@ -16,5 +16,4 @@ public interface ActorRepository extends JpaRepository<Actor, UUID> {
 
     Optional<Actor> findById(UUID id);
 
-
 }
