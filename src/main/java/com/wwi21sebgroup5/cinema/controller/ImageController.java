@@ -37,7 +37,6 @@ public class ImageController {
 
     }
 
-
     /**
      * @param id
      * @return the Image with the matching ID in the appropriate format

@@ -56,8 +56,6 @@ public class ActorController {
             a = actorService.add(actorObject);
         } catch (ActorAlreadyExistsException e) {
             return new ResponseEntity<>(e.getMessage(), HttpStatus.NOT_ACCEPTABLE);
-        } catch (Exception ex) {
-            return new ResponseEntity<>(HttpStatus.INTERNAL_SERVER_ERROR);
         }
         return new ResponseEntity<>(a, HttpStatus.CREATED);
     }

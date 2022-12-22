@@ -2,10 +2,7 @@ package com.wwi21sebgroup5.cinema.entities;
 
 import jakarta.persistence.*;
 import jakarta.validation.constraints.NotNull;
-import lombok.Getter;
-import lombok.NoArgsConstructor;
-import lombok.Setter;
-import lombok.ToString;
+import lombok.*;
 
 import java.util.Objects;
 import java.util.UUID;
@@ -16,6 +13,7 @@ import java.util.UUID;
 @Entity
 @Table(name = "genre")
 @NoArgsConstructor
+@AllArgsConstructor
 
 public class Genre {
 

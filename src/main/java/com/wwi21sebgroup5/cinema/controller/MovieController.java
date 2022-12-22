@@ -27,8 +27,12 @@ public class MovieController {
      * @return all existing Movies
      */
     @GetMapping("/getAll")
-    public ResponseEntity<List<Movie>> getAll() {
-        return new ResponseEntity<>(movieService.findAll(), HttpStatus.OK);
+    public ResponseEntity<?> getAll() {
+        List<Movie> m = movieService.findAll();
+        if (m.isEmpty()) {
+            return new ResponseEntity<>(HttpStatus.NOT_FOUND);
+        }
+        return new ResponseEntity<>(m, HttpStatus.OK);
     }
 
     /**
@@ -43,9 +47,6 @@ public class MovieController {
         } catch (GenreDoesNotExistException | FSKNotFoundException | ActorNotFoundException |
                  ImageNotFoundException e) {
             return new ResponseEntity<>(e.getMessage(), HttpStatus.NOT_ACCEPTABLE);
-        } catch (Exception e) {
-            e.printStackTrace();
-            return new ResponseEntity<>(HttpStatus.INTERNAL_SERVER_ERROR);
         }
         return new ResponseEntity<>(m, HttpStatus.CREATED);
     }
