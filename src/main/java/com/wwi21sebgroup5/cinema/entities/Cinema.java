@@ -8,6 +8,7 @@ import lombok.Setter;
 import lombok.ToString;
 
 import java.util.List;
+import java.util.Objects;
 import java.util.UUID;
 
 @NoArgsConstructor
@@ -71,5 +72,37 @@ public class Cinema {
         this.street = street;
         this.houseNumber = houseNumber;
         this.floors = floors;
+    }
+
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (o == null || getClass() != o.getClass()) return false;
+
+        Cinema cinema = (Cinema) o;
+
+        if (floors != cinema.floors) return false;
+        if (cinemaRooms != cinema.cinemaRooms) return false;
+        if (!Objects.equals(id, cinema.id)) return false;
+        if (!Objects.equals(name, cinema.name)) return false;
+        if (!Objects.equals(halls, cinema.halls)) return false;
+        if (!Objects.equals(city, cinema.city)) return false;
+        if (!Objects.equals(street, cinema.street)) return false;
+        return Objects.equals(houseNumber, cinema.houseNumber);
+    }
+
+    @Override
+    public int hashCode() {
+        int hash = id != null ? id.hashCode() : 0;
+        int prime = 31;
+
+        hash = prime * hash + (name != null ? name.hashCode() : 0);
+        hash = prime * hash + (halls != null ? halls.hashCode() : 0);
+        hash = prime * hash + (city != null ? city.hashCode() : 0);
+        hash = prime * hash + (street != null ? street.hashCode() : 0);
+        hash = prime * hash + (houseNumber != null ? houseNumber.hashCode() : 0);
+        hash = prime * hash + floors;
+        hash = prime * hash + cinemaRooms;
+        return hash;
     }
 }

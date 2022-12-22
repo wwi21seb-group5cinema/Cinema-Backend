@@ -7,6 +7,7 @@ import lombok.NoArgsConstructor;
 import lombok.Setter;
 import lombok.ToString;
 
+import java.util.Objects;
 import java.util.UUID;
 
 @NoArgsConstructor
@@ -47,4 +48,29 @@ public class CinemaHall {
         this.floor = floor;
     }
 
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (o == null || getClass() != o.getClass()) return false;
+
+        CinemaHall that = (CinemaHall) o;
+
+        if (floor != that.floor) return false;
+        if (!Objects.equals(id, that.id)) return false;
+        if (!Objects.equals(cinema, that.cinema)) return false;
+        if (!Objects.equals(seatingPlan, that.seatingPlan)) return false;
+        return Objects.equals(name, that.name);
+    }
+
+    @Override
+    public int hashCode() {
+        int hash = id != null ? id.hashCode() : 0;
+        int prime = 31;
+
+        hash = prime * hash + (cinema != null ? cinema.hashCode() : 0);
+        hash = prime * hash + (seatingPlan != null ? seatingPlan.hashCode() : 0);
+        hash = prime * hash + (name != null ? name.hashCode() : 0);
+        hash = prime * hash + floor;
+        return hash;
+    }
 }

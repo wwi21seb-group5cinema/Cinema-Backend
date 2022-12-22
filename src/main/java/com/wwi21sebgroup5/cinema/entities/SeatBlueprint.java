@@ -7,6 +7,7 @@ import lombok.NoArgsConstructor;
 import lombok.Setter;
 import lombok.ToString;
 
+import java.util.Objects;
 import java.util.UUID;
 
 @NoArgsConstructor
@@ -48,4 +49,29 @@ public class SeatBlueprint {
         this.place = place;
     }
 
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (o == null || getClass() != o.getClass()) return false;
+
+        SeatBlueprint that = (SeatBlueprint) o;
+
+        if (row != that.row) return false;
+        if (place != that.place) return false;
+        if (!Objects.equals(id, that.id)) return false;
+        if (!Objects.equals(seatingPlan, that.seatingPlan)) return false;
+        return Objects.equals(seatType, that.seatType);
+    }
+
+    @Override
+    public int hashCode() {
+        int hash = id != null ? id.hashCode() : 0;
+        int prime = 31;
+
+        hash = prime * hash + (seatingPlan != null ? seatingPlan.hashCode() : 0);
+        hash = prime * hash + (seatType != null ? seatType.hashCode() : 0);
+        hash = prime * hash + row;
+        hash = prime * hash + place;
+        return hash;
+    }
 }

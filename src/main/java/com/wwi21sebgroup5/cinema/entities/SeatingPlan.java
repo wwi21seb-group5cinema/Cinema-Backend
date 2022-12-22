@@ -8,6 +8,7 @@ import lombok.Setter;
 import lombok.ToString;
 
 import java.util.List;
+import java.util.Objects;
 import java.util.UUID;
 
 @NoArgsConstructor
@@ -40,4 +41,27 @@ public class SeatingPlan {
         this.rows = rows;
     }
 
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (o == null || getClass() != o.getClass()) return false;
+
+        SeatingPlan that = (SeatingPlan) o;
+
+        if (rows != that.rows) return false;
+        if (!Objects.equals(id, that.id)) return false;
+        if (!Objects.equals(cinemaHall, that.cinemaHall)) return false;
+        return Objects.equals(seats, that.seats);
+    }
+
+    @Override
+    public int hashCode() {
+        int hash = id != null ? id.hashCode() : 0;
+        int prime = 31;
+
+        hash = prime * hash + (cinemaHall != null ? cinemaHall.hashCode() : 0);
+        hash = prime * hash + (seats != null ? seats.hashCode() : 0);
+        hash = prime * hash + rows;
+        return hash;
+    }
 }
