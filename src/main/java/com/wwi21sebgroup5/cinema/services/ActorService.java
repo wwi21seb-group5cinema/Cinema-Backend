@@ -2,7 +2,6 @@ package com.wwi21sebgroup5.cinema.services;
 
 import com.wwi21sebgroup5.cinema.entities.Actor;
 import com.wwi21sebgroup5.cinema.exceptions.ActorAlreadyExistsException;
-import com.wwi21sebgroup5.cinema.exceptions.ActorNotFoundException;
 import com.wwi21sebgroup5.cinema.repositories.ActorRepository;
 import com.wwi21sebgroup5.cinema.requestObjects.ActorRequestObject;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -42,7 +41,7 @@ public class ActorService {
     }
 
     /**
-     * @return all actors in form of an list
+     * @return all actors in form of a list
      */
     public List<Actor> findAll() {
         return actorRepository.findAll();
@@ -62,13 +61,8 @@ public class ActorService {
      * @param name
      * @param firstName
      * @return the actor matching the given parameters
-     * @throws ActorNotFoundException thrown if there is no matching actor
      */
-    public Actor findByNameAndFirstName(String name, String firstName) throws ActorNotFoundException {
-        Optional<Actor> a = actorRepository.findByNameAndFirstName(name, firstName);
-        if (a.isEmpty()) {
-            throw new ActorNotFoundException(name, firstName);
-        }
-        return a.get();
+    public Optional<Actor> findByNameAndFirstName(String name, String firstName) {
+        return actorRepository.findByNameAndFirstName(name, firstName);
     }
 }

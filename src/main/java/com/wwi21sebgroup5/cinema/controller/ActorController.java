@@ -2,7 +2,6 @@ package com.wwi21sebgroup5.cinema.controller;
 
 import com.wwi21sebgroup5.cinema.entities.Actor;
 import com.wwi21sebgroup5.cinema.exceptions.ActorAlreadyExistsException;
-import com.wwi21sebgroup5.cinema.exceptions.ActorNotFoundException;
 import com.wwi21sebgroup5.cinema.requestObjects.ActorRequestObject;
 import com.wwi21sebgroup5.cinema.services.ActorService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -11,6 +10,7 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
+import java.util.Optional;
 
 
 @RestController
@@ -22,9 +22,12 @@ public class ActorController {
     ActorService actorService;
 
     @GetMapping("/getAll")
-    public ResponseEntity<List<Actor>> getAll() {
-
-        return new ResponseEntity<>(actorService.findAll(), HttpStatus.OK);
+    public ResponseEntity<?> getAll() {
+        List<Actor> actors = actorService.findAll();
+        if (actors.isEmpty()) {
+            return new ResponseEntity<>(HttpStatus.NOT_FOUND);
+        }
+        return new ResponseEntity<>(actors, HttpStatus.OK);
     }
 
     /**
@@ -33,13 +36,12 @@ public class ActorController {
      * @return the actor with the matching first- and lastname
      */
     @GetMapping(value = "/get", params = {"name", "firstName"})
-    public ResponseEntity<Object> getAll(@RequestParam("name") String name, @RequestParam("firstName") String firstName) {
-        try {
-            return new ResponseEntity<>(
-                    actorService.findByNameAndFirstName(name, firstName), HttpStatus.OK);
-        } catch (ActorNotFoundException e) {
-            return new ResponseEntity<>(e.getMessage(), HttpStatus.NOT_FOUND);
+    public ResponseEntity<Object> getActorByName(@RequestParam("name") String name, @RequestParam("firstName") String firstName) {
+        Optional<Actor> a = actorService.findByNameAndFirstName(name, firstName);
+        if (a.isPresent()) {
+            return new ResponseEntity<>(a.get(), HttpStatus.OK);
         }
+        return new ResponseEntity<>(HttpStatus.NOT_FOUND);
     }
 
 
