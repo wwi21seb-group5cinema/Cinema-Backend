@@ -1,6 +1,5 @@
 package com.wwi21sebgroup5.cinema.entities;
 
-import com.wwi21sebgroup5.cinema.enums.SeatState;
 import jakarta.persistence.*;
 import jakarta.validation.constraints.NotNull;
 import lombok.Getter;
@@ -16,8 +15,8 @@ import java.util.UUID;
 @Setter
 @ToString
 @Entity
-@Table(name = "seat")
-public class Seat {
+@Table(name = "seatblueprint")
+public class SeatBlueprint {
 
     @Id
     @Column
@@ -35,14 +34,6 @@ public class Seat {
     @ToString.Exclude
     private SeatType seatType;
 
-    @Enumerated(EnumType.STRING)
-    private SeatState seatState;
-
-    @ManyToOne(fetch = FetchType.LAZY, cascade = CascadeType.PERSIST)
-    @JoinColumn(name = "event_id", referencedColumnName = "id")
-    @ToString.Exclude
-    private Event event;
-
     @Column
     @NotNull
     private int row;
@@ -51,10 +42,9 @@ public class Seat {
     @NotNull
     private int place;
 
-    public Seat(SeatingPlan seatingPlan, SeatType seatType, Event event, int row, int place) {
+    public SeatBlueprint(SeatingPlan seatingPlan, SeatType seatType, int row, int place) {
         this.seatingPlan = seatingPlan;
         this.seatType = seatType;
-        this.event = event;
         this.row = row;
         this.place = place;
     }
@@ -64,15 +54,13 @@ public class Seat {
         if (this == o) return true;
         if (o == null || getClass() != o.getClass()) return false;
 
-        Seat seat = (Seat) o;
+        SeatBlueprint that = (SeatBlueprint) o;
 
-        if (row != seat.row) return false;
-        if (place != seat.place) return false;
-        if (!Objects.equals(id, seat.id)) return false;
-        if (!Objects.equals(seatingPlan, seat.seatingPlan)) return false;
-        if (!Objects.equals(seatType, seat.seatType)) return false;
-        if (seatState != seat.seatState) return false;
-        return Objects.equals(event, seat.event);
+        if (row != that.row) return false;
+        if (place != that.place) return false;
+        if (!Objects.equals(id, that.id)) return false;
+        if (!Objects.equals(seatingPlan, that.seatingPlan)) return false;
+        return Objects.equals(seatType, that.seatType);
     }
 
     @Override
@@ -82,8 +70,6 @@ public class Seat {
 
         hash = prime * hash + (seatingPlan != null ? seatingPlan.hashCode() : 0);
         hash = prime * hash + (seatType != null ? seatType.hashCode() : 0);
-        hash = prime * hash + (seatState != null ? seatState.hashCode() : 0);
-        hash = prime * hash + (event != null ? event.hashCode() : 0);
         hash = prime * hash + row;
         hash = prime * hash + place;
         return hash;
