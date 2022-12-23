@@ -28,7 +28,7 @@ public class CinemaHallServiceTest {
     CinemaHallService cinemaHallService;
 
     @Test
-    @DisplayName("Test getting all cinemaHalls successfully")
+    @DisplayName("Test getting all cinemaHalls")
     public void testGetAllCinemaHallsSuccessful() {
         CinemaHall firstHall = new CinemaHall(new Cinema(), new SeatingPlan(), "firstTestHall", 1);
         CinemaHall secondHall = new CinemaHall(new Cinema(), new SeatingPlan(), "secondTestHall", 2);
@@ -42,16 +42,7 @@ public class CinemaHallServiceTest {
     }
 
     @Test
-    @DisplayName("Test getting all cinemaHalls not successfully")
-    public void testGetAllCinemaHallsNotSuccessful() {
-        when(cinemaHallRepository.findAll()).thenReturn(List.of());
-
-        List<CinemaHall> actualHalls = cinemaHallService.getAllCinemaHalls();
-        assertTrue(actualHalls.isEmpty());
-    }
-
-    @Test
-    @DisplayName("Test getting cinemaHall by id successfully")
+    @DisplayName("Test getting cinemaHall by id")
     public void testGetCinemaHallByIdSuccessful() {
         UUID id = new UUID(2, 2);
         CinemaHall expectedHall = new CinemaHall(new Cinema(), new SeatingPlan(), "firstTestHall", 1);
@@ -64,18 +55,8 @@ public class CinemaHallServiceTest {
     }
 
     @Test
-    @DisplayName("Test getting cinemaHall by id not successfully")
-    public void testGetCinemaHallByIdNotSuccessful() {
-        UUID id = new UUID(2, 2);
-        when(cinemaHallRepository.findById(id)).thenReturn(Optional.empty());
-
-        Optional<CinemaHall> actualHall = cinemaHallService.getCinemaHallById(id);
-        assertTrue(actualHall.isEmpty());
-    }
-
-    @Test
-    @DisplayName("Test getting all cinemaHalls by cinema successfully")
-    public void testGetAllCinemaHallsByCinemaSuccessful() {
+    @DisplayName("Test getting all cinemaHalls by cinema")
+    public void testGetAllCinemaHallsByCinema() {
         Cinema cinema = new Cinema();
         CinemaHall firstHall = new CinemaHall(cinema, new SeatingPlan(), "firstTestHall", 1);
         CinemaHall secondHall = new CinemaHall(cinema, new SeatingPlan(), "secondTestHall", 2);
@@ -86,16 +67,6 @@ public class CinemaHallServiceTest {
 
         List<CinemaHall> actualHalls = cinemaHallService.getAllCinemaHallsByCinema(cinema);
         assertEquals(expectedHalls, actualHalls);
-    }
-
-    @Test
-    @DisplayName("Test getting all cinemaHalls by cinema not successfully")
-    public void testGetAllCinemaHallsByCinemaNotSuccessful() {
-        Cinema cinema = new Cinema();
-        when(cinemaHallRepository.findByCinema(cinema)).thenReturn(List.of());
-
-        List<CinemaHall> actualHalls = cinemaHallService.getAllCinemaHallsByCinema(cinema);
-        assertTrue(actualHalls.isEmpty());
     }
 
 }

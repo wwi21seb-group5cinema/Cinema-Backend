@@ -27,8 +27,8 @@ public class SeatingPlanServiceTest {
     SeatingPlanService seatingPlanService;
 
     @Test
-    @DisplayName("Test getting all seating plans successfully")
-    public void testGetAllSeatingPlansSuccessful() {
+    @DisplayName("Test getting all seating plans")
+    public void testGetAllSeatingPlans() {
         SeatingPlan firstPlan = new SeatingPlan();
         SeatingPlan secondPlan = new SeatingPlan();
         SeatingPlan thirdPlan = new SeatingPlan();
@@ -41,17 +41,8 @@ public class SeatingPlanServiceTest {
     }
 
     @Test
-    @DisplayName("Test getting all seating plans not successfully")
-    public void testGetAllSeatingPlansNotSuccessful() {
-        when(seatingPlanRepository.findAll()).thenReturn(List.of());
-
-        List<SeatingPlan> actualPlans = seatingPlanService.getAllSeatingPlans();
-        assertTrue(actualPlans.isEmpty());
-    }
-
-    @Test
-    @DisplayName("Test getting seating plan by id successful")
-    public void testGetSeatingPlanByIdSuccessful() {
+    @DisplayName("Test getting seating plan by id")
+    public void testGetSeatingPlanById() {
         UUID id = UUID.randomUUID();
         SeatingPlan expectedPlan = new SeatingPlan();
         expectedPlan.setId(id);
@@ -63,18 +54,8 @@ public class SeatingPlanServiceTest {
     }
 
     @Test
-    @DisplayName("Test getting seating plan by id not successful")
-    public void testGetSeatingPlanByIdNotSuccessful() {
-        UUID id = UUID.randomUUID();
-        when(seatingPlanRepository.findById(id)).thenReturn(Optional.empty());
-
-        Optional<SeatingPlan> actualPlan = seatingPlanService.getSeatingPlanById(id);
-        assertTrue(actualPlan.isEmpty());
-    }
-
-    @Test
-    @DisplayName("Test getting seating plan by cinema hall id successful")
-    public void testGetSeatingPlanByCinemaHallIdSuccessful() {
+    @DisplayName("Test getting seating plan by cinema hall id")
+    public void testGetSeatingPlanByCinemaHallId() {
         UUID id = UUID.randomUUID();
         SeatingPlan expectedPlan = new SeatingPlan();
         CinemaHall cinemaHall = new CinemaHall();
@@ -84,17 +65,6 @@ public class SeatingPlanServiceTest {
 
         Optional<SeatingPlan> actualPlan = seatingPlanService.getSeatingPlanByCinemaHall(id);
         assertEquals(expectedPlan, actualPlan.get());
-    }
-
-    @Test
-    @DisplayName("Test getting seating plan by cinema hall id not successful")
-    public void testGetSeatingPlanByCinemaHallIdNotSuccessful() {
-        UUID id = UUID.randomUUID();
-
-        when(seatingPlanRepository.findByCinemaHall_Id(id)).thenReturn(Optional.empty());
-
-        Optional<SeatingPlan> actualPlan = seatingPlanService.getSeatingPlanByCinemaHall(id);
-        assertTrue(actualPlan.isEmpty());
     }
 
 }
