@@ -12,9 +12,6 @@ import org.mockito.Mock;
 import org.mockito.junit.jupiter.MockitoExtension;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
-import org.springframework.mock.web.MockHttpServletRequest;
-import org.springframework.web.context.request.RequestContextHolder;
-import org.springframework.web.context.request.ServletRequestAttributes;
 
 import java.util.List;
 import java.util.Optional;
@@ -39,12 +36,9 @@ public class ActorControllerTest {
         Actor thirdActor = new Actor("Paul", "Bahde");
         List<Actor> expectedActors = List.of(firstActor, secondActor, thirdActor);
 
-        MockHttpServletRequest request = new MockHttpServletRequest();
-        RequestContextHolder.setRequestAttributes(new ServletRequestAttributes(request));
-
         when(actorService.findAll()).thenReturn(expectedActors);
 
-        ResponseEntity<?> response = actorController.getAll();
+        ResponseEntity<List<Actor>> response = actorController.getAll();
 
         assertAll(
                 "Validating correct response from controller...",
@@ -56,12 +50,9 @@ public class ActorControllerTest {
     @Test
     @DisplayName("Test unsuccessfully getting all actors")
     public void testGetAllActorsNotSuccessful() {
-        MockHttpServletRequest request = new MockHttpServletRequest();
-        RequestContextHolder.setRequestAttributes(new ServletRequestAttributes(request));
-
         when(actorService.findAll()).thenReturn(List.of());
 
-        ResponseEntity<?> response = actorController.getAll();
+        ResponseEntity<List<Actor>> response = actorController.getAll();
 
         assertAll(
                 "Validating correct response from controller...",
@@ -75,13 +66,10 @@ public class ActorControllerTest {
     public void testGetActorByNameSuccessful() {
         Actor expectedActor = new Actor("Nibisch", "Kevin");
 
-        MockHttpServletRequest request = new MockHttpServletRequest();
-        RequestContextHolder.setRequestAttributes(new ServletRequestAttributes(request));
-
         when(actorService.findByNameAndFirstName("Nibisch", "Kevin"))
                 .thenReturn(Optional.of(expectedActor));
 
-        ResponseEntity<?> response = actorController.getActorByName("Nibisch", "Kevin");
+        ResponseEntity<Actor> response = actorController.getActorByName("Nibisch", "Kevin");
 
         assertAll(
                 "Validating correct response from controller...",
@@ -93,13 +81,10 @@ public class ActorControllerTest {
     @Test
     @DisplayName("Test unsuccessfully getting Actors by name")
     public void testGetActorByNameNotSuccessful() {
-        MockHttpServletRequest request = new MockHttpServletRequest();
-        RequestContextHolder.setRequestAttributes(new ServletRequestAttributes(request));
-
         when(actorService.findByNameAndFirstName("Nibisch", "Kevin"))
                 .thenReturn(Optional.empty());
 
-        ResponseEntity<?> response = actorController.getActorByName("Nibisch", "Kevin");
+        ResponseEntity<Actor> response = actorController.getActorByName("Nibisch", "Kevin");
 
         assertAll(
                 "Validating correct response from controller...",

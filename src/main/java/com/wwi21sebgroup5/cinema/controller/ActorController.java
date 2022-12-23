@@ -22,7 +22,7 @@ public class ActorController {
     ActorService actorService;
 
     @GetMapping("/getAll")
-    public ResponseEntity<?> getAll() {
+    public ResponseEntity<List<Actor>> getAll() {
         List<Actor> actors = actorService.findAll();
         if (actors.isEmpty()) {
             return new ResponseEntity<>(HttpStatus.NOT_FOUND);
@@ -36,7 +36,7 @@ public class ActorController {
      * @return the actor with the matching first- and lastname
      */
     @GetMapping(value = "/get", params = {"name", "firstName"})
-    public ResponseEntity<Object> getActorByName(@RequestParam("name") String name, @RequestParam("firstName") String firstName) {
+    public ResponseEntity<Actor> getActorByName(@RequestParam("name") String name, @RequestParam("firstName") String firstName) {
         Optional<Actor> a = actorService.findByNameAndFirstName(name, firstName);
         if (a.isPresent()) {
             return new ResponseEntity<>(a.get(), HttpStatus.OK);

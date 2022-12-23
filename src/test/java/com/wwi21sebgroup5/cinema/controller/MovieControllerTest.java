@@ -15,9 +15,6 @@ import org.mockito.Mock;
 import org.mockito.junit.jupiter.MockitoExtension;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
-import org.springframework.mock.web.MockHttpServletRequest;
-import org.springframework.web.context.request.RequestContextHolder;
-import org.springframework.web.context.request.ServletRequestAttributes;
 
 import java.io.File;
 import java.io.IOException;
@@ -54,8 +51,6 @@ public class MovieControllerTest {
             Movie secondMovie = new Movie(producer, director, FSK.SIX, genre, image, "film2",
                     "beschreibung2", new Date(123), new Date(124));
             List<Movie> expected = List.of(firstMovie, secondMovie);
-            MockHttpServletRequest request = new MockHttpServletRequest();
-            RequestContextHolder.setRequestAttributes(new ServletRequestAttributes(request));
 
             when(movieService.findAll()).thenReturn(expected);
 
@@ -73,9 +68,6 @@ public class MovieControllerTest {
     @Test
     @DisplayName("Test unsuccessfully getting all movies")
     public void testGetAllMoviesUnsuccessfully() {
-        MockHttpServletRequest request = new MockHttpServletRequest();
-        RequestContextHolder.setRequestAttributes(new ServletRequestAttributes(request));
-
         when(movieService.findAll()).thenReturn(List.of());
 
         ResponseEntity<?> response = movieController.getAll();
@@ -105,9 +97,6 @@ public class MovieControllerTest {
             MovieRequestObject movieRequestObject = new MovieRequestObject(
                     producer.getName(), director.getFirstName(), director.getName(), actors, image.getId(), 6,
                     genre.getName(), "film", "beschreibung", new Date(123), new Date(124));
-
-            MockHttpServletRequest request = new MockHttpServletRequest();
-            RequestContextHolder.setRequestAttributes(new ServletRequestAttributes(request));
 
             when(movieService.add(movieRequestObject)).thenReturn(firstMovie);
 
@@ -142,9 +131,6 @@ public class MovieControllerTest {
             MovieRequestObject movieRequestObject = new MovieRequestObject(
                     producer.getName(), director.getFirstName(), director.getName(), actors, image.getId(), 6,
                     genre.getName(), "film", "beschreibung", new Date(123), new Date(124));
-
-            MockHttpServletRequest request = new MockHttpServletRequest();
-            RequestContextHolder.setRequestAttributes(new ServletRequestAttributes(request));
 
             FSKNotFoundException e = new FSKNotFoundException(13);
             when(movieService.add(movieRequestObject)).thenThrow(e);
@@ -181,9 +167,6 @@ public class MovieControllerTest {
                     producer.getName(), director.getFirstName(), director.getName(), actors, image.getId(), 6,
                     genre.getName(), "film", "beschreibung", new Date(123), new Date(124));
 
-            MockHttpServletRequest request = new MockHttpServletRequest();
-            RequestContextHolder.setRequestAttributes(new ServletRequestAttributes(request));
-
             GenreDoesNotExistException e = new GenreDoesNotExistException("ActionP");
             when(movieService.add(movieRequestObject)).thenThrow(e);
 
@@ -219,9 +202,6 @@ public class MovieControllerTest {
                     producer.getName(), director.getFirstName(), director.getName(), actors, image.getId(), 6,
                     genre.getName(), "film", "beschreibung", new Date(123), new Date(124));
 
-            MockHttpServletRequest request = new MockHttpServletRequest();
-            RequestContextHolder.setRequestAttributes(new ServletRequestAttributes(request));
-
             ActorNotFoundException e = new ActorNotFoundException(a.getId());
             when(movieService.add(movieRequestObject)).thenThrow(e);
 
@@ -256,9 +236,6 @@ public class MovieControllerTest {
             MovieRequestObject movieRequestObject = new MovieRequestObject(
                     producer.getName(), director.getFirstName(), director.getName(), actors, image.getId(), 6,
                     genre.getName(), "film", "beschreibung", new Date(123), new Date(124));
-
-            MockHttpServletRequest request = new MockHttpServletRequest();
-            RequestContextHolder.setRequestAttributes(new ServletRequestAttributes(request));
 
             ImageNotFoundException e = new ImageNotFoundException(image.getId());
             when(movieService.add(movieRequestObject)).thenThrow(e);
