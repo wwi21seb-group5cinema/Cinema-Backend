@@ -26,4 +26,5 @@ public class SeatingPlanService {
     public Optional<SeatingPlan> getSeatingPlanByCinemaHall(UUID cinemaHallId) {
         return seatingPlanRepository.findByCinemaHall_Id(cinemaHallId);
     }
+
 }
