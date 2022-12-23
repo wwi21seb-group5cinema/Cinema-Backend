@@ -12,6 +12,8 @@ import org.mockito.Mock;
 import org.mockito.junit.jupiter.MockitoExtension;
 
 import java.util.List;
+import java.util.Optional;
+import java.util.UUID;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.mockito.Mockito.when;
@@ -48,6 +50,21 @@ public class CinemaServiceTest {
 
         List<Cinema> actualCinemas = cinemaService.getAllCinemas();
         assertEquals(expectedCinemas, actualCinemas);
+    }
+
+    @Test
+    @DisplayName("Test get cinema by id")
+    public void testGetCinemaById() {
+        UUID id = UUID.randomUUID();
+        City city = new City("68259", "Mannheim");
+        List<CinemaHall> hallsCinema = List.of(new CinemaHall(), new CinemaHall(), new CinemaHall());
+        Cinema expectedCinema = new Cinema("firstTestCinema", hallsCinema, city, "firstTestStreet",
+                "firstTestHouseNumber", 2);
+
+        when(cinemaRepository.findById(id)).thenReturn(Optional.of(expectedCinema));
+
+        Optional<Cinema> actualCinema = cinemaService.getCinemaById(id);
+        assertEquals(expectedCinema, actualCinema.get());
     }
 
 }
