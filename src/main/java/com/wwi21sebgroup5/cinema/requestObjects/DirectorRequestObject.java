@@ -7,17 +7,16 @@ import lombok.Data;
 
 @AllArgsConstructor
 @Data
-public class ActorRequestObject {
+public class DirectorRequestObject {
 
     @NotNull
     @NotEmpty
     private String name;
-
     @NotNull
     @NotEmpty
     private String firstName;
 
-    public ActorRequestObject() {
+    public DirectorRequestObject() {
         super();
     }
 
