@@ -1,0 +1,64 @@
+### Get all Movies
+GET http://localhost:8082/v1/movie/getAll
+Content-Type: application/json
+
+### Add a new Movie
+### Get example Data for Actors from http://localhost:8082/v1/actor/getAll (ActorController.http)
+POST http://localhost:8082/v1/movie/add
+Content-Type: application/json
+
+{
+  "producerName": "MarvelStudios",
+  "directorFirstName": "Quentin",
+  "directorLastName": "Tarrentino",
+  "actors": [
+    "c64f659c-17cd-4262-b511-ffa774f62403"
+  ],
+  "image": "5336cb4b-1279-4a31-97fb-df1a7acdd047",
+  "fsk": 12,
+  "genre": "Action",
+  "name": "Der große Testfilm",
+  "description": "Dieser Film ist ein Test",
+  "start_date": "12131415",
+  "end_date": "18192021"
+}
+
+### Add a new Movie with false Genre
+POST http://localhost:8082/v1/movie/add
+Content-Type: application/json
+
+{
+  "producerName": "MarvelStudios",
+  "directorFirstName": "Quentin",
+  "directorLastName": "Tarrentino",
+  "actors": [
+    "13fc962e-d622-443a-83da-b3f42194211a"
+  ],
+  "image": "5336cb4b-1279-4a31-97fb-df1a7acdd047",
+  "fsk": 12,
+  "genre": "ActionPP",
+  "name": "Der große Testfilm",
+  "description": "Dieser Film ist ein Test",
+  "start_date": "12131415",
+  "end_date": "18192021"
+}
+
+### Add a new Movie with false FSK
+POST http://localhost:8082/v1/movie/add
+Content-Type: application/json
+
+{
+  "producerName": "MarvelStudios",
+  "directorFirstName": "Quentin",
+  "directorLastName": "Tarrentino",
+  "actors": [
+    "13fc962e-d622-443a-83da-b3f42194211a"
+  ],
+  "image": "5336cb4b-1279-4a31-97fb-df1a7acdd047",
+  "fsk": 10,
+  "genre": "ActionPP",
+  "name": "Der große Testfilm",
+  "description": "Dieser Film ist ein Test",
+  "start_date": "12131415",
+  "end_date": "18192021"
+}
