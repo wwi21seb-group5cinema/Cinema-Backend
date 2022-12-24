@@ -9,31 +9,60 @@ import org.springframework.stereotype.Service;
 
 import java.util.List;
 import java.util.Optional;
+import java.util.UUID;
 
 @Service
 public class ActorService {
     @Autowired
     ActorRepository actorRepository;
 
+    /**
+     * @param actorObject which shall be stored in database
+     * @return actor which was created
+     * @throws ActorAlreadyExistsException if an actor with the same name and firstname already exists
+     */
     public Actor add(ActorRequestObject actorObject) throws ActorAlreadyExistsException {
 
-        Optional<Actor> foundActor = actorRepository.findByNameAndFirstNameAndBirthdate(
-                                                                                    actorObject.getName(),
-                                                                                    actorObject.getFirstName(),
-                                                                                    actorObject.getBirthdate());
+        Optional<Actor> foundActor = actorRepository.findByNameAndFirstName(
+                actorObject.getName(),
+                actorObject.getFirstName());
         if (foundActor.isPresent()) {
-            throw new ActorAlreadyExistsException(actorObject.getName(),actorObject.getFirstName(),actorObject.getBirthdate());
+            throw new ActorAlreadyExistsException(
+                    actorObject.getName(),
+                    actorObject.getFirstName());
         }
-        Actor a = new Actor(actorObject.getName(),
-                            actorObject.getFirstName(),
-                            actorObject.getBirthdate());
+
+        Actor a = new Actor(
+                actorObject.getName(),
+                actorObject.getFirstName());
+
         actorRepository.save(a);
         return a;
     }
 
-
+    /**
+     * @return all actors in form of a list
+     */
     public List<Actor> findAll() {
         return actorRepository.findAll();
 
+    }
+
+    /**
+     * @param id which actor should be given back
+     * @return the actor matching the id in form of an optional
+     */
+    public Optional<Actor> findById(UUID id) {
+        return actorRepository.findById(id);
+
+    }
+
+    /**
+     * @param name
+     * @param firstName
+     * @return the actor matching the given parameters
+     */
+    public Optional<Actor> findByNameAndFirstName(String name, String firstName) {
+        return actorRepository.findByNameAndFirstName(name, firstName);
     }
 }

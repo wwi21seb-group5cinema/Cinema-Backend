@@ -7,17 +7,13 @@ import lombok.Data;
 
 @AllArgsConstructor
 @Data
-public class ActorRequestObject {
+public class ProducerRequestObject {
 
     @NotNull
     @NotEmpty
     private String name;
 
-    @NotNull
-    @NotEmpty
-    private String firstName;
-
-    public ActorRequestObject() {
+    public ProducerRequestObject() {
         super();
     }
 
