@@ -65,11 +65,11 @@ public class CityServiceTest {
     @Test
     @DisplayName("Test getting all cities by plz and name")
     public void testGetAllCitiesByNameAndPlz() {
-        City expectedCity = new City("68259", "Wallstadt");
-        when(cityRepository.findByPlzAndNameContaining("68259", "Wallstadt"))
-                .thenReturn(Optional.of(expectedCity));
+        String plz = "68259", cityName = "Wallstadt";
+        City expectedCity = new City(plz, cityName);
+        when(cityRepository.findByPlz(plz)).thenReturn(Optional.of(expectedCity));
 
-        City actualCity = cityService.findByPlzAndName("68259", "Wallstadt");
+        City actualCity = cityService.findByPlzAndName(plz, cityName);
         assertEquals(expectedCity, actualCity, "Returned wrong list of cities");
     }
 
