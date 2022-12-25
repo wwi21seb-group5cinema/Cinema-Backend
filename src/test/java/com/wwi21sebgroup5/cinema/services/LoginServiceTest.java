@@ -17,7 +17,6 @@ import org.mockito.Mock;
 import org.mockito.junit.jupiter.MockitoExtension;
 import org.springframework.security.crypto.password.PasswordEncoder;
 
-import java.util.List;
 import java.util.Optional;
 
 import static org.junit.jupiter.api.Assertions.*;
@@ -58,7 +57,7 @@ public class LoginServiceTest {
 
         when(userService.getUserByUserName(userName)).thenReturn(Optional.empty());
         when(userService.getUserByEmail(email)).thenReturn(Optional.empty());
-        when(cityService.getCityByPlz(plz)).thenReturn(Optional.of(city));
+        when(cityService.findByPlzAndName(plz, cityName)).thenReturn(city);
         when(passwordEncoder.encode(password)).thenReturn(password);
 
         User actualUser = null;
@@ -104,73 +103,6 @@ public class LoginServiceTest {
         when(userService.getUserByEmail(email)).thenReturn(Optional.of(new User()));
 
         assertThrows(EmailAlreadyExistsException.class, () -> loginService.register(registrationRequestObject));
-    }
-
-    @Test
-    @DisplayName("Test city found with name during registration")
-    public void testCityFoundWithNameDuringRegistration() {
-        String userName = "TestUserName", password = "TestPassword", firstName = "TestFirstName",
-                lastName = "TestLastName", email = "TestEmail", plz = "71672", cityName = "Marbach am Neckar",
-                street = "TestStreet", houseNumber = "TestHouseNumber";
-        boolean isAdmin = false;
-
-        RegistrationRequestObject registrationRequestObject = new RegistrationRequestObject(
-                userName, password, firstName, lastName, email, plz, cityName, street, houseNumber, isAdmin
-        );
-
-        City city = new City(plz, cityName);
-
-        User expectedUser = new User(
-                userName, password, Role.USER, firstName, lastName, email, city, street, houseNumber
-        );
-
-        when(userService.getUserByUserName(userName)).thenReturn(Optional.empty());
-        when(userService.getUserByEmail(email)).thenReturn(Optional.empty());
-        when(cityService.getCityByPlz(plz)).thenReturn(Optional.empty());
-        when(cityService.getAllCitiesByName(cityName)).thenReturn(List.of(city));
-        when(passwordEncoder.encode(password)).thenReturn(password);
-
-        User actualUser = null;
-
-        try {
-            actualUser = loginService.register(registrationRequestObject);
-        } catch (UserAlreadyExistsException | EmailAlreadyExistsException ex) {
-            fail("Test failed during registering a user");
-        }
-
-        assertEquals(expectedUser, actualUser, "Registered user wrong!");
-    }
-
-    @Test
-    @DisplayName("Test city not found during registration")
-    public void testCityNotFoundDuringRegistration() {
-        String userName = "TestUserName", password = "TestPassword", firstName = "TestFirstName",
-                lastName = "TestLastName", email = "TestEmail", plz = "71672", cityName = "Marbach am Neckar",
-                street = "TestStreet", houseNumber = "TestHouseNumber";
-        boolean isAdmin = false;
-
-        RegistrationRequestObject registrationRequestObject = new RegistrationRequestObject(
-                userName, password, firstName, lastName, email, plz, cityName, street, houseNumber, isAdmin
-        );
-        City city = new City(plz, cityName);
-        User expectedUser = new User(
-                userName, password, Role.USER, firstName, lastName, email, city, street, houseNumber
-        );
-
-        when(cityService.getCityByPlz(plz)).thenReturn(Optional.empty());
-        when(cityService.getAllCitiesByName(cityName)).thenReturn(List.of());
-        when(cityService.save(city)).thenReturn(city);
-        when(passwordEncoder.encode(password)).thenReturn(password);
-
-        User actualUser = null;
-
-        try {
-            actualUser = loginService.register(registrationRequestObject);
-        } catch (UserAlreadyExistsException | EmailAlreadyExistsException ex) {
-            fail("Test failed during registering a user");
-        }
-
-        assertEquals(expectedUser, actualUser, "Registered user wrong!");
     }
 
     @Test
