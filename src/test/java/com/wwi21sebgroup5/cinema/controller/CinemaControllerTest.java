@@ -3,6 +3,8 @@ package com.wwi21sebgroup5.cinema.controller;
 import com.wwi21sebgroup5.cinema.entities.Cinema;
 import com.wwi21sebgroup5.cinema.entities.CinemaHall;
 import com.wwi21sebgroup5.cinema.entities.City;
+import com.wwi21sebgroup5.cinema.exceptions.CinemaAlreadyExistsException;
+import com.wwi21sebgroup5.cinema.requestObjects.CinemaRequestObject;
 import com.wwi21sebgroup5.cinema.services.CinemaService;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
@@ -103,6 +105,82 @@ public class CinemaControllerTest {
                 "Validating response...",
                 () -> assertFalse(response.hasBody()),
                 () -> assertEquals(HttpStatus.NOT_FOUND, response.getStatusCode())
+        );
+    }
+
+    @Test
+    @DisplayName("Test adding cinema successful")
+    public void testAddCinemaSuccessful() {
+        CinemaRequestObject requestObject = new CinemaRequestObject(
+                "TestName", "68259", "Wallstadt", "TestStraße", "28", 4
+        );
+        City city = new City("68259", "Wallstadt");
+
+        Cinema expectedCinema = new Cinema(
+            "TestName", List.of(), city, "TestSta0e", "28", 4
+        );
+
+        try {
+            when(cinemaService.add(requestObject)).thenReturn(expectedCinema);
+        } catch (CinemaAlreadyExistsException e) {
+            fail();
+        }
+
+        ResponseEntity<Object> response = cinemaController.addCinema(requestObject);
+
+        assertAll(
+                "Validating response...",
+                () -> assertEquals(expectedCinema, response.getBody()),
+                () -> assertEquals(HttpStatus.CREATED, response.getStatusCode())
+        );
+    }
+
+    @Test
+    @DisplayName("Test cinema already exists while adding cinema")
+    public void testCinemaAlreadyExistsWhileAddingCinema() {
+        String plz = "68259", cityName = "Wallstadt", street = "TestStraße", houseNumber = "28";
+        CinemaRequestObject requestObject = new CinemaRequestObject(
+                "TestName", plz, cityName, street, houseNumber, 4
+        );
+
+        try {
+            when(cinemaService.add(requestObject))
+                    .thenThrow(new CinemaAlreadyExistsException(plz, cityName, street, houseNumber));
+        } catch (CinemaAlreadyExistsException e) {
+            fail();
+        }
+
+        ResponseEntity<Object> response = cinemaController.addCinema(requestObject);
+
+        assertAll(
+                "Validating response...",
+                () -> assertEquals("Cinema already exists at the location 68259 Wallstadt, TestStraße 28",
+                        response.getBody()),
+                () -> assertEquals(HttpStatus.NOT_ACCEPTABLE, response.getStatusCode())
+        );
+    }
+
+    @Test
+    @DisplayName("Test interal server error while adding cinema")
+    public void testInternalServerErrorWhileAddingCinema() {
+        String plz = "68259", cityName = "Wallstadt", street = "TestStraße", houseNumber = "28";
+        CinemaRequestObject requestObject = new CinemaRequestObject(
+                "TestName", plz, cityName, street, houseNumber, 4
+        );
+
+        try {
+            when(cinemaService.add(requestObject))
+                    .thenThrow(new RuntimeException());
+        } catch (CinemaAlreadyExistsException e) {
+            fail();
+        }
+
+        ResponseEntity<Object> response = cinemaController.addCinema(requestObject);
+
+        assertAll(
+                "Validating response...",
+                () -> assertFalse(response.hasBody()),
+                () -> assertEquals(HttpStatus.INTERNAL_SERVER_ERROR, response.getStatusCode())
         );
     }
 
