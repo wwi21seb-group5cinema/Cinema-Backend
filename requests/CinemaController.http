@@ -1,0 +1,20 @@
+### Get all cinemas
+GET http://localhost:8082/v1/cinema/getAll
+Content-Type: application/json
+
+### Get cinema by id
+GET  http://localhost:8082/v1/cinema/get/{{id}}
+Content-Type: application/json
+
+### Add new cinema
+POST http://localhost:8082/v1/cinema/add
+Content-Type: application/json
+
+{
+  "name": "Cineplex",
+  "plz": "68161",
+  "cityName": "Mannheim",
+  "street": "N7",
+  "houseNumber": "17",
+  "floors": 3
+}

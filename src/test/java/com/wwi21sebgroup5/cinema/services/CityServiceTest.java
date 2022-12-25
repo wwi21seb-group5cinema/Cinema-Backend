@@ -69,8 +69,8 @@ public class CityServiceTest {
         when(cityRepository.findByPlzAndNameContaining("68259", "Wallstadt"))
                 .thenReturn(Optional.of(expectedCity));
 
-        Optional<City> actualCity = cityService.findByPlzAndName("68259", "Wallstadt");
-        assertEquals(expectedCity, actualCity.get(), "Returned wrong list of cities");
+        City actualCity = cityService.findByPlzAndName("68259", "Wallstadt");
+        assertEquals(expectedCity, actualCity, "Returned wrong list of cities");
     }
 
 }

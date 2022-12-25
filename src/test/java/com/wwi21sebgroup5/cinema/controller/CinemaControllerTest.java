@@ -14,6 +14,8 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 
 import java.util.List;
+import java.util.Optional;
+import java.util.UUID;
 
 import static org.junit.jupiter.api.Assertions.*;
 import static org.mockito.Mockito.when;
@@ -64,6 +66,41 @@ public class CinemaControllerTest {
 
         assertAll(
                 "Validationg response...",
+                () -> assertFalse(response.hasBody()),
+                () -> assertEquals(HttpStatus.NOT_FOUND, response.getStatusCode())
+        );
+    }
+
+    @Test
+    @DisplayName("Test successfully getting cinema by id")
+    public void testGettingCinemaByIdSuccessful() {
+        UUID id = UUID.randomUUID();
+        City city = new City("68259", "Mannheim");
+        List<CinemaHall> cinemaHalls = List.of(new CinemaHall(), new CinemaHall(), new CinemaHall());
+        Cinema expectedCinema = new Cinema("firstTestCinema", cinemaHalls, city, "firstTestStreet",
+                "firstTestHouseNumber", 2);
+        expectedCinema.setId(id);
+
+        when(cinemaService.getCinemaById(id)).thenReturn(Optional.of(expectedCinema));
+
+        ResponseEntity<Cinema> response = cinemaController.getCinemaById(id);
+        assertAll(
+                "Validating response...",
+                () -> assertEquals(expectedCinema, response.getBody()),
+                () -> assertEquals(HttpStatus.OK, response.getStatusCode())
+        );
+    }
+
+    @Test
+    @DisplayName("Test unsuccessfully getting cinema by id")
+    public void testGettingCinemaByIdNotSuccessful() {
+        UUID id = UUID.randomUUID();
+
+        when(cinemaService.getCinemaById(id)).thenReturn(Optional.empty());
+
+        ResponseEntity<Cinema> response = cinemaController.getCinemaById(id);
+        assertAll(
+                "Validating response...",
                 () -> assertFalse(response.hasBody()),
                 () -> assertEquals(HttpStatus.NOT_FOUND, response.getStatusCode())
         );
