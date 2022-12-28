@@ -63,11 +63,38 @@ public class CityServiceTest {
     }
 
     @Test
-    @DisplayName("Test getting all cities by plz and name")
-    public void testGetAllCitiesByNameAndPlz() {
+    @DisplayName("Test get city by plz and name (1)")
+    public void testGetCityByPlzAndNameFirst() {
         String plz = "68259", cityName = "Wallstadt";
         City expectedCity = new City(plz, cityName);
         when(cityRepository.findByPlz(plz)).thenReturn(Optional.of(expectedCity));
+
+        City actualCity = cityService.findByPlzAndName(plz, cityName);
+        assertEquals(expectedCity, actualCity, "Returned wrong list of cities");
+    }
+
+    @Test
+    @DisplayName("Test get city by plz and name (2)")
+    public void testGetCityByPlzAndNameSecond() {
+        String plz = "68259", cityName = "Wallstadt";
+        City expectedCity = new City(plz, cityName);
+
+        when(cityRepository.findByPlz(plz)).thenReturn(Optional.empty());
+        when(cityRepository.findByName(cityName)).thenReturn(List.of(expectedCity));
+
+        City actualCity = cityService.findByPlzAndName(plz, cityName);
+        assertEquals(expectedCity, actualCity, "Returned wrong list of cities");
+    }
+
+    @Test
+    @DisplayName("Test get city by plz and name (3)")
+    public void testGetCityByPlzAndNameThird() {
+        String plz = "68259", cityName = "Wallstadt";
+        City expectedCity = new City(plz, cityName);
+
+        when(cityRepository.findByPlz(plz)).thenReturn(Optional.empty());
+        when(cityRepository.findByName(cityName)).thenReturn(List.of());
+        when(cityRepository.save(expectedCity)).thenReturn(expectedCity);
 
         City actualCity = cityService.findByPlzAndName(plz, cityName);
         assertEquals(expectedCity, actualCity, "Returned wrong list of cities");
