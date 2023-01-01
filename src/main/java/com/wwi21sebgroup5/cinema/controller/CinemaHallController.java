@@ -46,7 +46,7 @@ public class CinemaHallController {
         }
     }
 
-    @GetMapping(path = "/getById/{id}")
+    @GetMapping(path = "/get/{id}")
     public ResponseEntity<Optional<CinemaHall>> getById(@PathVariable UUID id) {
         Optional<CinemaHall> foundHall = cinemaHallService.getCinemaHallById(id);
 

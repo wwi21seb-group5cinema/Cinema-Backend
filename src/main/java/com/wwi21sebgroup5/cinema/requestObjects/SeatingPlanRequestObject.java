@@ -23,4 +23,8 @@ public class SeatingPlanRequestObject {
     @NotEmpty
     private int placesPerRow;
 
+    public SeatingPlanRequestObject() {
+        super();
+    }
+
 }

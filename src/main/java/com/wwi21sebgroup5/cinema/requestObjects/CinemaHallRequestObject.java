@@ -31,5 +31,8 @@ public class CinemaHallRequestObject {
     @NotEmpty
     private int floor;
 
+    public CinemaHallRequestObject() {
+        super();
+    }
 
 }
