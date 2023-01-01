@@ -1,14 +1,13 @@
 package com.wwi21sebgroup5.cinema.controller;
 
 import com.wwi21sebgroup5.cinema.entities.CinemaHall;
+import com.wwi21sebgroup5.cinema.exceptions.CinemaNotFoundException;
+import com.wwi21sebgroup5.cinema.requestObjects.CinemaHallRequestObject;
 import com.wwi21sebgroup5.cinema.services.CinemaHallService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
 import java.util.Optional;
@@ -20,6 +19,21 @@ public class CinemaHallController {
 
     @Autowired
     private CinemaHallService cinemaHallService;
+
+    @PostMapping(path = "/add")
+    public ResponseEntity<Object> addCinemaHall(@RequestBody CinemaHallRequestObject requestObject) {
+        CinemaHall newCinemaHall;
+
+        try {
+            newCinemaHall = cinemaHallService.addCinemaHall(requestObject);
+        } catch (CinemaNotFoundException cnfE) {
+            return new ResponseEntity<>(cnfE.getMessage(), HttpStatus.NOT_ACCEPTABLE);
+        } catch (Exception ex) {
+            return new ResponseEntity<>(HttpStatus.INTERNAL_SERVER_ERROR);
+        }
+
+        return new ResponseEntity<>(newCinemaHall, HttpStatus.CREATED);
+    }
 
     @GetMapping(path = "/getAll")
     public ResponseEntity<List<CinemaHall>> getAll() {

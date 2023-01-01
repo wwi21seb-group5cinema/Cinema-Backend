@@ -1,6 +1,8 @@
 package com.wwi21sebgroup5.cinema.controller;
 
 import com.wwi21sebgroup5.cinema.entities.SeatingPlan;
+import com.wwi21sebgroup5.cinema.exceptions.CinemaHallNotFoundException;
+import com.wwi21sebgroup5.cinema.requestObjects.SeatingPlanRequestObject;
 import com.wwi21sebgroup5.cinema.services.SeatingPlanService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
@@ -27,6 +29,21 @@ public class SeatingPlanController {
         } else {
             return new ResponseEntity<>(allSeatingPlans, HttpStatus.OK);
         }
+    }
+
+    @PostMapping(path = "/add")
+    public ResponseEntity<Object> addSeatingPlan(@RequestBody SeatingPlanRequestObject requestObject) {
+        SeatingPlan newSeatingPlan;
+
+        try {
+            newSeatingPlan = seatingPlanService.addSeatingPlan(requestObject);
+        } catch (CinemaHallNotFoundException chnfE) {
+            return new ResponseEntity<>(chnfE.getMessage(), HttpStatus.NOT_ACCEPTABLE);
+        } catch (Exception ex) {
+            return new ResponseEntity<>(HttpStatus.INTERNAL_SERVER_ERROR);
+        }
+
+        return new ResponseEntity<>(newSeatingPlan, HttpStatus.CREATED);
     }
 
     @GetMapping(path = "/get", params = "id")
