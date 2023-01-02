@@ -1,1 +1,18 @@
 ### Get all seating plans
+GET http://localhost:8082/v1/seatingPlan/getAll
+
+### Get seating plan by id
+GET http://localhost:8082/v1/seatingPlan/get?id={{seatingPlanId}}
+
+### Get seating play ny cinema hall id
+GET http://localhost:8082/v1/seatingPlan/get?cinemaHallId={{cinemaHallId}}
+
+### Add new seating plan
+POST http://localhost:8082/v1/seatingPlan/add
+Content-Type: application/json
+
+{
+  "cinemaHallId": "insert id here",
+  "rows": 10,
+  "placesPerRow": 20
+}
