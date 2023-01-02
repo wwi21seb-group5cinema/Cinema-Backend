@@ -50,7 +50,7 @@ public class CinemaHallService {
             }
         }
 
-        newSeatingPlan.setSeats(seats);
+        newSeatingPlan.setSeats(seats); // set seat blueprint for the seating plan
         newSeatingPlan.setRows(requestObject.getRows());
 
         newCinemaHall.setSeatingPlan(newSeatingPlan);

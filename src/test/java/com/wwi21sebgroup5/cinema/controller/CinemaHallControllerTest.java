@@ -3,6 +3,8 @@ package com.wwi21sebgroup5.cinema.controller;
 import com.wwi21sebgroup5.cinema.entities.Cinema;
 import com.wwi21sebgroup5.cinema.entities.CinemaHall;
 import com.wwi21sebgroup5.cinema.entities.SeatingPlan;
+import com.wwi21sebgroup5.cinema.exceptions.CinemaNotFoundException;
+import com.wwi21sebgroup5.cinema.requestObjects.CinemaHallRequestObject;
 import com.wwi21sebgroup5.cinema.services.CinemaHallService;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
@@ -28,6 +30,81 @@ public class CinemaHallControllerTest {
 
     @InjectMocks
     CinemaHallController cinemaHallController;
+
+    @Test
+    @DisplayName("Test add cinemahall successfully")
+    public void testAddCinemaHallSuccessful() {
+        Cinema cinema = new Cinema();
+        UUID id = UUID.randomUUID();
+        cinema.setId(id);
+
+        CinemaHallRequestObject requestObject = new CinemaHallRequestObject(
+                id, 8, 9, "TestName", 3
+        );
+        CinemaHall expectedHall = new CinemaHall(
+                cinema, new SeatingPlan(), "TestName", 3
+        );
+
+        try {
+            when(cinemaHallService.addCinemaHall(requestObject)).thenReturn(expectedHall);
+        } catch (CinemaNotFoundException e) {
+            fail("Error when adding cinema hall");
+        }
+
+        ResponseEntity<Object> response = cinemaHallController.addCinemaHall(requestObject);
+
+        assertAll(
+                "Validating response...",
+                () -> assertEquals(expectedHall, response.getBody()),
+                () -> assertEquals(HttpStatus.CREATED, response.getStatusCode())
+        );
+    }
+
+    @Test
+    @DisplayName("Test cinema not found when adding cinemahall")
+    public void testCinemaNotFoundDuringAddProcess() {
+        UUID id = UUID.randomUUID();
+        CinemaHallRequestObject requestObject = new CinemaHallRequestObject(
+                id, 8, 9, "TestName", 3
+        );
+
+        try {
+            when(cinemaHallService.addCinemaHall(requestObject)).thenThrow(new CinemaNotFoundException(id));
+        } catch (CinemaNotFoundException e) {
+            fail("Error when adding cinema hall");
+        }
+
+        ResponseEntity<Object> response = cinemaHallController.addCinemaHall(requestObject);
+
+        assertAll(
+                "Validating response...",
+                () -> assertEquals(String.format("Cinema with id %s not found", id), response.getBody()),
+                () -> assertEquals(HttpStatus.NOT_ACCEPTABLE, response.getStatusCode())
+        );
+    }
+
+    @Test
+    @DisplayName("Test internal server error thrown when adding cinemahall")
+    public void testInternalServerErrorDuringAddProcess() {
+        UUID id = UUID.randomUUID();
+        CinemaHallRequestObject requestObject = new CinemaHallRequestObject(
+                id, 8, 9, "TestName", 3
+        );
+
+        try {
+            when(cinemaHallService.addCinemaHall(requestObject)).thenThrow(new RuntimeException());
+        } catch (CinemaNotFoundException e) {
+            fail("Error when adding cinema hall");
+        }
+
+        ResponseEntity<Object> response = cinemaHallController.addCinemaHall(requestObject);
+
+        assertAll(
+                "Validating response...",
+                () -> assertFalse(response.hasBody()),
+                () -> assertEquals(HttpStatus.INTERNAL_SERVER_ERROR, response.getStatusCode())
+        );
+    }
 
     @Test
     @DisplayName("Test getting all cinemaHalls successfully")

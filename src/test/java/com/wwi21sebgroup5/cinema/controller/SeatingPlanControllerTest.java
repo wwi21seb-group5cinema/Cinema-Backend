@@ -2,6 +2,8 @@ package com.wwi21sebgroup5.cinema.controller;
 
 import com.wwi21sebgroup5.cinema.entities.CinemaHall;
 import com.wwi21sebgroup5.cinema.entities.SeatingPlan;
+import com.wwi21sebgroup5.cinema.exceptions.CinemaHallNotFoundException;
+import com.wwi21sebgroup5.cinema.requestObjects.SeatingPlanRequestObject;
 import com.wwi21sebgroup5.cinema.services.SeatingPlanService;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
@@ -27,6 +29,83 @@ public class SeatingPlanControllerTest {
 
     @InjectMocks
     SeatingPlanController seatingPlanController;
+
+    private CinemaHall setupCinemaHall() {
+        UUID id = UUID.randomUUID();
+        CinemaHall cinemaHall = new CinemaHall();
+        cinemaHall.setId(id);
+        return cinemaHall;
+    }
+
+    @Test
+    @DisplayName("Test add seating plan successfully")
+    public void testAddSeatingPlanSuccessful() {
+        CinemaHall cinemaHall = setupCinemaHall();
+        SeatingPlanRequestObject requestObject = new SeatingPlanRequestObject(
+                cinemaHall.getId(), 7, 10
+        );
+        SeatingPlan expectedPlan = new SeatingPlan(cinemaHall, 7);
+
+        try {
+            when(seatingPlanService.addSeatingPlan(requestObject)).thenReturn(expectedPlan);
+        } catch (CinemaHallNotFoundException e) {
+            fail("Error when adding seating plan");
+        }
+
+        ResponseEntity<Object> response = seatingPlanController.addSeatingPlan(requestObject);
+
+        assertAll(
+                "Validating response...",
+                () -> assertEquals(expectedPlan, response.getBody()),
+                () -> assertEquals(HttpStatus.CREATED, response.getStatusCode())
+        );
+    }
+
+    @Test
+    @DisplayName("Test cinema hall not found when adding seating plan")
+    public void testCinemaHallNotFoundDuringAddProcess() {
+        UUID id = UUID.randomUUID();
+        SeatingPlanRequestObject requestObject = new SeatingPlanRequestObject(
+                id, 7, 10
+        );
+
+        try {
+            when(seatingPlanService.addSeatingPlan(requestObject)).thenThrow(new CinemaHallNotFoundException(id));
+        } catch (CinemaHallNotFoundException e) {
+            fail("Error when adding seating plan");
+        }
+
+        ResponseEntity<Object> response = seatingPlanController.addSeatingPlan(requestObject);
+
+        assertAll(
+                "Validating response...",
+                () -> assertEquals(String.format("Cinemahall with id %s not found", id), response.getBody()),
+                () -> assertEquals(HttpStatus.NOT_ACCEPTABLE, response.getStatusCode())
+        );
+    }
+
+    @Test
+    @DisplayName("Test internal server error thrown when adding seating plan")
+    public void testInternalServerErrorDuringAddProcess() {
+        UUID id = UUID.randomUUID();
+        SeatingPlanRequestObject requestObject = new SeatingPlanRequestObject(
+                id, 7, 10
+        );
+
+        try {
+            when(seatingPlanService.addSeatingPlan(requestObject)).thenThrow(new RuntimeException());
+        } catch (CinemaHallNotFoundException e) {
+            fail("Error when adding seating plan");
+        }
+
+        ResponseEntity<Object> response = seatingPlanController.addSeatingPlan(requestObject);
+
+        assertAll(
+                "Validating response...",
+                () -> assertFalse(response.hasBody()),
+                () -> assertEquals(HttpStatus.INTERNAL_SERVER_ERROR, response.getStatusCode())
+        );
+    }
 
     @Test
     @DisplayName("Test getting all seating plans successfully")
