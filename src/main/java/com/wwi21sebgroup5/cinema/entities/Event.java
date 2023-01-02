@@ -21,10 +21,23 @@ public class Event {
     @GeneratedValue(strategy = GenerationType.AUTO)
     private UUID id;
 
+    /*
     @NotNull
     @ToString.Exclude
     @ManyToOne
     @JoinColumn(name = "Movie", referencedColumnName = "id")
     private Movie movie;
-    
+    */
+
+    @Column
+    @NotNull
+    private String movie;
+
+    public Event(String pmovie){
+        movie = pmovie;
+    }
+
+    public Event() {
+
+    }
 }

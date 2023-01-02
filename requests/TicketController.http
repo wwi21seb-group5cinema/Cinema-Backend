@@ -1,0 +1,15 @@
+GET http://localhost:8082/v1/ticket
+###
+
+POST http://localhost:8082/v1/ticket
+Content-Type: application/json
+
+{
+  "event": {
+    "movie": "Avengers"
+  },
+  "seat": {
+    "seatNumber": 1
+  }
+}
+

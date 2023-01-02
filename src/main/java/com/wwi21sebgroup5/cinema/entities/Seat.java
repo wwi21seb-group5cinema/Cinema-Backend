@@ -20,4 +20,15 @@ public class Seat {
     @GeneratedValue(strategy = GenerationType.AUTO)
     private UUID id;
 
+    @Column
+    @NotNull
+    private int seatNumber;
+
+    public Seat(int pseatNumber){
+        seatNumber = pseatNumber;
+    }
+
+    public Seat() {
+
+    }
 }
