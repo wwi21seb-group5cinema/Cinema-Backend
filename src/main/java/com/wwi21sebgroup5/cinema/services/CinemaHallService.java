@@ -60,12 +60,8 @@ public class CinemaHallService {
         return cinemaHallRepository.save(newCinemaHall);
     }
 
-    public List<CinemaHall> getAllCinemaHallsByCinema(Cinema cinema) {
-        return cinemaHallRepository.findByCinema(cinema);
-    }
-
-    public List<CinemaHall> getAllCinemaHalls() {
-        return cinemaHallRepository.findAll();
+    public List<CinemaHall> getAllCinemaHallsByCinema(UUID cinemaId) {
+        return cinemaHallRepository.findByCinema_Id(cinemaId);
     }
 
     public Optional<CinemaHall> getCinemaHallById(UUID id) {

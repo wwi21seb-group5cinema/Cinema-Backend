@@ -5,6 +5,7 @@ import com.wwi21sebgroup5.cinema.repositories.SeatTypeRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import java.util.List;
 import java.util.Optional;
 
 @Service
@@ -16,6 +17,10 @@ public class SeatTypeService {
 
     @Autowired
     SeatTypeRepository seatTypeRepository;
+
+    public List<SeatType> getAll() {
+        return seatTypeRepository.findAll();
+    }
 
     public SeatType addSeatType(SeatType seatType) {
         return seatTypeRepository.save(seatType);

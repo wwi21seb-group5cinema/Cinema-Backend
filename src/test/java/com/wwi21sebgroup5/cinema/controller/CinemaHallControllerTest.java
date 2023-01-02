@@ -32,14 +32,18 @@ public class CinemaHallControllerTest {
     @Test
     @DisplayName("Test getting all cinemaHalls successfully")
     public void testGetAllCinemaHallsSuccessful() {
-        CinemaHall firstHall = new CinemaHall(new Cinema(), new SeatingPlan(), "firstTestHall", 1);
-        CinemaHall secondHall = new CinemaHall(new Cinema(), new SeatingPlan(), "secondTestHall", 2);
-        CinemaHall thirdHall = new CinemaHall(new Cinema(), new SeatingPlan(), "thirdTestHall", 3);
+        Cinema cinema = new Cinema();
+        UUID id = UUID.randomUUID();
+        cinema.setId(id);
+
+        CinemaHall firstHall = new CinemaHall(cinema, new SeatingPlan(), "firstTestHall", 1);
+        CinemaHall secondHall = new CinemaHall(cinema, new SeatingPlan(), "secondTestHall", 2);
+        CinemaHall thirdHall = new CinemaHall(cinema, new SeatingPlan(), "thirdTestHall", 3);
         List<CinemaHall> expectedHalls = List.of(firstHall, secondHall, thirdHall);
 
-        when(cinemaHallService.getAllCinemaHalls()).thenReturn(expectedHalls);
+        when(cinemaHallService.getAllCinemaHallsByCinema(id)).thenReturn(expectedHalls);
 
-        ResponseEntity<List<CinemaHall>> response = cinemaHallController.getAll();
+        ResponseEntity<List<CinemaHall>> response = cinemaHallController.getAllByCinema(id);
         assertAll(
                 "Validating response..",
                 () -> assertEquals(expectedHalls, response.getBody()),
@@ -50,9 +54,11 @@ public class CinemaHallControllerTest {
     @Test
     @DisplayName("Test getting all cinemaHalls not successfully")
     public void testGetAllCinemaHallsNotSuccessful() {
-        when(cinemaHallService.getAllCinemaHalls()).thenReturn(List.of());
+        UUID id = UUID.randomUUID();
 
-        ResponseEntity<List<CinemaHall>> response = cinemaHallController.getAll();
+        when(cinemaHallService.getAllCinemaHallsByCinema(id)).thenReturn(List.of());
+
+        ResponseEntity<List<CinemaHall>> response = cinemaHallController.getAllByCinema(id);
         assertAll(
                 "Validating response..",
                 () -> assertFalse(response.hasBody()),

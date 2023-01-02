@@ -35,9 +35,9 @@ public class CinemaHallController {
         return new ResponseEntity<>(newCinemaHall, HttpStatus.CREATED);
     }
 
-    @GetMapping(path = "/getAll")
-    public ResponseEntity<List<CinemaHall>> getAll() {
-        List<CinemaHall> allCinemaHalls = cinemaHallService.getAllCinemaHalls();
+    @GetMapping(path = "/get", params = "cinemaId")
+    public ResponseEntity<List<CinemaHall>> getAllByCinema(@RequestParam UUID cinemaId) {
+        List<CinemaHall> allCinemaHalls = cinemaHallService.getAllCinemaHallsByCinema(cinemaId);
 
         if (allCinemaHalls.isEmpty()) {
             return new ResponseEntity<>(HttpStatus.NOT_FOUND);
@@ -46,8 +46,8 @@ public class CinemaHallController {
         }
     }
 
-    @GetMapping(path = "/get/{id}")
-    public ResponseEntity<Optional<CinemaHall>> getById(@PathVariable UUID id) {
+    @GetMapping(path = "/get", params = "id")
+    public ResponseEntity<Optional<CinemaHall>> getById(@RequestParam UUID id) {
         Optional<CinemaHall> foundHall = cinemaHallService.getCinemaHallById(id);
 
         if (foundHall.isEmpty()) {

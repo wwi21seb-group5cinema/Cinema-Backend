@@ -28,20 +28,6 @@ public class CinemaHallServiceTest {
     CinemaHallService cinemaHallService;
 
     @Test
-    @DisplayName("Test getting all cinemaHalls")
-    public void testGetAllCinemaHallsSuccessful() {
-        CinemaHall firstHall = new CinemaHall(new Cinema(), new SeatingPlan(), "firstTestHall", 1);
-        CinemaHall secondHall = new CinemaHall(new Cinema(), new SeatingPlan(), "secondTestHall", 2);
-        CinemaHall thirdHall = new CinemaHall(new Cinema(), new SeatingPlan(), "thirdTestHall", 3);
-        List<CinemaHall> expectedHalls = List.of(firstHall, secondHall, thirdHall);
-
-        when(cinemaHallRepository.findAll()).thenReturn(expectedHalls);
-
-        List<CinemaHall> actualHalls = cinemaHallService.getAllCinemaHalls();
-        assertEquals(expectedHalls, actualHalls);
-    }
-
-    @Test
     @DisplayName("Test getting cinemaHall by id")
     public void testGetCinemaHallByIdSuccessful() {
         UUID id = new UUID(2, 2);
@@ -58,14 +44,17 @@ public class CinemaHallServiceTest {
     @DisplayName("Test getting all cinemaHalls by cinema")
     public void testGetAllCinemaHallsByCinema() {
         Cinema cinema = new Cinema();
+        UUID id = UUID.randomUUID();
+        cinema.setId(id);
+
         CinemaHall firstHall = new CinemaHall(cinema, new SeatingPlan(), "firstTestHall", 1);
         CinemaHall secondHall = new CinemaHall(cinema, new SeatingPlan(), "secondTestHall", 2);
         CinemaHall thirdHall = new CinemaHall(cinema, new SeatingPlan(), "thirdTestHall", 3);
         List<CinemaHall> expectedHalls = List.of(firstHall, secondHall, thirdHall);
 
-        when(cinemaHallRepository.findByCinema(cinema)).thenReturn(expectedHalls);
+        when(cinemaHallRepository.findByCinema_Id(id)).thenReturn(expectedHalls);
 
-        List<CinemaHall> actualHalls = cinemaHallService.getAllCinemaHallsByCinema(cinema);
+        List<CinemaHall> actualHalls = cinemaHallService.getAllCinemaHallsByCinema(id);
         assertEquals(expectedHalls, actualHalls);
     }
 
