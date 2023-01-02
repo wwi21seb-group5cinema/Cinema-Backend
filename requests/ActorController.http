@@ -2,13 +2,15 @@
 GET http://localhost:8082/v1/actor/getAll
 Content-Type: application/json
 
+### Get Actor Paul Bahde
+GET http://localhost:8082/v1/actor/get?name=Bahde&firstName=Paul
+Content-Type: application/json
+
 ### Add a new Actor
 POST http://localhost:8082/v1/actor/add
 Content-Type: application/json
 
 {
-  "name":"Bahde",
-  "firstName": "Paul",
-  "birthdate": "1234"
-
+  "name": "Bahde",
+  "firstName": "Paul"
 }
