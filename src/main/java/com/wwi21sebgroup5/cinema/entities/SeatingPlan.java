@@ -1,5 +1,7 @@
 package com.wwi21sebgroup5.cinema.entities;
 
+import com.fasterxml.jackson.annotation.JsonIdentityInfo;
+import com.fasterxml.jackson.annotation.ObjectIdGenerators;
 import jakarta.persistence.*;
 import jakarta.validation.constraints.NotNull;
 import lombok.Getter;
@@ -17,6 +19,9 @@ import java.util.UUID;
 @ToString
 @Entity
 @Table(name = "seatingplan")
+@JsonIdentityInfo(
+        generator = ObjectIdGenerators.PropertyGenerator.class,
+        property = "id")
 public class SeatingPlan {
 
     @Id
@@ -50,7 +55,6 @@ public class SeatingPlan {
 
         if (rows != that.rows) return false;
         if (!Objects.equals(id, that.id)) return false;
-        if (!Objects.equals(cinemaHall, that.cinemaHall)) return false;
         return Objects.equals(seats, that.seats);
     }
 

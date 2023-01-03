@@ -31,7 +31,7 @@ public class ImageData {
     private String type;
 
     @Lob
-    @Column(columnDefinition = "BLOB")
+    @Column(length = 10000)
     private byte[] imageData;
 
     public ImageData(String type, byte[] imageData) {

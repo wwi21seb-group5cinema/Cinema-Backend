@@ -16,7 +16,7 @@ import java.util.Optional;
 import java.util.UUID;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
-import static org.mockito.Mockito.when;
+import static org.mockito.Mockito.*;
 
 @ExtendWith(MockitoExtension.class)
 public class UserServiceTest {
@@ -79,6 +79,17 @@ public class UserServiceTest {
 
         List<User> actualUsers = userService.getAllUsers();
         assertEquals(expectedUsers, actualUsers, "Returned wrong list of users");
+    }
+
+    @Test
+    @DisplayName("Test saving")
+    public void testSave() {
+        User userToSave = getUser();
+
+        when(userRepository.save(userToSave)).thenReturn(userToSave);
+
+        userService.save(userToSave);
+        verify(userRepository, times(1)).save(userToSave);
     }
 
 }

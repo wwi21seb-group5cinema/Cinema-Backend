@@ -1,0 +1,2 @@
+### Get all seat types
+GET http://localhost:8082/v1/seatType/getAll
