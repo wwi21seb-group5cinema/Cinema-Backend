@@ -11,6 +11,7 @@ import org.springframework.http.HttpStatusCode;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
+import java.util.List;
 import java.util.Optional;
 import java.util.UUID;
 
@@ -35,8 +36,21 @@ public class TicketController {
     */
 
     @GetMapping(path = "/getAll")
-    public ResponseEntity<Object> getAllTickets(){
+    public ResponseEntity<List<Ticket>> getAllTickets(){
         return new ResponseEntity<>(ticketService.findAll(), HttpStatus.OK);
+    }
+
+    @GetMapping(path = "/get/{eventId}")
+    public ResponseEntity<List<Ticket>> getTicketsByEventId(@PathVariable UUID eventId){
+        try{
+            List<Ticket> ticketsOfEvent = ticketService.getByEventId(eventId);
+        }catch(TicketNotFoundException tnfe){
+            return new ResponseEntity<>(HttpStatus.NOT_FOUND);
+        }catch(Exception e){
+            return new ResponseEntity<>(HttpStatus.INTERNAL_SERVER_ERROR);
+        }
+
+        return null;
     }
 
     @GetMapping(value = "/get/{id}")
@@ -47,7 +61,7 @@ public class TicketController {
         }catch(TicketNotFoundException tnfe){
             return new ResponseEntity<>(HttpStatus.NOT_FOUND);
         }catch(Exception e){
-            return new ResponseEntity<>(HttpStatus.NOT_FOUND);
+            return new ResponseEntity<>(HttpStatus.INTERNAL_SERVER_ERROR);
         }
     }
 

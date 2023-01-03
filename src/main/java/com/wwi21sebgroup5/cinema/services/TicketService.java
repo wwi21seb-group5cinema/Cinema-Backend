@@ -44,4 +44,12 @@ public class TicketService {
 
         return foundTicket.get();
     }
+
+    public List<Ticket> getByEventId(UUID eventId) throws TicketNotFoundException{
+        Optional<List<Ticket>> foundTickets = ticketRepository.findTicketsByEvent_Id(eventId);
+        if(foundTickets.isEmpty()){
+            throw new TicketNotFoundException(eventId);
+        }
+        return foundTickets.get();
+    }
 }
