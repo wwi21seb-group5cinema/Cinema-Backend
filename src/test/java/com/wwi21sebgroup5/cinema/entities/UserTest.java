@@ -49,6 +49,13 @@ public class UserTest {
                 () -> assertEquals(firstUser.hashCode(), secondUser.hashCode(), "HashCode returns wrong result")
         );
 
+        User thirdUser = new User(), fourthUser = new User();
+
+        assertAll(
+                "Asserting null equality",
+                () -> assertEquals(thirdUser, fourthUser),
+                () -> assertEquals(thirdUser.hashCode(), fourthUser.hashCode())
+        );
     }
 
 }
