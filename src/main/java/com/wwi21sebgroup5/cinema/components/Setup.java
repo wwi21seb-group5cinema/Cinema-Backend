@@ -2,8 +2,10 @@ package com.wwi21sebgroup5.cinema.components;
 
 import com.wwi21sebgroup5.cinema.entities.City;
 import com.wwi21sebgroup5.cinema.entities.Genre;
+import com.wwi21sebgroup5.cinema.entities.SeatType;
 import com.wwi21sebgroup5.cinema.services.CityService;
 import com.wwi21sebgroup5.cinema.services.GenreService;
+import com.wwi21sebgroup5.cinema.services.SeatTypeService;
 import jakarta.annotation.PostConstruct;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
@@ -15,11 +17,16 @@ public class Setup {
 
     private static final String CITY_FILE = "static/data/cities.csv";
     private static final String GENRE_FILE = "static/data/genres.csv";
+    private static final String SEAT_TYPE_FILE = "static/data/seatTypes.csv";
 
     @Autowired
     CityService cityService;
     @Autowired
     GenreService genreService;
+
+    @Autowired
+    SeatTypeService seatTypeService;
+
     @Autowired
     private CsvDataLoader csvDataLoader;
 
@@ -30,6 +37,7 @@ public class Setup {
     private void setupData() {
         setupCities();
         setupGenres();
+        setupSeatTypes();
     }
 
     /**
@@ -51,6 +59,14 @@ public class Setup {
 
         for (Genre genre : genres) {
             genreService.save(genre);
+        }
+    }
+
+    private void setupSeatTypes() {
+        List<SeatType> seatTypes = csvDataLoader.loadObjectList(SeatType.class, SEAT_TYPE_FILE);
+
+        for (SeatType seatType : seatTypes) {
+            seatTypeService.addSeatType(seatType);
         }
     }
 

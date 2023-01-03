@@ -1,6 +1,5 @@
 package com.wwi21sebgroup5.cinema.services;
 
-import com.wwi21sebgroup5.cinema.entities.City;
 import com.wwi21sebgroup5.cinema.entities.Role;
 import com.wwi21sebgroup5.cinema.entities.User;
 import com.wwi21sebgroup5.cinema.exceptions.EmailAlreadyExistsException;
@@ -14,7 +13,6 @@ import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
-import java.util.List;
 import java.util.Optional;
 
 @Service
@@ -47,26 +45,13 @@ public class LoginService {
             throw new EmailAlreadyExistsException(registrationObject.getEmail());
         }
 
-        Optional<City> foundCity = cityService.getCityByPlz(registrationObject.getPlz());
-
-        if (foundCity.isEmpty()) {
-            List<City> foundCities = cityService.getAllCitiesByName(registrationObject.getCityName());
-
-            if (foundCities.isEmpty()) {
-                foundCity = Optional.of(cityService.save(
-                        new City(registrationObject.getPlz(), registrationObject.getCityName())));
-            } else {
-                foundCity = Optional.of(foundCities.get(0));
-            }
-        }
-
         User newUser = new User(registrationObject.getUserName(),
                 passwordEncoder.encode(registrationObject.getPassword()),
                 registrationObject.isAdmin() ? Role.ADMIN : Role.USER,
                 registrationObject.getFirstName(),
                 registrationObject.getLastName(),
                 registrationObject.getEmail(),
-                foundCity.get(),
+                cityService.findByPlzAndName(registrationObject.getPlz(), registrationObject.getCityName()),
                 registrationObject.getStreet(),
                 registrationObject.getHouseNumber());
 
