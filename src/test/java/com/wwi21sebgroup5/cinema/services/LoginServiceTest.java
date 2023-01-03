@@ -38,8 +38,8 @@ public class LoginServiceTest {
     private LoginService loginService;
 
     @Test
-    @DisplayName("Test successful registration")
-    public void testSuccessfulRegistration() {
+    @DisplayName("Test successful registration for normal user")
+    public void testSuccessfulRegistrationNormaluser() {
         String userName = "TestUserName", password = "TestPassword", firstName = "TestFirstName",
                 lastName = "TestLastName", email = "TestEmail", plz = "71672", cityName = "Marbach am Neckar",
                 street = "TestStreet", houseNumber = "TestHouseNumber";
@@ -53,6 +53,40 @@ public class LoginServiceTest {
 
         User expectedUser = new User(
                 userName, password, Role.USER, firstName, lastName, email, city, street, houseNumber
+        );
+
+        when(userService.getUserByUserName(userName)).thenReturn(Optional.empty());
+        when(userService.getUserByEmail(email)).thenReturn(Optional.empty());
+        when(cityService.findByPlzAndName(plz, cityName)).thenReturn(city);
+        when(passwordEncoder.encode(password)).thenReturn(password);
+
+        User actualUser = null;
+
+        try {
+            actualUser = loginService.register(registrationRequestObject);
+        } catch (UserAlreadyExistsException | EmailAlreadyExistsException ex) {
+            fail("Test failed during registering a user");
+        }
+
+        assertEquals(expectedUser, actualUser, "Registered user wrong!");
+    }
+
+    @Test
+    @DisplayName("Test successful registration for admin user")
+    public void testSuccessfulRegistrationAdminUser() {
+        String userName = "TestUserName", password = "TestPassword", firstName = "TestFirstName",
+                lastName = "TestLastName", email = "TestEmail", plz = "71672", cityName = "Marbach am Neckar",
+                street = "TestStreet", houseNumber = "TestHouseNumber";
+        boolean isAdmin = true;
+
+        RegistrationRequestObject registrationRequestObject = new RegistrationRequestObject(
+                userName, password, firstName, lastName, email, plz, cityName, street, houseNumber, isAdmin
+        );
+
+        City city = new City(plz, cityName);
+
+        User expectedUser = new User(
+                userName, password, Role.ADMIN, firstName, lastName, email, city, street, houseNumber
         );
 
         when(userService.getUserByUserName(userName)).thenReturn(Optional.empty());
