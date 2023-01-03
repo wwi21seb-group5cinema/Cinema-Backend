@@ -55,7 +55,6 @@ public class SeatingPlan {
 
         if (rows != that.rows) return false;
         if (!Objects.equals(id, that.id)) return false;
-        if (!Objects.equals(cinemaHall, that.cinemaHall)) return false;
         return Objects.equals(seats, that.seats);
     }
 

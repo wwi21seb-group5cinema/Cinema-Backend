@@ -64,7 +64,6 @@ public class SeatBlueprint {
         if (row != that.row) return false;
         if (place != that.place) return false;
         if (!Objects.equals(id, that.id)) return false;
-        if (!Objects.equals(seatingPlan, that.seatingPlan)) return false;
         return Objects.equals(seatType, that.seatType);
     }
 
