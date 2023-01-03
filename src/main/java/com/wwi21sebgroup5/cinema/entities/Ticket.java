@@ -20,5 +20,9 @@ public class Ticket {
     @NotNull
     @GeneratedValue(strategy = GenerationType.AUTO)
     private UUID id;
-    
+
+    @ManyToOne
+    @JoinColumn(name = "event_id", referencedColumnName = "id")
+    private Event event;
+
 }
