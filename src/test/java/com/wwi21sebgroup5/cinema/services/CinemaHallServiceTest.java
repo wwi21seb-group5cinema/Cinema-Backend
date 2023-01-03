@@ -75,16 +75,30 @@ public class CinemaHallServiceTest {
         // thus we need no further assertions
         when(cinemaHallRepository.save(cinemaHall)).thenReturn(cinemaHall);
 
-        CinemaHall actualHall;
+        CinemaHall actualHall = null;
 
         try {
             actualHall = cinemaHallService.addCinemaHall(requestObject);
         } catch (CinemaNotFoundException e) {
-            throw new RuntimeException(e);
+            fail("Error when adding seating plan");
         }
 
 
         assertEquals(cinemaHall, actualHall);
+    }
+
+    @Test
+    @DisplayName("Test cinema not found when adding new cinemaHall")
+    public void testCinemaNotFoundWhenAddingCinemaHall() {
+        Cinema cinema = setupCinema();
+        String name = "TestName";
+        CinemaHallRequestObject requestObject = new CinemaHallRequestObject(
+                cinema.getId(), 2, 3, name, 2
+        );
+
+        when(cinemaService.getCinemaById(cinema.getId())).thenReturn(Optional.empty());
+
+        assertThrows(CinemaNotFoundException.class, () -> cinemaHallService.addCinemaHall(requestObject));
     }
 
     @Test
