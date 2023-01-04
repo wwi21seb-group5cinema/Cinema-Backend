@@ -1,6 +1,7 @@
 package com.wwi21sebgroup5.cinema.services;
 
 import com.wwi21sebgroup5.cinema.entities.*;
+import com.wwi21sebgroup5.cinema.enums.FSK;
 import com.wwi21sebgroup5.cinema.exceptions.ActorNotFoundException;
 import com.wwi21sebgroup5.cinema.exceptions.GenreDoesNotExistException;
 import com.wwi21sebgroup5.cinema.exceptions.ImageNotFoundException;
@@ -22,7 +23,7 @@ import org.springframework.web.context.request.ServletRequestAttributes;
 import java.io.File;
 import java.io.IOException;
 import java.nio.file.Files;
-import java.util.Date;
+import java.time.LocalDate;
 import java.util.List;
 import java.util.Optional;
 import java.util.UUID;
@@ -70,9 +71,9 @@ public class MovieServiceTest {
             byte[] data = Files.readAllBytes(fi.toPath());
             ImageData image = new ImageData("image/png", data);
             Movie firstMovie = new Movie(producer, director, FSK.SIX, genre, image, "film1",
-                    "beschreibung", new Date(123), new Date(124));
+                    "beschreibung", LocalDate.of(2023, 12, 4), LocalDate.of(2023, 12, 6));
             Movie secondMovie = new Movie(producer, director, FSK.SIX, genre, image, "film2",
-                    "beschreibung2", new Date(123), new Date(124));
+                    "beschreibung2", LocalDate.of(2023, 12, 4), LocalDate.of(2023, 12, 6));
             List<Movie> expected = List.of(firstMovie, secondMovie);
 
             MockHttpServletRequest request = new MockHttpServletRequest();
@@ -97,7 +98,7 @@ public class MovieServiceTest {
             byte[] data = Files.readAllBytes(fi.toPath());
             ImageData image = new ImageData("image/png", data);
             Movie firstMovie = new Movie(producer, director, FSK.SIX, genre, image, "film1",
-                    "beschreibung", new Date(123), new Date(124));
+                    "beschreibung", LocalDate.of(2023, 12, 4), LocalDate.of(2023, 12, 6));
 
             Actor actor = new Actor("Paul", "Bahde");
             actor.setId(UUID.randomUUID());
@@ -116,7 +117,7 @@ public class MovieServiceTest {
 
             MovieRequestObject movieRequestObject = new MovieRequestObject(
                     producer.getName(), director.getFirstName(), director.getName(), actors, image.getId(), 6,
-                    genre.getName(), "film1", "beschreibung", new Date(123), new Date(124));
+                    genre.getName(), "film1", "beschreibung", LocalDate.of(2023, 12, 4), LocalDate.of(2023, 12, 6));
 
             Movie actual = null;
             try {
@@ -142,9 +143,6 @@ public class MovieServiceTest {
             File fi = new File("src/test/resources/beispielbild2.png");
             byte[] data = Files.readAllBytes(fi.toPath());
             ImageData image = new ImageData("image/png", data);
-            Movie firstMovie = new Movie(producer, director, FSK.SIX, genre, image, "film1",
-                    "beschreibung", new Date(123), new Date(124));
-
             Actor actor = new Actor("Paul", "Bahde");
             actor.setId(UUID.randomUUID());
             UUID actorId = actor.getId();
@@ -161,7 +159,7 @@ public class MovieServiceTest {
 
             MovieRequestObject movieRequestObject = new MovieRequestObject(
                     producer.getName(), director.getFirstName(), director.getName(), actors, image.getId(), 6,
-                    genre.getName(), "film1", "beschreibung", new Date(123), new Date(124));
+                    genre.getName(), "film1", "beschreibung", LocalDate.of(2023, 12, 4), LocalDate.of(2023, 12, 6));
 
             assertThrows(ActorNotFoundException.class, () -> movieService.add(movieRequestObject));
         } catch (IOException e) {
@@ -179,9 +177,6 @@ public class MovieServiceTest {
             File fi = new File("src/test/resources/beispielbild2.png");
             byte[] data = Files.readAllBytes(fi.toPath());
             ImageData image = new ImageData("image/png", data);
-            Movie firstMovie = new Movie(producer, director, FSK.SIX, genre, image, "film1",
-                    "beschreibung", new Date(123), new Date(124));
-
             Actor actor = new Actor("Paul", "Bahde");
             actor.setId(UUID.randomUUID());
             UUID actorId = actor.getId();
@@ -198,7 +193,7 @@ public class MovieServiceTest {
 
             MovieRequestObject movieRequestObject = new MovieRequestObject(
                     producer.getName(), director.getFirstName(), director.getName(), actors, image.getId(), 6,
-                    genre.getName(), "film1", "beschreibung", new Date(123), new Date(124));
+                    genre.getName(), "film1", "beschreibung", LocalDate.of(2023, 12, 4), LocalDate.of(2023, 12, 6));
 
             assertThrows(GenreDoesNotExistException.class, () -> movieService.add(movieRequestObject));
         } catch (IOException e) {
@@ -216,9 +211,6 @@ public class MovieServiceTest {
             File fi = new File("src/test/resources/beispielbild2.png");
             byte[] data = Files.readAllBytes(fi.toPath());
             ImageData image = new ImageData("image/png", data);
-            Movie firstMovie = new Movie(producer, director, FSK.SIX, genre, image, "film1",
-                    "beschreibung", new Date(123), new Date(124));
-
             Actor actor = new Actor("Paul", "Bahde");
             actor.setId(UUID.randomUUID());
             UUID actorId = actor.getId();
@@ -237,7 +229,7 @@ public class MovieServiceTest {
 
             MovieRequestObject movieRequestObject = new MovieRequestObject(
                     producer.getName(), director.getFirstName(), director.getName(), actors, image.getId(), 6,
-                    genre.getName(), "film1", "beschreibung", new Date(123), new Date(124));
+                    genre.getName(), "film1", "beschreibung", LocalDate.of(2023, 12, 4), LocalDate.of(2023, 12, 6));
 
             assertThrows(ImageNotFoundException.class, () -> movieService.add(movieRequestObject));
         } catch (IOException e) {
@@ -255,9 +247,6 @@ public class MovieServiceTest {
             File fi = new File("src/test/resources/beispielbild2.png");
             byte[] data = Files.readAllBytes(fi.toPath());
             ImageData image = new ImageData("image/png", data);
-            Movie firstMovie = new Movie(producer, director, FSK.SIX, genre, image, "film1",
-                    "beschreibung", new Date(123), new Date(124));
-
             Actor actor = new Actor("Paul", "Bahde");
             actor.setId(UUID.randomUUID());
             UUID actorId = actor.getId();
@@ -267,11 +256,11 @@ public class MovieServiceTest {
             RequestContextHolder.setRequestAttributes(new ServletRequestAttributes(request));
 
             when(producerService.findByName(producer.getName())).thenReturn(Optional.empty());
-            
+
 
             MovieRequestObject movieRequestObject = new MovieRequestObject(
                     producer.getName(), director.getFirstName(), director.getName(), actors, image.getId(), 6,
-                    genre.getName(), "film1", "beschreibung", new Date(123), new Date(124));
+                    genre.getName(), "film1", "beschreibung", LocalDate.of(2023, 12, 4), LocalDate.of(2023, 12, 6));
 
 
             try {

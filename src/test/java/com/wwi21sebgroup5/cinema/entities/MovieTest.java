@@ -1,9 +1,10 @@
 package com.wwi21sebgroup5.cinema.entities;
 
+import com.wwi21sebgroup5.cinema.enums.FSK;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 
-import java.sql.Date;
+import java.time.LocalDate;
 import java.util.UUID;
 
 import static org.junit.jupiter.api.Assertions.*;
@@ -35,7 +36,7 @@ public class MovieTest {
         Genre genre = setupGenre();
         ImageData imageData = setupImage();
         String name = "testName", description = "testDescription";
-        Date startDate = Date.valueOf("2023-1-12"), endDate = Date.valueOf("2023-3-14");
+        LocalDate startDate = LocalDate.of(2023, 1, 12), endDate = LocalDate.of(2023, 3, 14);
 
         Movie allArgsMovie = new Movie(
                 producer, director, fsk, genre, imageData, name, description, startDate, endDate
@@ -64,7 +65,7 @@ public class MovieTest {
         Genre genre = setupGenre();
         ImageData imageData = setupImage();
         String name = "testName", description = "testDescription";
-        Date startDate = Date.valueOf("2023-1-12"), endDate = Date.valueOf("2023-3-14");
+        LocalDate startDate = LocalDate.of(2023, 1, 12), endDate = LocalDate.of(2023, 3, 14);
 
         Movie firstMovie = new Movie(
                 producer, director, fsk, genre, imageData, name, description, startDate, endDate
