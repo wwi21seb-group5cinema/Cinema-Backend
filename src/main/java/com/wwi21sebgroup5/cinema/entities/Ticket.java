@@ -35,9 +35,14 @@ public class Ticket {
     @JoinColumn(name = "seat_id", referencedColumnName = "id")
     private Seat seat;
 
-    public Ticket(Event pEvent, Seat pSeat){
+    @ManyToOne
+    @JoinColumn(name = "booking_id", referencedColumnName = "id")
+    private Booking booking;
+
+    public Ticket(Event pEvent, Seat pSeat, Booking pBooking){
         event = pEvent;
         seat = pSeat;
+        booking = pBooking;
     }
 }
 

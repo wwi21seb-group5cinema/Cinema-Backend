@@ -1,9 +1,6 @@
 package com.wwi21sebgroup5.cinema.controller;
 
-import com.wwi21sebgroup5.cinema.entities.Event;
-import com.wwi21sebgroup5.cinema.entities.Movie;
-import com.wwi21sebgroup5.cinema.entities.Seat;
-import com.wwi21sebgroup5.cinema.entities.Ticket;
+import com.wwi21sebgroup5.cinema.entities.*;
 import com.wwi21sebgroup5.cinema.exceptions.TicketNotFoundException;
 import com.wwi21sebgroup5.cinema.services.TicketService;
 import org.junit.jupiter.api.DisplayName;
@@ -37,9 +34,10 @@ public class TicketControllerTest {
         Seat sampleSeat = new Seat();
         Seat sampleSeat1 = new Seat();
         UUID sampleId = new UUID(1 ,1);
+        Booking sampleBooking = new Booking();
 
-        Ticket t1 = new Ticket(sampleEvent, sampleSeat);
-        Ticket t2 = new Ticket(sampleEvent, sampleSeat1);
+        Ticket t1 = new Ticket(sampleEvent, sampleSeat, sampleBooking);
+        Ticket t2 = new Ticket(sampleEvent, sampleSeat1, sampleBooking);
 
         List<Ticket> expectedTickets = List.of(t1, t2);
 
@@ -76,7 +74,8 @@ public class TicketControllerTest {
     public void testGetTicketByIdSuccessful() throws TicketNotFoundException{
         Event sampleEvent = new Event();
         Seat sampleSeat = new Seat();
-        Ticket t = new Ticket(sampleEvent, sampleSeat);
+        Booking sampleBooking = new Booking();
+        Ticket t = new Ticket(sampleEvent, sampleSeat, sampleBooking);
         UUID sampleId = new UUID(1,1);
 
         when(ticketService.findById(sampleId)).thenReturn(t);

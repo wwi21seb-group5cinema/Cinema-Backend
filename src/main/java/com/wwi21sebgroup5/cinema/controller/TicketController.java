@@ -1,18 +1,14 @@
 package com.wwi21sebgroup5.cinema.controller;
 
 import com.wwi21sebgroup5.cinema.entities.Ticket;
-import com.wwi21sebgroup5.cinema.exceptions.TicketAlreadyExistsException;
 import com.wwi21sebgroup5.cinema.exceptions.TicketNotFoundException;
-import com.wwi21sebgroup5.cinema.requestObjects.TicketRequestObject;
 import com.wwi21sebgroup5.cinema.services.TicketService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
-import org.springframework.http.HttpStatusCode;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
-import java.util.Optional;
 import java.util.UUID;
 
 @RestController

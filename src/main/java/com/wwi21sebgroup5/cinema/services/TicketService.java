@@ -1,10 +1,12 @@
 package com.wwi21sebgroup5.cinema.services;
 
+import com.wwi21sebgroup5.cinema.entities.Booking;
+import com.wwi21sebgroup5.cinema.entities.Event;
+import com.wwi21sebgroup5.cinema.entities.Seat;
 import com.wwi21sebgroup5.cinema.entities.Ticket;
 import com.wwi21sebgroup5.cinema.exceptions.TicketAlreadyExistsException;
 import com.wwi21sebgroup5.cinema.exceptions.TicketNotFoundException;
 import com.wwi21sebgroup5.cinema.repositories.TicketRepository;
-import com.wwi21sebgroup5.cinema.requestObjects.TicketRequestObject;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -18,14 +20,15 @@ public class TicketService {
     @Autowired
     private TicketRepository ticketRepository;
 
-    public Ticket saveTicket(TicketRequestObject ticketRequestObject) throws TicketAlreadyExistsException{
-        Optional<Ticket> foundTicket = ticketRepository.findByEventAndSeat(ticketRequestObject.getEvent(), ticketRequestObject.getSeat());
+    public Ticket saveTicket(Event pEvent, Seat pSeat, Booking pBooking) throws TicketAlreadyExistsException{
+        Optional<Ticket> foundTicket = ticketRepository.findByEventAndSeat(pEvent, pSeat);
         if(foundTicket.isPresent()){
-            throw new TicketAlreadyExistsException(ticketRequestObject.getEvent(), ticketRequestObject.getSeat());
+            throw new TicketAlreadyExistsException(pEvent, pSeat);
         }
         Ticket ticket = new Ticket(
-                ticketRequestObject.getEvent(),
-                ticketRequestObject.getSeat()
+                pEvent,
+                pSeat,
+                pBooking
         );
         ticketRepository.save(ticket);
         return ticket;
