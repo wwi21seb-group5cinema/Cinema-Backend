@@ -27,8 +27,7 @@ public class TicketService {
         }
         Ticket ticket = new Ticket(
                 pEvent,
-                pSeat,
-                pBooking
+                pSeat
         );
         ticketRepository.save(ticket);
         return ticket;

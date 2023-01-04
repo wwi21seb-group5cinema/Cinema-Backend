@@ -34,10 +34,9 @@ public class TicketControllerTest {
         Seat sampleSeat = new Seat();
         Seat sampleSeat1 = new Seat();
         UUID sampleId = new UUID(1 ,1);
-        Booking sampleBooking = new Booking();
 
-        Ticket t1 = new Ticket(sampleEvent, sampleSeat, sampleBooking);
-        Ticket t2 = new Ticket(sampleEvent, sampleSeat1, sampleBooking);
+        Ticket t1 = new Ticket(sampleEvent, sampleSeat);
+        Ticket t2 = new Ticket(sampleEvent, sampleSeat1);
 
         List<Ticket> expectedTickets = List.of(t1, t2);
 
@@ -74,8 +73,7 @@ public class TicketControllerTest {
     public void testGetTicketByIdSuccessful() throws TicketNotFoundException{
         Event sampleEvent = new Event();
         Seat sampleSeat = new Seat();
-        Booking sampleBooking = new Booking();
-        Ticket t = new Ticket(sampleEvent, sampleSeat, sampleBooking);
+        Ticket t = new Ticket(sampleEvent, sampleSeat);
         UUID sampleId = new UUID(1,1);
 
         when(ticketService.findById(sampleId)).thenReturn(t);

@@ -39,10 +39,9 @@ public class Ticket {
     @JoinColumn(name = "booking_id", referencedColumnName = "id")
     private Booking booking;
 
-    public Ticket(Event pEvent, Seat pSeat, Booking pBooking){
+    public Ticket(Event pEvent, Seat pSeat){
         event = pEvent;
         seat = pSeat;
-        booking = pBooking;
     }
 }
 
