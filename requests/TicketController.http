@@ -1,0 +1,3 @@
+GET http://localhost:8082/v1/ticket/getAll
+### in the following a Ticket ID after the "=" is required
+GET http://localhost:8082/v1/ticket/get?id=
