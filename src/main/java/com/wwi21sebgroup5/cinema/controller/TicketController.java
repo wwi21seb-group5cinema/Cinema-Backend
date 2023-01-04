@@ -21,20 +21,6 @@ public class TicketController {
     @Autowired
     private TicketService ticketService;
 
-    /* only for Testingpurposes
-    @PostMapping
-    public ResponseEntity saveTicket(@RequestBody TicketRequestObject ticketRequesobject){
-        try{
-            return new ResponseEntity<>(ticketService.saveTicket(ticketRequesobject), HttpStatus.OK);
-        }catch(TicketAlreadyExistsException tae){
-            return new ResponseEntity<>(HttpStatus.NOT_ACCEPTABLE);
-        }catch(Exception e){
-            return new ResponseEntity<>(e.getMessage(), HttpStatus.INTERNAL_SERVER_ERROR);
-        }
-
-    }
-    */
-
     @GetMapping(path = "/getAll")
     public ResponseEntity<List<Ticket>> getAllTickets(){
         return new ResponseEntity<>(ticketService.findAll(), HttpStatus.OK);
@@ -44,13 +30,14 @@ public class TicketController {
     public ResponseEntity<List<Ticket>> getTicketsByEventId(@PathVariable UUID eventId){
         try{
             List<Ticket> ticketsOfEvent = ticketService.getByEventId(eventId);
+            return new ResponseEntity<List<Ticket>>(ticketsOfEvent, HttpStatus.OK);
         }catch(TicketNotFoundException tnfe){
             return new ResponseEntity<>(HttpStatus.NOT_FOUND);
         }catch(Exception e){
             return new ResponseEntity<>(HttpStatus.INTERNAL_SERVER_ERROR);
         }
 
-        return null;
+
     }
 
     @GetMapping(value = "/get/{id}")
