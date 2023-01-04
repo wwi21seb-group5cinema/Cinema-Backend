@@ -17,8 +17,8 @@ public class TicketController {
     @Autowired
     private TicketService ticketService;
 
-    @GetMapping(path = "/get/{eventId}")
-    public ResponseEntity<List<Ticket>> getTicketsByEventId(@PathVariable UUID eventId){
+    @GetMapping(path = "/get", params = "eventId")
+    public ResponseEntity<List<Ticket>> getTicketsByEventId(@RequestParam UUID eventId){
         try{
             List<Ticket> ticketsOfEvent = ticketService.getByEventId(eventId);
             return new ResponseEntity<List<Ticket>>(ticketsOfEvent, HttpStatus.OK);
@@ -31,8 +31,8 @@ public class TicketController {
 
     }
 
-    @GetMapping(value = "/get/{id}")
-    public ResponseEntity<Ticket> getTicketById(@PathVariable UUID id){
+    @GetMapping(value = "/get", params = "id")
+    public ResponseEntity<Ticket> getTicketById(@RequestParam UUID id){
         try {
             Ticket foundTicket = ticketService.findById(id);
             return new ResponseEntity<>(foundTicket, HttpStatus.OK);
