@@ -24,15 +24,15 @@ public class Ticket {
     private UUID id;
 
     @ManyToOne
-    @JoinColumn(name = "Event_id", referencedColumnName = "id")
+    @JoinColumn(name = "event_id", referencedColumnName = "id")
     private Event event;
 
     @OneToOne
-    @JoinColumn(name = "QR_Code_id", referencedColumnName = "id")
+    @JoinColumn(name = "qrcode_id", referencedColumnName = "id")
     private QR_Code qr_code;
 
     @OneToOne
-    @JoinColumn(name = "Seat_id", referencedColumnName = "id")
+    @JoinColumn(name = "seat_id", referencedColumnName = "id")
     private Seat seat;
 
     public Ticket(Event pEvent, Seat pSeat){

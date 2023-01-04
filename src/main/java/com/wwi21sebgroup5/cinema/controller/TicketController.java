@@ -21,11 +21,6 @@ public class TicketController {
     @Autowired
     private TicketService ticketService;
 
-    @GetMapping(path = "/getAll")
-    public ResponseEntity<List<Ticket>> getAllTickets(){
-        return new ResponseEntity<>(ticketService.findAll(), HttpStatus.OK);
-    }
-
     @GetMapping(path = "/get/{eventId}")
     public ResponseEntity<List<Ticket>> getTicketsByEventId(@PathVariable UUID eventId){
         try{

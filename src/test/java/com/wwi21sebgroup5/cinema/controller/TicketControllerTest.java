@@ -31,27 +31,6 @@ public class TicketControllerTest {
     TicketController ticketController;
 
     @Test
-    @DisplayName("Test getting all Tickets succesfully")
-    public void testGetAllTicketsSuccessful(){
-        Event sampleEvent = new Event();
-        Seat sampleSeat = new Seat();
-        Event sampleEvent1 = new Event();
-        Seat sampleSeat1 = new Seat();
-
-        Ticket ticket1 = new Ticket(sampleEvent, sampleSeat);
-        Ticket ticket2 = new Ticket(sampleEvent1, sampleSeat1);
-
-        List<Ticket> expectedTickets = List.of(ticket1, ticket2);
-
-        when(ticketService.findAll()).thenReturn(expectedTickets);
-        ResponseEntity<List<Ticket>> res = ticketController.getAllTickets();
-
-        assertAll("Validation correct response from controller...",
-                () -> assertIterableEquals(res.getBody(), expectedTickets),
-                () -> assertEquals(res.getStatusCode(), HttpStatus.OK));
-    }
-
-    @Test
     @DisplayName("Test getting Tickets by EventId sucessfully")
     public void testGetTicktesByEventIdsuccessful(){
         Event sampleEvent = new Event();
