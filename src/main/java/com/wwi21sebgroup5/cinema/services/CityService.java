@@ -44,9 +44,24 @@ public class CityService {
      * @param name City name which shall be searched for in the database
      * @return Returns a city in the form of an optional
      */
-    public Optional<City> findByPlzAndName(String plz, String name) {
-        return cityRepository.findByPlzAndNameContaining(plz, name);
+    public City findByPlzAndName(String plz, String name) {
+        Optional<City> foundCity = cityRepository.findByPlz(plz);
+
+        if (foundCity.isEmpty()) {
+            List<City> foundCities = cityRepository.findByName(name);
+
+            if (foundCities.isEmpty()) {
+                foundCity = Optional.of(cityRepository.save(
+                        new City(plz, name)));
+            } else {
+                foundCity = Optional.of(foundCities.get(0));
+            }
+        }
+
+        return foundCity.get();
     }
+
+
 
     /**
      * Persists a given city in the database
