@@ -1,5 +1,7 @@
 package com.wwi21sebgroup5.cinema.entities;
 
+import com.fasterxml.jackson.annotation.JsonIdentityInfo;
+import com.fasterxml.jackson.annotation.ObjectIdGenerators;
 import jakarta.persistence.*;
 import jakarta.validation.constraints.NotNull;
 import lombok.Getter;
@@ -19,6 +21,9 @@ import java.util.UUID;
 @NoArgsConstructor
 @Entity
 @Table(name = "event")
+@JsonIdentityInfo(
+        generator = ObjectIdGenerators.PropertyGenerator.class,
+        property = "id")
 public class Event {
 
     @Id

@@ -20,13 +20,13 @@ public class EventController {
     EventService eventService;
 
     @PostMapping(path = "/add")
-    public ResponseEntity<Event> addEvent(@RequestBody EventRequestObject requestObject) {
+    public ResponseEntity<Object> addEvent(@RequestBody EventRequestObject requestObject) {
         Event newEvent;
 
         try {
             newEvent = eventService.addEvent(requestObject);
         } catch (Exception ex) {
-            return new ResponseEntity<>(HttpStatus.INTERNAL_SERVER_ERROR);
+            return new ResponseEntity<>(ex.getMessage(), HttpStatus.INTERNAL_SERVER_ERROR);
         }
 
         return new ResponseEntity<>(newEvent, HttpStatus.CREATED);
