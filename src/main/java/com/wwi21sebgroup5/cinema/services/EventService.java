@@ -10,8 +10,7 @@ import com.wwi21sebgroup5.cinema.requestObjects.EventRequestObject;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
-import java.time.LocalDate;
-import java.time.LocalTime;
+import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
 import java.util.List;
@@ -21,15 +20,13 @@ import java.util.UUID;
 @Service
 public class EventService {
 
-    private static final DateTimeFormatter dateFormatter = DateTimeFormatter.ofPattern("dd-MM-yyyy");
-
-    private static final DateTimeFormatter timeFormatter = DateTimeFormatter.ofPattern("HH:mm");
-
-    @Autowired
-    MovieService movieService;
+    private static final DateTimeFormatter dateTimeFormatter = DateTimeFormatter.ofPattern("dd-MM-yyyy HH:mm");
 
     @Autowired
     CinemaHallService cinemaHallService;
+
+    @Autowired
+    MovieService movieService;
 
     @Autowired
     SeatService seatService;
@@ -71,8 +68,7 @@ public class EventService {
             newEvent.setCinemaHall(cinemaHall);
         }
 
-        newEvent.setEventDay(LocalDate.parse(requestObject.getEventDay(), dateFormatter));
-        newEvent.setEventTime(LocalTime.parse(requestObject.getEventTime(), timeFormatter));
+        newEvent.setEventDateTime(LocalDateTime.parse(requestObject.getEventDateTime(), dateTimeFormatter));
 
         SeatingPlan seatingPlan = cinemaHall.getSeatingPlan();
         List<Ticket> tickets = new ArrayList<>();
@@ -116,7 +112,10 @@ public class EventService {
      * @return Returns all events between startDate and endDate
      */
     public List<Event> findEventsBetweenTwoDates(String startDate, String endDate) {
-        return List.of();
+        LocalDateTime start = LocalDateTime.parse(startDate, dateTimeFormatter);
+        LocalDateTime end = LocalDateTime.parse(endDate, dateTimeFormatter);
+
+        return eventRepository.findEventsByEventDateTimeBetween(start, end);
     }
 
     /**

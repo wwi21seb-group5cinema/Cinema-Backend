@@ -19,10 +19,6 @@ public class EventRequestObject {
 
     @NotNull
     @NotEmpty
-    private String eventDay;
-
-    @NotNull
-    @NotEmpty
-    private String eventTime;
+    private String eventDateTime;
 
 }

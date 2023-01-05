@@ -10,6 +10,7 @@ import lombok.Setter;
 import lombok.ToString;
 
 import java.time.LocalDate;
+import java.time.LocalDateTime;
 import java.time.LocalTime;
 import java.util.List;
 import java.util.Objects;
@@ -52,18 +53,27 @@ public class Event {
 
     @Column
     @NotNull
+    private LocalDateTime eventDateTime;
+
+    @Transient
     private LocalDate eventDay;
 
-    @Column
-    @NotNull
+    @Transient
     private LocalTime eventTime;
 
-    public Event(Movie movie, CinemaHall cinemaHall, List<Ticket> tickets, LocalDate eventDay, LocalTime eventTime) {
+    public Event(Movie movie, CinemaHall cinemaHall, List<Ticket> tickets, LocalDateTime eventDateTime) {
         this.movie = movie;
         this.cinemaHall = cinemaHall;
         this.tickets = tickets;
-        this.eventDay = eventDay;
-        this.eventTime = eventTime;
+        this.eventDateTime = eventDateTime;
+    }
+
+    public LocalDate getEventDay() {
+        return eventDateTime.toLocalDate();
+    }
+
+    public LocalTime getEventTime() {
+        return eventDateTime.toLocalTime();
     }
 
     @Override
