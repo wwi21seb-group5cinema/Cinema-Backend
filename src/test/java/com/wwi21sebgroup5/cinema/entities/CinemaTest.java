@@ -57,7 +57,7 @@ public class CinemaTest {
         );
         assertNotEquals(firstCinema, "String");
         assertNotEquals(firstCinema, null);
-
+        secondCinema.setHouseNumber(null);
         secondCinema.setStreet(null);
         assertNotEquals(firstCinema, secondCinema);
 
