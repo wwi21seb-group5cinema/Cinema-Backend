@@ -11,6 +11,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import java.time.LocalDateTime;
+import java.time.LocalDate;
 import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
 import java.util.List;
@@ -20,7 +21,9 @@ import java.util.UUID;
 @Service
 public class EventService {
 
-    private static final DateTimeFormatter dateTimeFormatter = DateTimeFormatter.ofPattern("dd-MM-yyyy HH:mm");
+    private static final DateTimeFormatter DATE_TIME_FORMATTER = DateTimeFormatter.ofPattern("dd-MM-yyyy HH:mm");
+
+    private static final DateTimeFormatter DATE_FORMATTER = DateTimeFormatter.ofPattern("dd-MM-yyyy");
 
     @Autowired
     CinemaHallService cinemaHallService;
@@ -68,7 +71,7 @@ public class EventService {
             newEvent.setCinemaHall(cinemaHall);
         }
 
-        newEvent.setEventDateTime(LocalDateTime.parse(requestObject.getEventDateTime(), dateTimeFormatter));
+        newEvent.setEventDateTime(LocalDateTime.parse(requestObject.getEventDateTime(), DATE_TIME_FORMATTER));
 
         SeatingPlan seatingPlan = cinemaHall.getSeatingPlan();
         List<Ticket> tickets = new ArrayList<>();
@@ -112,10 +115,10 @@ public class EventService {
      * @return Returns all events between startDate and endDate
      */
     public List<Event> findEventsBetweenTwoDates(String startDate, String endDate) {
-        LocalDateTime start = LocalDateTime.parse(startDate, dateTimeFormatter);
-        LocalDateTime end = LocalDateTime.parse(endDate, dateTimeFormatter);
+        LocalDateTime start = LocalDateTime.parse(startDate, DATE_TIME_FORMATTER);
+        LocalDateTime end = LocalDateTime.parse(endDate, DATE_TIME_FORMATTER);
 
-        return eventRepository.findEventsByEventDateTimeBetween(start, end);
+        return eventRepository.findByEventDateTimeBetween(start, end);
     }
 
     /**
@@ -126,7 +129,10 @@ public class EventService {
      * @return Returns all events associated with the movie between startDate and endDate
      */
     public List<Event> findEventsForMovieBetweenTwoDates(UUID movieId, String startDate, String endDate) {
-        return List.of();
+        LocalDateTime start = LocalDateTime.parse(startDate, DATE_TIME_FORMATTER);
+        LocalDateTime end = LocalDateTime.parse(endDate, DATE_TIME_FORMATTER);
+
+        return eventRepository.findByMovie_IdAndAndEventDateTimeBetween(movieId, start, end);
     }
 
     /**
@@ -135,7 +141,9 @@ public class EventService {
      * @return Returns all events on the given day in date
      */
     public List<Event> findAllEventsForDay(String date) {
-        return List.of();
+        LocalDate eventDay = LocalDate.parse(date, DATE_FORMATTER);
+
+        return eventRepository.findByEventDayIs(eventDay);
     }
 
     /**
@@ -145,7 +153,9 @@ public class EventService {
      * @return Returns all events associated with the movie on the given day in date
      */
     public List<Event> findAllEventsForMovieAndDay(UUID movieId, String date) {
-        return List.of();
+        LocalDate eventDay = LocalDate.parse(date, DATE_FORMATTER);
+
+        return eventRepository.findByMovie_IdAndEventDayIs(movieId, eventDay);
     }
 
 }
