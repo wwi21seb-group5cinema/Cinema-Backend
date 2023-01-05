@@ -68,8 +68,8 @@ public class CinemaHallServiceTest {
         cinemaHall.setFloor(2);
 
         when(cinemaService.getCinemaById(cinema.getId())).thenReturn(Optional.of(cinema));
-        when(seatTypeService.getByName("REGULAR")).thenReturn(Optional.of(regularType));
-        when(seatTypeService.getByName("LOGE")).thenReturn(Optional.of(logeType));
+        when(seatTypeService.getSeatType("REGULAR")).thenReturn(regularType);
+        when(seatTypeService.getSeatType("LOGE")).thenReturn(logeType);
 
         // if the repository gets called with this exact cinema hall the method works correctly
         // thus we need no further assertions

@@ -19,6 +19,12 @@ public class EventController {
     @Autowired
     EventService eventService;
 
+    /**
+     *
+     * @param requestObject RequestObject that holds the necessary information to add an event, this includes a
+     *                      movie id, a cinema hall id, a start date and an end date
+     * @return Returns the newly added event embedded in a ResponseEntity
+     */
     @PostMapping(path = "/add")
     public ResponseEntity<Object> addEvent(@RequestBody EventRequestObject requestObject) {
         Event newEvent;
@@ -32,6 +38,11 @@ public class EventController {
         return new ResponseEntity<>(newEvent, HttpStatus.CREATED);
     }
 
+    /**
+     *
+     * @param id Id of the event
+     * @return Returns the event associated with the event embedded in a ResponseEntity
+     */
     @GetMapping(path = "/get", params = "id")
     public ResponseEntity<Event> getEventById(@RequestParam UUID id) {
         Optional<Event> foundEvent = eventService.findById(id);
@@ -41,6 +52,11 @@ public class EventController {
                 .orElseGet(() -> new ResponseEntity<>(HttpStatus.NOT_FOUND));
     }
 
+    /**
+     *
+     * @param movieId Id of the movie
+     * @return Returns all events associated with the movie embedded in a ResponseEntity
+     */
     @GetMapping(path = "/get", params = "movieId")
     public ResponseEntity<List<Event>> getEventsByMovie(@RequestParam UUID movieId) {
         List<Event> foundEvents = eventService.findAllByMovie(movieId);
@@ -52,6 +68,12 @@ public class EventController {
         }
     }
 
+    /**
+     *
+     * @param startDate First date
+     * @param endDate Second date
+     * @return Returns all events between the startDate and endDate embedded in a ResponseEntity
+     */
     @GetMapping(path = "/get", params = {"startDate", "endDate"})
     public ResponseEntity<List<Event>> getEventsBetweenTwoDates(@RequestParam String startDate,
                                                                 @RequestParam String endDate) {
@@ -64,6 +86,14 @@ public class EventController {
         }
     }
 
+    /**
+     *
+     * @param movieId Id of the movie
+     * @param startDate First date
+     * @param endDate Second date
+     * @return Returns all events associated with the movie between the startDate and endDate embedded in
+     * a ResponseEntity
+     */
     @GetMapping(path = "/get", params = {"movieId", "startDate", "endDate"})
     public ResponseEntity<List<Event>> getEventsForMovieBetweenTwoDates(@RequestParam UUID movieId,
                                                                         @RequestParam String startDate,
@@ -77,6 +107,11 @@ public class EventController {
         }
     }
 
+    /**
+     *
+     * @param date Specific day
+     * @return Returns all events on the given day in date embedded in a ResponseEntity
+     */
     @GetMapping(path = "/get", params = {"date"})
     public ResponseEntity<List<Event>> getEventsForDay(@RequestParam String date) {
         List<Event> foundEvents = eventService.findAllEventsForDay(date);
@@ -88,6 +123,12 @@ public class EventController {
         }
     }
 
+    /**
+     *
+     * @param movieId Id of the movie
+     * @param date Specific day
+     * @return Returns all events associated with the movie on the given day in date embedded in a ResponseEntity
+     */
     @GetMapping(path = "/get", params = {"movieId", "date"})
     public ResponseEntity<List<Event>> getEventsForMovieAndDay(@RequestParam UUID movieId, @RequestParam String date) {
         List<Event> foundEvents = eventService.findAllEventsForMovieAndDay(movieId, date);
