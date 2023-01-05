@@ -29,7 +29,7 @@ public class ActsInTest {
         Movie movie = new Movie();
         Actor actor = new Actor();
         Movie movie2 = new Movie();
-        Actor actor2 = new Actor();
+        Actor actor2 = new Actor("name", "first");
 
         ActsIn firstActsIn = new ActsIn(movie, actor);
         ActsIn secondActsIn = new ActsIn(movie, actor);
