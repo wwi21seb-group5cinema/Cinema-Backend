@@ -29,11 +29,10 @@ public class ActsInTest {
         Movie movie = new Movie();
         Actor actor = new Actor();
         Movie movie2 = new Movie();
-        Actor actor2 = new Actor("name", "first");
-
+        movie2.setId(UUID.randomUUID());
         ActsIn firstActsIn = new ActsIn(movie, actor);
         ActsIn secondActsIn = new ActsIn(movie, actor);
-        ActsIn thirdActsIn = new ActsIn(movie2, actor2);
+        ActsIn thirdActsIn = new ActsIn(movie2, actor);
 
         assertAll(
                 "Validating parameters...",
