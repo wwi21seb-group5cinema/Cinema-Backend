@@ -3,11 +3,13 @@ package com.wwi21sebgroup5.cinema.entities;
 import jakarta.persistence.*;
 import jakarta.validation.constraints.NotNull;
 import lombok.Getter;
+import lombok.NoArgsConstructor;
 import lombok.Setter;
 import lombok.ToString;
 
 import java.util.UUID;
 
+@NoArgsConstructor
 @Getter
 @Setter
 @ToString
@@ -26,6 +28,12 @@ public class Booking {
     @JoinColumn(name = "user_id", referencedColumnName = "id")
     private User user;
 
-    //Invoice missing!!
+    @NotNull
+    @OneToOne
+    private Invoice invoice;
+
+    public Booking(User user){
+
+    }
 
 }
