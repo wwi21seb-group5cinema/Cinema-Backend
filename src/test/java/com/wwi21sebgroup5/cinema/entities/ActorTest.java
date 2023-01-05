@@ -25,21 +25,18 @@ public class ActorTest {
     public void testEquality() {
         Actor first = new Actor("name", "firstname");
         Actor second = new Actor("name", "firstname");
+        Actor third = new Actor("name2", "firstname2");
         assertAll(
                 "Validating parameters...",
                 () -> assertEquals(first, second),
-                () -> assertEquals(first.hashCode(), second.hashCode())
+                () -> assertEquals(first.hashCode(), second.hashCode()),
+                () -> assertEquals(first, first)
         );
 
         assertAll(
                 "Validating parameters...",
-                () -> assertEquals(first, first),
-                () -> assertEquals(first.hashCode(), first.hashCode())
-        );
-
-        assertAll(
-                "Validating parameters...",
-                () -> assertNotEquals(first, "second")
+                () -> assertNotEquals(first, "second"),
+                () -> assertNotEquals(first, third)
         );
 
         second.setId(UUID.randomUUID());
