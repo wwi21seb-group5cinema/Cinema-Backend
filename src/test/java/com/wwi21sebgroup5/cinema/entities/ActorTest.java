@@ -31,6 +31,17 @@ public class ActorTest {
                 () -> assertEquals(first.hashCode(), second.hashCode())
         );
 
+        assertAll(
+                "Validating parameters...",
+                () -> assertEquals(first, first),
+                () -> assertEquals(first.hashCode(), first.hashCode())
+        );
+
+        assertAll(
+                "Validating parameters...",
+                () -> assertNotEquals(first, "second")
+        );
+
         second.setId(UUID.randomUUID());
         assertAll(
                 "Validating parameters...",
