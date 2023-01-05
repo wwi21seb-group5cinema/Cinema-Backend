@@ -48,9 +48,6 @@ public class CinemaTest {
         Cinema secondCinema = new Cinema(
                 name, List.of(), city, street, houseNumber, floors
         );
-        Cinema thirdCinema = new Cinema(
-                name, List.of(), city, street, "testHouseNumber2", floors
-        );
 
         assertAll(
                 "Validating equality",
@@ -58,21 +55,32 @@ public class CinemaTest {
                 () -> assertEquals(firstCinema.hashCode(), secondCinema.hashCode()),
                 () -> assertEquals(firstCinema, firstCinema)
         );
+        assertNotEquals(firstCinema, "String");
+        assertNotEquals(firstCinema, null);
 
-        assertAll(
-                "Validating parameters...",
-                () -> assertNotEquals(firstCinema, "String"),
-                () -> assertNotEquals(firstCinema, thirdCinema),
-                () -> assertNotEquals(firstCinema, null)
-        );
+        secondCinema.setStreet(null);
+        assertNotEquals(firstCinema, secondCinema);
+
+        secondCinema.setCity(null);
+        assertNotEquals(firstCinema, secondCinema);
+
+        secondCinema.setHalls(null);
+        assertNotEquals(firstCinema, secondCinema);
+
+        secondCinema.setName(null);
+        assertNotEquals(firstCinema, secondCinema);
 
         secondCinema.setId(UUID.randomUUID());
+        assertNotEquals(firstCinema, secondCinema);
 
-        assertAll(
-                "Validating inequality",
-                () -> assertNotEquals(firstCinema, secondCinema),
-                () -> assertNotEquals(firstCinema.hashCode(), secondCinema.hashCode())
-        );
+        secondCinema.setCinemaRooms(2);
+        assertNotEquals(firstCinema, secondCinema);
+
+        secondCinema.setFloors(0);
+        assertNotEquals(firstCinema, secondCinema);
+
+        assertNotEquals(firstCinema.hashCode(), secondCinema.hashCode());
+
     }
 
 }
