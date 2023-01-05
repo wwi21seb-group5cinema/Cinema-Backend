@@ -36,7 +36,8 @@ public class ActorTest {
         assertAll(
                 "Validating parameters...",
                 () -> assertNotEquals(first, "second"),
-                () -> assertNotEquals(first, third)
+                () -> assertNotEquals(first, third),
+                () -> assertNotEquals(first, null)
         );
 
         second.setId(UUID.randomUUID());
