@@ -49,31 +49,56 @@ public class CinemaHallTest {
     @Test
     @DisplayName("Test equality")
     public void testEquality() {
+        UUID id = UUID.randomUUID();
+        CinemaHall firstCinemaHall = getCinemaHall(id);
+        CinemaHall secondCinemaHall = getCinemaHall(id);
+
+        assertEquals(firstCinemaHall, secondCinemaHall);
+        assertEquals(firstCinemaHall.hashCode(), secondCinemaHall.hashCode());
+        assertEquals(firstCinemaHall, firstCinemaHall);
+
+        assertNotEquals(firstCinemaHall, "String");
+        assertNotEquals(firstCinemaHall, null);
+
+        secondCinemaHall.setCinema(null);
+        assertNotEquals(firstCinemaHall, secondCinemaHall);
+
+        secondCinemaHall = getCinemaHall(id);
+        secondCinemaHall.setName(null);
+        assertNotEquals(firstCinemaHall, secondCinemaHall);
+
+        secondCinemaHall = getCinemaHall(UUID.randomUUID());
+        assertNotEquals(firstCinemaHall, secondCinemaHall);
+
+        secondCinemaHall = getCinemaHall(id);
+        secondCinemaHall.setFloor(9);
+        assertNotEquals(firstCinemaHall, secondCinemaHall);
+
+        secondCinemaHall = getCinemaHall(id);
+        secondCinemaHall.setSeatingPlan(null);
+        assertNotEquals(firstCinemaHall, secondCinemaHall);
+
+        secondCinemaHall = getCinemaHallNull();
+        assertNotEquals(firstCinemaHall.hashCode(), secondCinemaHall.hashCode());
+    }
+
+    private CinemaHall getCinemaHallNull() {
+        return new CinemaHall(
+                null, null, null, 0
+        );
+    }
+
+    private CinemaHall getCinemaHall(UUID id) {
         Cinema cinema = setupCinema();
         SeatingPlan seatingPlan = setupSeatingPlan();
         String name = "testName";
         int floor = 2;
 
-        CinemaHall firstCinemaHall = new CinemaHall(
+        CinemaHall c = new CinemaHall(
                 cinema, seatingPlan, name, floor
         );
-        CinemaHall secondCinemaHall = new CinemaHall(
-                cinema, seatingPlan, name, floor
-        );
-
-        assertAll(
-                "Validating equality",
-                () -> assertEquals(firstCinemaHall, secondCinemaHall),
-                () -> assertEquals(firstCinemaHall.hashCode(), secondCinemaHall.hashCode())
-        );
-
-        secondCinemaHall.setId(UUID.randomUUID());
-
-        assertAll(
-                "Validating equality",
-                () -> assertNotEquals(firstCinemaHall, secondCinemaHall),
-                () -> assertNotEquals(firstCinemaHall.hashCode(), secondCinemaHall.hashCode())
-        );
+        c.setId(id);
+        return c;
     }
 
 }
