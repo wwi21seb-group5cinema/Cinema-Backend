@@ -48,11 +48,22 @@ public class CinemaTest {
         Cinema secondCinema = new Cinema(
                 name, List.of(), city, street, houseNumber, floors
         );
+        Cinema thirdCinema = new Cinema(
+                name, List.of(), city, street, "testHouseNumber2", floors
+        );
 
         assertAll(
                 "Validating equality",
                 () -> assertEquals(firstCinema, secondCinema),
-                () -> assertEquals(firstCinema.hashCode(), secondCinema.hashCode())
+                () -> assertEquals(firstCinema.hashCode(), secondCinema.hashCode()),
+                () -> assertEquals(firstCinema, firstCinema)
+        );
+
+        assertAll(
+                "Validating parameters...",
+                () -> assertNotEquals(firstCinema, "String"),
+                () -> assertNotEquals(firstCinema, thirdCinema),
+                () -> assertNotEquals(firstCinema, null)
         );
 
         secondCinema.setId(UUID.randomUUID());
