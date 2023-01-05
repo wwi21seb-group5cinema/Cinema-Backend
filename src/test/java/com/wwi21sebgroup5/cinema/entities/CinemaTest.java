@@ -37,45 +37,40 @@ public class CinemaTest {
     @Test
     @DisplayName("Test equality")
     public void testEquality() {
-        String name = "testName", plz = "70565", cityName = "Stuttgart", street = "testStreet", houseNumber =
-                "testHouseNumber";
-        int floors = 3;
-        City city = new City(plz, cityName);
-
-        Cinema firstCinema = getCinema();
-        Cinema secondCinema = getCinema();
+        Cinema firstCinema = getCinema(UUID.randomUUID());
+        Cinema secondCinema = getCinema(firstCinema.getId());
 
         assertEquals(firstCinema, secondCinema);
         assertEquals(firstCinema.hashCode(), secondCinema.hashCode());
         assertEquals(firstCinema, firstCinema);
-        
+
         assertNotEquals(firstCinema, "String");
         assertNotEquals(firstCinema, null);
 
         secondCinema.setStreet(null);
         assertNotEquals(firstCinema, secondCinema);
 
-        secondCinema = getCinema();
+        secondCinema = getCinema(firstCinema.getId());
         secondCinema.setCity(null);
         assertNotEquals(firstCinema, secondCinema);
 
-        secondCinema = getCinema();
+        secondCinema = getCinema(firstCinema.getId());
         secondCinema.setHalls(null);
         assertNotEquals(firstCinema, secondCinema);
 
-        secondCinema = getCinema();
+        secondCinema = getCinema(firstCinema.getId());
         secondCinema.setName(null);
         assertNotEquals(firstCinema, secondCinema);
 
-        secondCinema = getCinema();
+        secondCinema = getCinema(firstCinema.getId());
         secondCinema.setId(UUID.randomUUID());
         assertNotEquals(firstCinema, secondCinema);
 
-        secondCinema = getCinema();
+        secondCinema = getCinema(firstCinema.getId());
         secondCinema.setCinemaRooms(2);
         assertNotEquals(firstCinema, secondCinema);
 
-        secondCinema = getCinema();
+        secondCinema = getCinema(firstCinema.getId());
         secondCinema.setFloors(0);
         assertNotEquals(firstCinema, secondCinema);
 
@@ -90,15 +85,17 @@ public class CinemaTest {
         );
     }
 
-    private Cinema getCinema() {
+    private Cinema getCinema(UUID id) {
         String name = "testName", plz = "70565", cityName = "Stuttgart", street = "testStreet", houseNumber =
                 "testHouseNumber";
         int floors = 3;
         City city = new City(plz, cityName);
 
-        return new Cinema(
+        Cinema cinema = new Cinema(
                 name, List.of(), city, street, houseNumber, floors
         );
+        cinema.setId(id);
+        return cinema;
     }
 
 }
