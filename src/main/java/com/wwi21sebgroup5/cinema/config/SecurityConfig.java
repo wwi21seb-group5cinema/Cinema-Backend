@@ -30,6 +30,8 @@ public class SecurityConfig {
     @Bean
     public SecurityFilterChain filterChain(HttpSecurity http) throws Exception {
         http
+                .cors()
+                .and()
                 .csrf(AbstractHttpConfigurer::disable)
                 .authorizeHttpRequests(authorize -> authorize
                         .requestMatchers("/v1/admin/**").hasRole("ADMIN")
@@ -55,7 +57,8 @@ public class SecurityConfig {
         CorsConfiguration configuration = new CorsConfiguration();
 
         configuration.setAllowedOrigins(Arrays.asList(
-                        "https://localhost:8000", "http://localhost:8080",
+                        "https://localhost:3000", "http://localhost:3000",
+                        "https://localhost:8000", "http://localhost:8000",
                         "https://localhost:8082", "http://localhost:8082",
                         "https://wwi21seb-group5cinema.azurewebsites.net"
                 )
