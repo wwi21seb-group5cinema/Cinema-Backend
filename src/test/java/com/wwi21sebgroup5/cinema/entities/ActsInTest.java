@@ -28,14 +28,25 @@ public class ActsInTest {
     public void testEquality() {
         Movie movie = new Movie();
         Actor actor = new Actor();
+        Movie movie2 = new Movie();
+        Actor actor2 = new Actor();
 
         ActsIn firstActsIn = new ActsIn(movie, actor);
         ActsIn secondActsIn = new ActsIn(movie, actor);
+        ActsIn thirdActsIn = new ActsIn(movie2, actor2);
 
         assertAll(
                 "Validating parameters...",
                 () -> assertEquals(firstActsIn, secondActsIn),
-                () -> assertEquals(firstActsIn.hashCode(), secondActsIn.hashCode())
+                () -> assertEquals(firstActsIn.hashCode(), secondActsIn.hashCode()),
+                () -> assertEquals(firstActsIn, firstActsIn)
+        );
+
+        assertAll(
+                "Validating parameters...",
+                () -> assertNotEquals(firstActsIn, thirdActsIn),
+                () -> assertNotEquals(firstActsIn, "String"),
+                () -> assertNotEquals(firstActsIn, null)
         );
 
         secondActsIn.setId(UUID.randomUUID());
