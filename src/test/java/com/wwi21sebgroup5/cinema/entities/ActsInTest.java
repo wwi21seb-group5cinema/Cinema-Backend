@@ -33,6 +33,7 @@ public class ActsInTest {
         ActsIn firstActsIn = new ActsIn(movie, actor);
         ActsIn secondActsIn = new ActsIn(movie, actor);
         ActsIn thirdActsIn = new ActsIn(movie2, actor);
+        ActsIn forthActsIn = new ActsIn(null, null);
 
         assertAll(
                 "Validating parameters...",
@@ -54,6 +55,10 @@ public class ActsInTest {
                 "Validating parameters...",
                 () -> assertNotEquals(firstActsIn, secondActsIn),
                 () -> assertNotEquals(firstActsIn.hashCode(), secondActsIn.hashCode())
+        );
+        assertAll(
+                "Validating parameters...",
+                () -> assertNotEquals(firstActsIn.hashCode(), forthActsIn.hashCode())
         );
     }
 
