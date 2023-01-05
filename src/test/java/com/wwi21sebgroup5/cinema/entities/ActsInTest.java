@@ -58,7 +58,7 @@ public class ActsInTest {
         );
         assertAll(
                 "Validating parameters...",
-                () -> assertNotEquals(firstActsIn.hashCode(), forthActsIn.hashCode())
+                () -> assertNotEquals(thirdActsIn.hashCode(), forthActsIn.hashCode())
         );
     }
 
