@@ -1,5 +1,6 @@
 package com.wwi21sebgroup5.cinema.entities;
 
+import com.wwi21sebgroup5.cinema.enums.FSK;
 import jakarta.persistence.*;
 import jakarta.validation.constraints.NotNull;
 import lombok.Getter;
@@ -7,7 +8,7 @@ import lombok.NoArgsConstructor;
 import lombok.Setter;
 import lombok.ToString;
 
-import java.util.Date;
+import java.time.LocalDate;
 import java.util.Objects;
 import java.util.UUID;
 
@@ -60,10 +61,10 @@ public class Movie {
 
     @NotNull
     @Column
-    private Date start_date;
+    private LocalDate start_date;
 
     @Column
-    private Date end_date;
+    private LocalDate end_date;
 
     public Movie(Producer producer,
                  Director director,
@@ -72,8 +73,8 @@ public class Movie {
                  ImageData image,
                  String name,
                  String description,
-                 Date start_date,
-                 Date end_date) {
+                 LocalDate start_date,
+                 LocalDate end_date) {
         this.producer = producer;
         this.director = director;
         this.fsk = fsk;

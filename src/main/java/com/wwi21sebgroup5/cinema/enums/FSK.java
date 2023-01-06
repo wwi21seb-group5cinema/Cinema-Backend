@@ -1,4 +1,4 @@
-package com.wwi21sebgroup5.cinema.entities;
+package com.wwi21sebgroup5.cinema.enums;
 
 import com.wwi21sebgroup5.cinema.exceptions.FSKNotFoundException;
 
