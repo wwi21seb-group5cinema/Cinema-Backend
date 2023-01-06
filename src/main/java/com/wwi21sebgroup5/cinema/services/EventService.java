@@ -109,9 +109,8 @@ public class EventService {
     }
 
     /**
-     *
      * @param startDate First date
-     * @param endDate Second date
+     * @param endDate   Second date
      * @return Returns all events between startDate and endDate
      */
     public List<Event> findEventsBetweenTwoDates(String startDate, String endDate) {
@@ -122,10 +121,9 @@ public class EventService {
     }
 
     /**
-     *
-     * @param movieId Id of the movie
+     * @param movieId   Id of the movie
      * @param startDate First date
-     * @param endDate Second date
+     * @param endDate   Second date
      * @return Returns all events associated with the movie between startDate and endDate
      */
     public List<Event> findEventsForMovieBetweenTwoDates(UUID movieId, String startDate, String endDate) {
@@ -136,26 +134,26 @@ public class EventService {
     }
 
     /**
-     *
      * @param date Specific day
      * @return Returns all events on the given day in date
      */
     public List<Event> findAllEventsForDay(String date) {
         LocalDate eventDay = LocalDate.parse(date, DATE_FORMATTER);
 
-        return eventRepository.findByEventDayIs(eventDay);
+        return eventRepository.findByEventDateTimeIsBetween(
+                eventDay.atStartOfDay(), eventDay.plusDays(1).atStartOfDay());
     }
 
     /**
-     *
      * @param movieId Id of the movie
-     * @param date Specific day
+     * @param date    Specific day
      * @return Returns all events associated with the movie on the given day in date
      */
     public List<Event> findAllEventsForMovieAndDay(UUID movieId, String date) {
         LocalDate eventDay = LocalDate.parse(date, DATE_FORMATTER);
 
-        return eventRepository.findByMovie_IdAndEventDayIs(movieId, eventDay);
+        return eventRepository.findByMovie_IdAndEventDateTimeIsBetween(
+                movieId, eventDay.atStartOfDay(), eventDay.plusDays(1).atStartOfDay());
     }
 
 }
