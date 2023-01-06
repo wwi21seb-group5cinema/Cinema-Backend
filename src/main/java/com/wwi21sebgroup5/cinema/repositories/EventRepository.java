@@ -14,9 +14,9 @@ public interface EventRepository extends JpaRepository<Event, UUID> {
 
     List<Event> findByMovie_Id(UUID id);
 
-    List<Event> findByEventDateTimeBetween(LocalDateTime startDate, LocalDateTime endDate);
+    List<Event> findByEventDateTimeIsBetween(LocalDateTime startDate, LocalDateTime endDate);
 
-    List<Event> findByMovie_IdAndAndEventDateTimeBetween(UUID id, LocalDateTime startDate, LocalDateTime endDate);
+    List<Event> findByMovie_IdAndEventDateTimeIsBetween(UUID id, LocalDateTime startDate, LocalDateTime endDate);
 
     List<Event> findByEventDayIs(LocalDate eventDay);
 

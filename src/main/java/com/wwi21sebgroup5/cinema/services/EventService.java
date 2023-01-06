@@ -118,7 +118,7 @@ public class EventService {
         LocalDateTime start = LocalDateTime.parse(startDate, DATE_TIME_FORMATTER);
         LocalDateTime end = LocalDateTime.parse(endDate, DATE_TIME_FORMATTER);
 
-        return eventRepository.findByEventDateTimeBetween(start, end);
+        return eventRepository.findByEventDateTimeIsBetween(start, end);
     }
 
     /**
@@ -132,7 +132,7 @@ public class EventService {
         LocalDateTime start = LocalDateTime.parse(startDate, DATE_TIME_FORMATTER);
         LocalDateTime end = LocalDateTime.parse(endDate, DATE_TIME_FORMATTER);
 
-        return eventRepository.findByMovie_IdAndAndEventDateTimeBetween(movieId, start, end);
+        return eventRepository.findByMovie_IdAndEventDateTimeIsBetween(movieId, start, end);
     }
 
     /**
