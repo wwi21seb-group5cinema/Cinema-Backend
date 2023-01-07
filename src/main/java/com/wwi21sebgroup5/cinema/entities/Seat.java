@@ -62,6 +62,7 @@ public class Seat {
         this.event = event;
         this.row = row;
         this.place = place;
+        this.seatState = SeatState.FREE;
     }
 
     @Override

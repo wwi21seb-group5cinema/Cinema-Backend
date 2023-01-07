@@ -1,6 +1,9 @@
 package com.wwi21sebgroup5.cinema.controller;
 
 import com.wwi21sebgroup5.cinema.entities.Event;
+import com.wwi21sebgroup5.cinema.exceptions.CinemaHallNotFoundException;
+import com.wwi21sebgroup5.cinema.exceptions.MovieNotFoundException;
+import com.wwi21sebgroup5.cinema.exceptions.TicketAlreadyExistsException;
 import com.wwi21sebgroup5.cinema.requestObjects.EventRequestObject;
 import com.wwi21sebgroup5.cinema.services.EventService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -31,6 +34,8 @@ public class EventController {
 
         try {
             newEvent = eventService.addEvent(requestObject);
+        } catch (TicketAlreadyExistsException | CinemaHallNotFoundException | MovieNotFoundException e) {
+            return new ResponseEntity<>(e.getMessage(), HttpStatus.NOT_ACCEPTABLE);
         } catch (Exception ex) {
             return new ResponseEntity<>(ex.getMessage(), HttpStatus.INTERNAL_SERVER_ERROR);
         }
