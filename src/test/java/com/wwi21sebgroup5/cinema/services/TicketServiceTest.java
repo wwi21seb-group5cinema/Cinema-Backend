@@ -13,6 +13,7 @@ import org.mockito.InjectMocks;
 import org.mockito.Mock;
 import org.mockito.junit.jupiter.MockitoExtension;
 
+import java.time.LocalDateTime;
 import java.util.List;
 import java.util.Optional;
 import java.util.UUID;
@@ -46,9 +47,13 @@ public class TicketServiceTest {
     @Test
     @DisplayName("Test adding Ticket unsuccessfully")
     public void testAddTicketUnsuccessful() {
+        UUID id = UUID.randomUUID();
         Event sampleEvent = new Event();
+        LocalDateTime localDateTime = LocalDateTime.now();
+        sampleEvent.setEventDateTime(localDateTime);
         Seat sampleSeat = new Seat();
         Ticket ticket = new Ticket(sampleEvent, sampleSeat);
+        ticket.setId(id);
         when(ticketRepository.findByEventAndSeat(sampleEvent, sampleSeat)).thenReturn(Optional.of(ticket));
         assertThrows(TicketAlreadyExistsException.class, () -> ticketService.saveTicket(sampleEvent, sampleSeat));
     }
