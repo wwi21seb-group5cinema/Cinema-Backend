@@ -1,5 +1,6 @@
 package com.wwi21sebgroup5.cinema.entities;
 
+import com.wwi21sebgroup5.cinema.enums.FSK;
 import com.wwi21sebgroup5.cinema.exceptions.FSKNotFoundException;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;

@@ -1,4 +1,4 @@
-package com.wwi21sebgroup5.cinema.config;
+package com.wwi21sebgroup5.cinema.helper;
 
 public class ImageCompressor {
 
