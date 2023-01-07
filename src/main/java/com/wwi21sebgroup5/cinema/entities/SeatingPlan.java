@@ -31,6 +31,7 @@ public class SeatingPlan {
     private UUID id;
 
     @OneToOne(mappedBy = "seatingPlan")
+    @ToString.Exclude
     private CinemaHall cinemaHall;
 
     @OneToMany(mappedBy = "seatingPlan", cascade = CascadeType.ALL)
@@ -68,4 +69,5 @@ public class SeatingPlan {
         hash = prime * hash + rows;
         return hash;
     }
+
 }

@@ -7,24 +7,18 @@ public enum FSK {
 
 
     /**
-     * @param value
+     * @param value Integer that should be parsed
      * @return The enumeration-value matching the parameter
-     * @throws FSKNotFoundException
+     * @throws FSKNotFoundException If integer can't be associated with a correct FSK-value
      */
     public static FSK getFSKFromInt(int value) throws FSKNotFoundException {
-        switch (value) {
-            case 0:
-                return FSK.ZERO;
-            case 6:
-                return FSK.SIX;
-            case 12:
-                return FSK.TWELVE;
-            case 16:
-                return FSK.SIXTEEN;
-            case 18:
-                return FSK.EIGHTEEN;
-            default:
-                throw new FSKNotFoundException(value);
-        }
+        return switch (value) {
+            case 0 -> FSK.ZERO;
+            case 6 -> FSK.SIX;
+            case 12 -> FSK.TWELVE;
+            case 16 -> FSK.SIXTEEN;
+            case 18 -> FSK.EIGHTEEN;
+            default -> throw new FSKNotFoundException(value);
+        };
     }
 }

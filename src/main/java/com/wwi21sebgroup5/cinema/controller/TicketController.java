@@ -21,7 +21,7 @@ public class TicketController {
     public ResponseEntity<List<Ticket>> getTicketsByEventId(@RequestParam UUID eventId){
         try{
             List<Ticket> ticketsOfEvent = ticketService.getByEventId(eventId);
-            return new ResponseEntity<List<Ticket>>(ticketsOfEvent, HttpStatus.OK);
+            return new ResponseEntity<>(ticketsOfEvent, HttpStatus.OK);
         }catch(TicketNotFoundException tnfe){
             return new ResponseEntity<>(HttpStatus.NOT_FOUND);
         }catch(Exception e){
