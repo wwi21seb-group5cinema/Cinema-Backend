@@ -1,8 +1,8 @@
 package com.wwi21sebgroup5.cinema.controller;
 
 import com.wwi21sebgroup5.cinema.entities.City;
-import com.wwi21sebgroup5.cinema.entities.Role;
 import com.wwi21sebgroup5.cinema.entities.User;
+import com.wwi21sebgroup5.cinema.enums.Role;
 import com.wwi21sebgroup5.cinema.services.UserService;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;

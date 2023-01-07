@@ -1,6 +1,7 @@
 package com.wwi21sebgroup5.cinema.services;
 
 import com.wwi21sebgroup5.cinema.entities.*;
+import com.wwi21sebgroup5.cinema.enums.FSK;
 import com.wwi21sebgroup5.cinema.exceptions.*;
 import com.wwi21sebgroup5.cinema.repositories.ImageDataRepository;
 import com.wwi21sebgroup5.cinema.repositories.MovieRepository;
@@ -36,7 +37,7 @@ public class MovieService {
 
 
     /**
-     * @param movieObject
+     * @param movieObject request object
      * @return the newly created movie object
      * @throws GenreDoesNotExistException thrown if the genre can´t be found
      * @throws FSKNotFoundException       thrown if the fsk cant´t be found
@@ -108,4 +109,9 @@ public class MovieService {
         return movieRepository.findAll();
 
     }
+
+    public Optional<Movie> findById(UUID id) {
+        return movieRepository.findById(id);
+    }
+
 }

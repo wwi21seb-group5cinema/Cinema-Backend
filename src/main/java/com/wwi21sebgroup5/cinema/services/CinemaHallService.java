@@ -36,8 +36,8 @@ public class CinemaHallService {
             newCinemaHall.setCinema(foundCinema.get());
         }
 
-        SeatType regularType = seatTypeService.getByName(SeatTypeService.REGULAR_TYPE).get();
-        SeatType logeType = seatTypeService.getByName(SeatTypeService.LOGE_TYPE).get();
+        SeatType regularType = seatTypeService.getSeatType(SeatTypeService.REGULAR_TYPE);
+        SeatType logeType = seatTypeService.getSeatType(SeatTypeService.LOGE_TYPE);
 
         List<SeatBlueprint> seats = new ArrayList<>();
 

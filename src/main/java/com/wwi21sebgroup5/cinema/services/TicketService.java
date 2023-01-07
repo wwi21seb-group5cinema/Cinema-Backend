@@ -1,6 +1,5 @@
 package com.wwi21sebgroup5.cinema.services;
 
-import com.wwi21sebgroup5.cinema.entities.Booking;
 import com.wwi21sebgroup5.cinema.entities.Event;
 import com.wwi21sebgroup5.cinema.entities.Seat;
 import com.wwi21sebgroup5.cinema.entities.Ticket;
@@ -20,7 +19,7 @@ public class TicketService {
     @Autowired
     private TicketRepository ticketRepository;
 
-    public Ticket saveTicket(Event pEvent, Seat pSeat, Booking pBooking) throws TicketAlreadyExistsException{
+    public Ticket saveTicket(Event pEvent, Seat pSeat) throws TicketAlreadyExistsException{
         Optional<Ticket> foundTicket = ticketRepository.findByEventAndSeat(pEvent, pSeat);
         if(foundTicket.isPresent()){
             throw new TicketAlreadyExistsException(pEvent, pSeat);
