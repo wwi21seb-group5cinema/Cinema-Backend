@@ -6,6 +6,7 @@ import jakarta.validation.constraints.NotEmpty;
 import jakarta.validation.constraints.NotNull;
 import lombok.AllArgsConstructor;
 import lombok.Data;
+import java.util.UUID;
 
 @AllArgsConstructor
 @Data
@@ -13,15 +14,15 @@ public class BookingRequestObject {
 
     @NotNull
     @NotEmpty
-    private Event event;
+    private UUID eventID;
 
     @NotNull
     @NotEmpty
-    private int rowNumber;
+    private int row;
 
     @NotNull
     @NotEmpty
-    private int seatNumber;
+    private int place;
 
     public BookingRequestObject(){super();}
 }

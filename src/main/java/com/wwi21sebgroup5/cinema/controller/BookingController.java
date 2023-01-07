@@ -33,15 +33,12 @@ public class BookingController {
     }
 
     @PostMapping(path = "/tempReserve")
-    public ResponseEntity<?> temporarilyReserveSeat(@RequestBody List<BookingRequestObject> SeatsToReserve){
-
-        bookingService.temporarilyReserveSeats(SeatsToReserve);
-        return null;
+    public ResponseEntity<?> temporarilyReserveSeats(@RequestBody List<BookingRequestObject> SeatsToReserve){
+        return bookingService.temporarilyReserveSeats(SeatsToReserve);
     }
 
     @PostMapping(path = "/tempUnreserve")
     public ResponseEntity<?> temporarilyUnreserveSeats(@RequestBody List<BookingRequestObject> SeatsToUnreserve){
-
         bookingService.temporarilyUnreserveSeats(SeatsToUnreserve);
         return null;
     }
