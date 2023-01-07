@@ -40,8 +40,10 @@ public class LoginController {
 
     @PostMapping(path = "/login")
     public ResponseEntity<Object> login(@RequestBody LoginRequestObject loginObject) {
+        User user;
+
         try {
-            loginService.login(loginObject);
+            user = loginService.login(loginObject);
         } catch (EmailNotFoundException enfE) {
             return new ResponseEntity<>(enfE.getMessage(), HttpStatus.NOT_FOUND);
         } catch (PasswordsNotMatchingException pnmE) {
@@ -50,7 +52,7 @@ public class LoginController {
             return new ResponseEntity<>(HttpStatus.INTERNAL_SERVER_ERROR);
         }
 
-        return new ResponseEntity<>(HttpStatus.OK);
+        return new ResponseEntity<>(user, HttpStatus.OK);
     }
 
 }

@@ -140,9 +140,7 @@ public class LoginControllerTest {
         LoginRequestObject loginRequestObject = new LoginRequestObject("TestEmail", "TestPassword");
 
         try {
-            doNothing()
-                    .when(loginService)
-                    .login(loginRequestObject);
+            when(loginService.login(loginRequestObject)).thenReturn(new User());
         } catch (PasswordsNotMatchingException | EmailNotFoundException e) {
             fail("Login failed");
         }
@@ -152,7 +150,7 @@ public class LoginControllerTest {
         assertAll(
                 "Validating respones ...",
                 () -> assertEquals(HttpStatus.OK, response.getStatusCode()),
-                () -> assertFalse(response.hasBody())
+                () -> assertNotNull(response.getBody())
         );
     }
 
