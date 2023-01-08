@@ -97,7 +97,7 @@ public class MovieControllerTest {
             List<UUID> actors = List.of(a.getId());
             MovieRequestObject movieRequestObject = new MovieRequestObject(
                     producer.getName(), director.getFirstName(), director.getName(), actors, image.getId(), 6,
-                    genre.getName(), "film", "beschreibung", LocalDate.of(2023, 12, 4), LocalDate.of(2023, 12, 6));
+                    genre.getName(), "film", "beschreibung", "08-01-2023", "08-04-2023");
 
             when(movieService.add(movieRequestObject)).thenReturn(firstMovie);
 
@@ -131,7 +131,7 @@ public class MovieControllerTest {
             List<UUID> actors = List.of(a.getId());
             MovieRequestObject movieRequestObject = new MovieRequestObject(
                     producer.getName(), director.getFirstName(), director.getName(), actors, image.getId(), 6,
-                    genre.getName(), "film", "beschreibung", LocalDate.of(2023, 12, 4), LocalDate.of(2023, 12, 6));
+                    genre.getName(), "film", "beschreibung", "08-01-2023", "08-04-2023");
 
             FSKNotFoundException e = new FSKNotFoundException(13);
             when(movieService.add(movieRequestObject)).thenThrow(e);
@@ -166,7 +166,7 @@ public class MovieControllerTest {
             List<UUID> actors = List.of(a.getId());
             MovieRequestObject movieRequestObject = new MovieRequestObject(
                     producer.getName(), director.getFirstName(), director.getName(), actors, image.getId(), 6,
-                    genre.getName(), "film", "beschreibung", LocalDate.of(2023, 12, 4), LocalDate.of(2023, 12, 6));
+                    genre.getName(), "film", "beschreibung", "08-01-2023", "08-04-2023");
 
             GenreDoesNotExistException e = new GenreDoesNotExistException("ActionP");
             when(movieService.add(movieRequestObject)).thenThrow(e);
@@ -201,7 +201,7 @@ public class MovieControllerTest {
             List<UUID> actors = List.of(a.getId());
             MovieRequestObject movieRequestObject = new MovieRequestObject(
                     producer.getName(), director.getFirstName(), director.getName(), actors, image.getId(), 6,
-                    genre.getName(), "film", "beschreibung", LocalDate.of(2023, 12, 4), LocalDate.of(2023, 12, 6));
+                    genre.getName(), "film", "beschreibung", "08-01-2023", "08-04-2023");
 
             ActorNotFoundException e = new ActorNotFoundException(a.getId());
             when(movieService.add(movieRequestObject)).thenThrow(e);
@@ -236,7 +236,7 @@ public class MovieControllerTest {
             List<UUID> actors = List.of(a.getId());
             MovieRequestObject movieRequestObject = new MovieRequestObject(
                     producer.getName(), director.getFirstName(), director.getName(), actors, image.getId(), 6,
-                    genre.getName(), "film", "beschreibung", LocalDate.of(2023, 12, 4), LocalDate.of(2023, 12, 6));
+                    genre.getName(), "film", "beschreibung", "08-01-2023", "08-04-2023");
 
             ImageNotFoundException e = new ImageNotFoundException(image.getId());
             when(movieService.add(movieRequestObject)).thenThrow(e);

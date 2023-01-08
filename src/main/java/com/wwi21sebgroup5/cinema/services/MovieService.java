@@ -11,10 +11,13 @@ import com.wwi21sebgroup5.cinema.requestObjects.ProducerRequestObject;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
 import java.util.UUID;
+
+import static com.wwi21sebgroup5.cinema.helper.DateFormatter.DATE_FORMATTER;
 
 @Service
 public class MovieService {
@@ -86,6 +89,9 @@ public class MovieService {
             throw new ImageNotFoundException(movieObject.getImage());
         }
 
+        LocalDate start = LocalDate.parse(movieObject.getStart_date(), DATE_FORMATTER);
+        LocalDate end = LocalDate.parse(movieObject.getEnd_date(), DATE_FORMATTER);
+
         Movie m = new Movie(
                 foundProducer.get(),
                 foundDirector.get(),
@@ -94,8 +100,8 @@ public class MovieService {
                 foundImageData.get(),
                 movieObject.getName(),
                 movieObject.getDescription(),
-                movieObject.getStart_date(),
-                movieObject.getEnd_date());
+                start,
+                end);
         movieRepository.save(m);
 
         for (Actor a : actors) {
