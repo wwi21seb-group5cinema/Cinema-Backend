@@ -30,7 +30,7 @@ public class BookingService {
     private TicketService ticketService;
 
     @Autowired
-    private SeatRepository seatRepository;
+    private SeatService seatService;
 
     @Autowired
     private UserService userService;
@@ -65,16 +65,22 @@ public class BookingService {
             throw new UserDoesNotExistException(userID);
         }
         Booking b = new Booking(u.get());
-
+        b = bookingRepository.save(b);
         //try to Reserve Seats and link booking b with corresponding tickets
         try{
             List<Ticket> ticketsOfEvent = ticketService.getByEventId(seatsToReserve.get(0).getEventID());
-            ticketsOfEvent.forEach(t -> {
+            for(Ticket t : ticketsOfEvent){
+                for(FinalBookingRequestObject o : seatsToReserve){
+                    if(o.getRow() == t.getSeat().getRow() && o.getPlace() == t.getSeat().getPlace()){
                         Seat currSeat = t.getSeat();
                         currSeat.setSeatState(SeatState.RESERVED);
                         t.setBooking(b);
-                        seatRepository.save(currSeat);
-                    });
+                        seatService.save(currSeat);
+                        ticketService.save(t);
+                    }
+                }
+            }
+
             bookingRepository.save(b);
         }catch(TicketNotFoundException ex){
             return new ResponseEntity<>(ex.getMessage(), HttpStatus.NOT_FOUND);

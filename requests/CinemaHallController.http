@@ -9,7 +9,7 @@ POST http://localhost:8082/v1/cinemaHall/add
 Content-Type: application/json
 
 {
-  "cinemaId": "21082de9-d31d-4cd7-a3ac-47a525f85c7a",
+  "cinemaId": "5f944056-4a48-49ee-b26c-2753ccd6408c",
   "rows": 12,
   "placesPerRow": 20,
   "name": "Gottes Halle",

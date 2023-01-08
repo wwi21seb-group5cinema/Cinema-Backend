@@ -28,7 +28,6 @@ public class Booking {
     @JoinColumn(name = "user_id", referencedColumnName = "id")
     private User user;
 
-    @NotNull
     @OneToOne
     private Invoice invoice;
 

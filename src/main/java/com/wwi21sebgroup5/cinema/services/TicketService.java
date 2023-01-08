@@ -76,4 +76,8 @@ public class TicketService {
         currSeat.setExpirationTimeStamp(LocalDateTime.now().plusMinutes(15));
         seatService.save(currSeat);
     }
+
+    public Ticket save(Ticket t) {
+        return ticketRepository.save(t);
+    }
 }
