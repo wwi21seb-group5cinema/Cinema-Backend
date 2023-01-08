@@ -61,8 +61,8 @@ public class SeatingPlanServiceTest {
         ));
 
         when(cinemaHallService.getCinemaHallById(id)).thenReturn(Optional.of(cinemaHall));
-        when(seatTypeService.getByName("REGULAR")).thenReturn(Optional.of(regularType));
-        when(seatTypeService.getByName("LOGE")).thenReturn(Optional.of(logeType));
+        when(seatTypeService.getSeatType("REGULAR")).thenReturn(regularType);
+        when(seatTypeService.getSeatType("LOGE")).thenReturn(logeType);
 
         // if the repository gets called with this exact seating plan the method works correctly
         // thus we need no further assertions

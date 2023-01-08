@@ -1,5 +1,7 @@
 package com.wwi21sebgroup5.cinema.entities;
 
+import com.fasterxml.jackson.annotation.JsonIdentityInfo;
+import com.fasterxml.jackson.annotation.ObjectIdGenerators;
 import com.wwi21sebgroup5.cinema.enums.SeatState;
 import jakarta.persistence.*;
 import jakarta.validation.constraints.NotNull;
@@ -17,6 +19,9 @@ import java.util.UUID;
 @ToString
 @Entity
 @Table(name = "seat")
+@JsonIdentityInfo(
+        generator = ObjectIdGenerators.PropertyGenerator.class,
+        property = "id")
 public class Seat {
 
     @Id
@@ -57,6 +62,7 @@ public class Seat {
         this.event = event;
         this.row = row;
         this.place = place;
+        this.seatState = SeatState.FREE;
     }
 
     @Override

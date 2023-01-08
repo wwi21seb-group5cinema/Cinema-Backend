@@ -1,0 +1,16 @@
+### Get all events by movie
+GET http://localhost:8082/v1/event/get?movieId={{movieId}}
+
+### Get event by id
+GET http://localhost:8082/v1/event/get?id={{eventId}}
+
+### Add new event
+POST http://localhost:8082/v1/event/add
+Content-Type: application/json
+
+{
+  "movieId": "386d2115-3976-4f84-9e5f-13835808ca63",
+  "cinemaHallId": "9f07cd9a-1f1c-4e5f-9210-3aca32a8a55b",
+  "eventDay": "12-02-2023",
+  "eventTime": "18:00"
+}
