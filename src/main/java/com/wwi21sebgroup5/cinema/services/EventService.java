@@ -10,20 +10,18 @@ import com.wwi21sebgroup5.cinema.requestObjects.EventRequestObject;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
-import java.time.LocalDateTime;
 import java.time.LocalDate;
-import java.time.format.DateTimeFormatter;
+import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
 import java.util.UUID;
 
+import static com.wwi21sebgroup5.cinema.helper.DateFormatter.DATE_FORMATTER;
+import static com.wwi21sebgroup5.cinema.helper.DateFormatter.DATE_TIME_FORMATTER;
+
 @Service
 public class EventService {
-
-    private static final DateTimeFormatter DATE_TIME_FORMATTER = DateTimeFormatter.ofPattern("dd-MM-yyyy HH:mm");
-
-    private static final DateTimeFormatter DATE_FORMATTER = DateTimeFormatter.ofPattern("dd-MM-yyyy");
 
     @Autowired
     CinemaHallService cinemaHallService;

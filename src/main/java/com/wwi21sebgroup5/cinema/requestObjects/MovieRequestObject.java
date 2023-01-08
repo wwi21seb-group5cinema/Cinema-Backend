@@ -5,7 +5,6 @@ import jakarta.validation.constraints.NotNull;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 
-import java.time.LocalDate;
 import java.util.List;
 import java.util.UUID;
 
@@ -50,11 +49,11 @@ public class MovieRequestObject {
 
     @NotEmpty
     @NotNull
-    private LocalDate start_date;
+    private String start_date;
 
     @NotEmpty
     @NotNull
-    private LocalDate end_date;
+    private String end_date;
 
 
     public MovieRequestObject() {
