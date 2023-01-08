@@ -38,6 +38,9 @@ public class ProducerTest {
         second.setName(null);
         assertNotEquals(first, second);
 
+        second = getProducer(UUID.randomUUID());
+        assertNotEquals(first, second);
+
         second = getProducerNull();
         assertNotEquals(first.hashCode(), second.hashCode());
 
