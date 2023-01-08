@@ -57,11 +57,8 @@ public class EventTest {
         Event firstEvent = setupEvent(UUID.randomUUID());
         Event secondEvent = setupEvent(firstEvent.getId());
 
-        assertAll(
-                "Validating equality..",
-                () -> assertEquals(firstEvent, secondEvent),
-                () -> assertEquals(firstEvent.hashCode(), secondEvent.hashCode())
-        );
+        assertEquals(firstEvent, secondEvent);
+        assertEquals(firstEvent.hashCode(), secondEvent.hashCode());
 
         // Test wrong class
         assertNotEquals(firstEvent, "TestString");
@@ -71,18 +68,22 @@ public class EventTest {
         assertNotEquals(firstEvent, secondEvent);
 
         // Test different movie
+        secondEvent = setupEvent(firstEvent.getId());
         secondEvent.setMovie(new Movie());
         assertNotEquals(firstEvent, secondEvent);
 
         // Test different cinema hall
+        secondEvent = setupEvent(firstEvent.getId());
         secondEvent.setCinemaHall(new CinemaHall());
         assertNotEquals(firstEvent, secondEvent);
 
         // Test different tickets
+        secondEvent = setupEvent(firstEvent.getId());
         secondEvent.setTickets(List.of(new Ticket(), new Ticket()));
         assertNotEquals(firstEvent, secondEvent);
 
         // Test different event date time
+        secondEvent = setupEvent(firstEvent.getId());
         secondEvent.setEventDateTime(LocalDateTime.now());
         assertNotEquals(firstEvent, secondEvent);
     }
