@@ -366,4 +366,16 @@ public class MovieServiceTest {
         }
     }
 
+    @Test
+    @DisplayName("Test get movie by id")
+    public void testGetMovieById() {
+        UUID id = UUID.randomUUID();
+        Movie movie = new Movie();
+        movie.setId(id);
+
+        when(movieRepository.findById(id)).thenReturn(Optional.of(movie));
+
+        assertEquals(movie, movieService.findById(id).get());
+    }
+
 }

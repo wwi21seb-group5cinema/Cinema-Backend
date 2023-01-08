@@ -86,7 +86,6 @@ public class Event {
         if (!Objects.equals(id, event.id)) return false;
         if (!Objects.equals(movie, event.movie)) return false;
         if (!Objects.equals(cinemaHall, event.cinemaHall)) return false;
-        if (!Objects.equals(tickets, event.tickets)) return false;
         return Objects.equals(eventDateTime, event.eventDateTime);
     }
 

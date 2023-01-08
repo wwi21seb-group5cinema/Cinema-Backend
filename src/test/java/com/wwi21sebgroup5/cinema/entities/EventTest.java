@@ -78,11 +78,6 @@ public class EventTest {
         secondEvent.setCinemaHall(new CinemaHall());
         assertNotEquals(firstEvent, secondEvent);
 
-        // Test different tickets
-        secondEvent = setupEvent(firstEvent.getId());
-        secondEvent.setTickets(List.of(new Ticket(), new Ticket()));
-        assertNotEquals(firstEvent, secondEvent);
-
         // Test different event date time
         secondEvent = setupEvent(firstEvent.getId());
         secondEvent.setEventDateTime(LocalDateTime.now());
