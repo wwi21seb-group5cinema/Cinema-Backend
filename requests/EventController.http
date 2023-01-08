@@ -10,7 +10,7 @@ Content-Type: application/json
 
 {
   "movieId": "386d2115-3976-4f84-9e5f-13835808ca63",
-  "cinemaHallId": "9f07cd9a-1f1c-4e5f-9210-3aca32a8a55b",
+  "cinemaHallId": "03f9e16d-4a55-4689-a3ce-051a2886290b",
   "eventDay": "12-02-2023",
   "eventTime": "18:00"
 }

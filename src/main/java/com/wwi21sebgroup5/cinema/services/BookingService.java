@@ -3,6 +3,7 @@ package com.wwi21sebgroup5.cinema.services;
 import com.wwi21sebgroup5.cinema.entities.Booking;
 import com.wwi21sebgroup5.cinema.entities.Seat;
 import com.wwi21sebgroup5.cinema.entities.Ticket;
+import com.wwi21sebgroup5.cinema.entities.User;
 import com.wwi21sebgroup5.cinema.enums.SeatState;
 import com.wwi21sebgroup5.cinema.exceptions.*;
 import com.wwi21sebgroup5.cinema.repositories.BookingRepository;
@@ -31,6 +32,9 @@ public class BookingService {
     @Autowired
     private SeatRepository seatRepository;
 
+    @Autowired
+    private UserService userService;
+
     public Booking findBookingById(UUID id) throws BookingNotFoundException {
         Optional<Booking> foundBooking = bookingRepository.findBookingById(id);
 
@@ -53,8 +57,16 @@ public class BookingService {
             return new ResponseEntity<>(seatsToReserve, HttpStatus.OK);
     }
 
-    public ResponseEntity<?> reserveSeats(List<FinalBookingRequestObject> seatsToReserve){
-        Booking b = new Booking(seatsToReserve.get(0).getUser());
+    public ResponseEntity<?> reserveSeats(List<FinalBookingRequestObject> seatsToReserve) throws UserDoesNotExistException{
+        //Set user into Booking Entity
+        UUID userID = seatsToReserve.get(0).getUserID();
+        Optional<User> u = userService.getUserById(userID);
+        if(u.isEmpty()){
+            throw new UserDoesNotExistException(userID);
+        }
+        Booking b = new Booking(u.get());
+
+        //try to Reserve Seats and link booking b with corresponding tickets
         try{
             List<Ticket> ticketsOfEvent = ticketService.getByEventId(seatsToReserve.get(0).getEventID());
             ticketsOfEvent.forEach(t -> {

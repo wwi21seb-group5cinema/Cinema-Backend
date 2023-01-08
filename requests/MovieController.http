@@ -12,9 +12,9 @@ Content-Type: application/json
   "directorFirstName": "Quentin",
   "directorLastName": "Tarrentino",
   "actors": [
-    "13d32ab4-85a8-476a-b0cf-fbc5021ed857"
+    "c0732cbd-3918-405a-8a8a-fde836b8fdba"
   ],
-  "image": "75ebbc96-f93d-4937-a871-8fee1fec9bd9",
+  "image": "98108a4a-6c9d-4c8b-96cf-c2663f7934f3",
   "fsk": 12,
   "genre": "Action",
   "name": "Der große Testfilm",

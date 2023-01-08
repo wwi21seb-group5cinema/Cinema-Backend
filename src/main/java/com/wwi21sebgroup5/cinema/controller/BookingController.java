@@ -3,6 +3,7 @@ package com.wwi21sebgroup5.cinema.controller;
 import com.wwi21sebgroup5.cinema.entities.Booking;
 import com.wwi21sebgroup5.cinema.entities.Seat;
 import com.wwi21sebgroup5.cinema.exceptions.BookingNotFoundException;
+import com.wwi21sebgroup5.cinema.exceptions.UserDoesNotExistException;
 import com.wwi21sebgroup5.cinema.requestObjects.BookingRequestObject;
 import com.wwi21sebgroup5.cinema.requestObjects.FinalBookingRequestObject;
 import com.wwi21sebgroup5.cinema.services.BookingService;
@@ -41,7 +42,12 @@ public class BookingController {
 
     @PostMapping(path = "/reserve")
     public ResponseEntity<?> reserveSeats(@RequestBody List<FinalBookingRequestObject> seatsToReserve){
-        return bookingService.reserveSeats(seatsToReserve);
+        try{
+            return bookingService.reserveSeats(seatsToReserve);
+        }catch(UserDoesNotExistException ex){
+            return new ResponseEntity<>(ex.getMessage(), HttpStatus.NOT_FOUND);
+        }
+
     }
 
 

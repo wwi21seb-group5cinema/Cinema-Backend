@@ -1,0 +1,37 @@
+### Get Booking by bookingID id={{bookingId}}
+GET http://localhost:8082/v1/booking/get?id=
+
+### temp Reserve given Seats
+POST http://localhost:8082/v1/booking/tempReserve
+Content-Type: application/json
+
+[
+  {
+    "eventID": "",
+    "row": 1,
+    "place": 1
+  }, {
+    "eventID": "",
+    "row": 1,
+    "place": 2
+    }
+]
+
+### fully reserve given Seats
+POST http://localhost:8082/v1/booking/reserve
+Content-Type: application/json
+
+[
+  {
+    "userID": "4c2eeb1d-430e-4aeb-bc6a-c6613498155a",
+    "eventID": "",
+    "row": 1,
+    "place": 1
+  },
+  {
+    "userID": "4c2eeb1d-430e-4aeb-bc6a-c6613498155a",
+    "eventID": "",
+    "row": 1,
+    "place": 2
+}
+]

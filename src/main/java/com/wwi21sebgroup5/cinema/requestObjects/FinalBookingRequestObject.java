@@ -19,7 +19,7 @@ public class FinalBookingRequestObject {
 
     @NotNull
     @NotEmpty
-    private User user;
+    private UUID userID;
 
     @NotNull
     @NotEmpty
