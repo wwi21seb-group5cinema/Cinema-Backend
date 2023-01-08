@@ -36,7 +36,7 @@ public class Ticket {
     @JoinColumn(name = "seat_id", referencedColumnName = "id")
     private Seat seat;
 
-    @ManyToOne
+    @ManyToOne(cascade = CascadeType.REFRESH)
     @JoinColumn(name = "booking_id", referencedColumnName = "id")
     private Booking booking;
 

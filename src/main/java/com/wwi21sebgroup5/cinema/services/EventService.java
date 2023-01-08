@@ -1,6 +1,7 @@
 package com.wwi21sebgroup5.cinema.services;
 
 import com.wwi21sebgroup5.cinema.entities.*;
+import com.wwi21sebgroup5.cinema.enums.SeatState;
 import com.wwi21sebgroup5.cinema.exceptions.CinemaHallNotFoundException;
 import com.wwi21sebgroup5.cinema.exceptions.MovieNotFoundException;
 import com.wwi21sebgroup5.cinema.exceptions.TicketAlreadyExistsException;
@@ -93,7 +94,11 @@ public class EventService {
      * @return Returns event associated with the id
      */
     public Optional<Event> findById(UUID id) {
-        return eventRepository.findById(id);
+        Optional<Event> foundEvent = eventRepository.findById(id);
+        if(foundEvent.isPresent()){
+            seatService.updateStatesofSeats(foundEvent.get());
+        }
+        return foundEvent;
     }
 
     /**
