@@ -21,4 +21,8 @@ public class EventRequestObject {
     @NotEmpty
     private String eventDateTime;
 
+    public EventRequestObject() {
+        super();
+    }
+
 }
