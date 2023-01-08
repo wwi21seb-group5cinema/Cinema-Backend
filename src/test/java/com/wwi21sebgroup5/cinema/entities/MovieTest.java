@@ -105,6 +105,10 @@ public class MovieTest {
         second.setStart_date(null);
         assertNotEquals(first, second);
 
+        second = getMovie(id);
+        second.setProducer(null);
+        assertNotEquals(first, second);
+
         second = getMovieNull();
         assertNotEquals(first.hashCode(), second.hashCode());
 

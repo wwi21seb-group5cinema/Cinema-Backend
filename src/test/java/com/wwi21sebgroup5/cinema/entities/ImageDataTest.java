@@ -44,7 +44,7 @@ public class ImageDataTest {
         assertNotEquals(first, second);
 
         second = getImageData(id);
-        second.setImageData(null);
+        second.setType(null);
         assertNotEquals(first, second);
 
         second = getImageData(UUID.randomUUID());

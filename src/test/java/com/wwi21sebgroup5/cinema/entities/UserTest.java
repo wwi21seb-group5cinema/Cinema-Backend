@@ -51,43 +51,43 @@ public class UserTest {
         second.setFirstName(null);
         assertNotEquals(first, second);
 
-        second = getUserNull();
+        second = getUser(id);
         second.setPassword(null);
         assertNotEquals(first, second);
 
-        second = getUserNull();
+        second = getUser(id);
         second.setId(null);
         assertNotEquals(first, second);
 
-        second = getUserNull();
+        second = getUser(id);
         second.setEmail(null);
         assertNotEquals(first, second);
 
-        second = getUserNull();
+        second = getUser(id);
         second.setCity(null);
         assertNotEquals(first, second);
 
-        second = getUserNull();
+        second = getUser(id);
         second.setRole(null);
         assertNotEquals(first, second);
 
-        second = getUserNull();
+        second = getUser(id);
         second.setStreet(null);
         assertNotEquals(first, second);
 
-        second = getUserNull();
+        second = getUser(id);
         second.setHouseNumber(null);
         assertNotEquals(first, second);
 
-        second = getUserNull();
+        second = getUser(id);
         second.setUserName(null);
         assertNotEquals(first, second);
 
-        second = getUserNull();
+        second = getUser(id);
         second.setLastName(null);
         assertNotEquals(first, second);
 
-        second = getUserNull();
+        second = getUser(id);
         assertNotEquals(first.hashCode(), second.hashCode());
 
     }
