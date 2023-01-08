@@ -13,7 +13,7 @@ import java.util.List;
 import java.util.Optional;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
-import static org.mockito.Mockito.when;
+import static org.mockito.Mockito.*;
 
 @ExtendWith(MockitoExtension.class)
 public class SeatTypeServiceTest {
@@ -23,6 +23,22 @@ public class SeatTypeServiceTest {
 
     @InjectMocks
     SeatTypeService seatTypeService;
+
+    @Test
+    @DisplayName("Test get seat type")
+    public void testGetSeatType() {
+        String name = "TestSeatType";
+        SeatType seatType = new SeatType(name, 12.0);
+
+        when(seatTypeRepository.findByName(name)).thenReturn(Optional.of(seatType));
+
+        SeatType actualType = seatTypeService.getSeatType(name);
+        assertEquals(seatType, actualType);
+        actualType = seatTypeService.getSeatType(name);
+        assertEquals(seatType, actualType);
+
+        verify(seatTypeRepository, times(1)).findByName(name);
+    }
 
     @Test
     @DisplayName("Test getting all seat types")

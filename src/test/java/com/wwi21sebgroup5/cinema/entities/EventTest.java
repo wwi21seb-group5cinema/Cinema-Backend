@@ -60,8 +60,9 @@ public class EventTest {
         assertEquals(firstEvent, secondEvent);
         assertEquals(firstEvent.hashCode(), secondEvent.hashCode());
 
-        // Test wrong class
+        // Test wrong class and null
         assertNotEquals(firstEvent, "TestString");
+        assertNotEquals(firstEvent, null);
 
         // Test different id
         secondEvent.setId(UUID.randomUUID());
