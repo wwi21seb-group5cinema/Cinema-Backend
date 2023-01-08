@@ -32,8 +32,9 @@ public class Booking {
     @OneToOne
     private Invoice invoice;
 
-    public Booking(User user){
 
+    public Booking(User user){
+        this.user = user;
     }
 
 }

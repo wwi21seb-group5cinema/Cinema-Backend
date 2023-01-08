@@ -2,15 +2,18 @@ package com.wwi21sebgroup5.cinema.services;
 
 import com.wwi21sebgroup5.cinema.entities.Booking;
 import com.wwi21sebgroup5.cinema.entities.Seat;
-import com.wwi21sebgroup5.cinema.exceptions.BookingNotFoundException;
-import com.wwi21sebgroup5.cinema.exceptions.SeatDoesNotExistException;
-import com.wwi21sebgroup5.cinema.exceptions.SeatNotAvailableException;
+import com.wwi21sebgroup5.cinema.entities.Ticket;
+import com.wwi21sebgroup5.cinema.enums.SeatState;
+import com.wwi21sebgroup5.cinema.exceptions.*;
 import com.wwi21sebgroup5.cinema.repositories.BookingRepository;
 
 import java.util.List;
 import java.util.UUID;
 
+import com.wwi21sebgroup5.cinema.repositories.SeatRepository;
+import com.wwi21sebgroup5.cinema.repositories.TicketRepository;
 import com.wwi21sebgroup5.cinema.requestObjects.BookingRequestObject;
+import com.wwi21sebgroup5.cinema.requestObjects.FinalBookingRequestObject;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -21,12 +24,15 @@ import java.util.Optional;
 @Service
 public class BookingService {
     @Autowired
-    private BookingRepository bookingrepository;
+    private BookingRepository bookingRepository;
     @Autowired
-    private SeatService seatService;
+    private TicketService ticketService;
+
+    @Autowired
+    private SeatRepository seatRepository;
 
     public Booking findBookingById(UUID id) throws BookingNotFoundException {
-        Optional<Booking> foundBooking = bookingrepository.findBookingById(id);
+        Optional<Booking> foundBooking = bookingRepository.findBookingById(id);
 
         if(foundBooking.isEmpty()){
             throw new BookingNotFoundException(id);
@@ -35,24 +41,32 @@ public class BookingService {
     }
 
     public ResponseEntity<?> temporarilyReserveSeats(List<BookingRequestObject> seatsToReserve) {
-        for(BookingRequestObject s : seatsToReserve){
-            try{
-                seatService.tempReserveSeat(s.getRow(), s.getPlace());
-            }catch(SeatDoesNotExistException ex){
+        for (BookingRequestObject s : seatsToReserve) {
+            try {
+                ticketService.tempReserveSeat(s.getEventID(), s.getRow(), s.getPlace());
+            } catch (SeatDoesNotExistException ex) {
                 return new ResponseEntity<>(ex.getMessage(), HttpStatus.NOT_FOUND);
-            }catch(SeatNotAvailableException ex){
+            } catch (SeatNotAvailableException ex) {
                 return new ResponseEntity<>(ex.getMessage(), HttpStatus.NOT_ACCEPTABLE);
             }
         }
-        return new ResponseEntity<>(seatsToReserve, HttpStatus.OK);
+            return new ResponseEntity<>(seatsToReserve, HttpStatus.OK);
     }
 
-    public ResponseEntity<?> temporarilyUnreserveSeats(List<BookingRequestObject> seatsToUnreserve){
+    public ResponseEntity<?> reserveSeats(List<FinalBookingRequestObject> seatsToReserve){
+        Booking b = new Booking(seatsToReserve.get(0).getUser());
         try{
-            Optional<List<Seat>> unreservedSeats; // = ticketService.tempUnreserve(seatsToUnreserve); -> throws Exception if one of the Seats is already unresearved etc..
-        }catch(Exception ex){
-            return new ResponseEntity<>(ex.getMessage(), HttpStatus.NOT_ACCEPTABLE);
+            List<Ticket> ticketsOfEvent = ticketService.getByEventId(seatsToReserve.get(0).getEventID());
+            ticketsOfEvent.forEach(t -> {
+                        Seat currSeat = t.getSeat();
+                        currSeat.setSeatState(SeatState.RESERVED);
+                        t.setBooking(b);
+                        seatRepository.save(currSeat);
+                    });
+            bookingRepository.save(b);
+        }catch(TicketNotFoundException ex){
+            return new ResponseEntity<>(ex.getMessage(), HttpStatus.NOT_FOUND);
         }
-        return null;
+        return new ResponseEntity<>(seatsToReserve, HttpStatus.OK);
     }
 }

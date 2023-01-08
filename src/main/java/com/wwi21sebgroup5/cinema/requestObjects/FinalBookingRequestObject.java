@@ -1,6 +1,8 @@
 package com.wwi21sebgroup5.cinema.requestObjects;
 
 
+import com.wwi21sebgroup5.cinema.entities.Event;
+import com.wwi21sebgroup5.cinema.entities.User;
 import jakarta.validation.constraints.NotEmpty;
 import jakarta.validation.constraints.NotNull;
 import lombok.AllArgsConstructor;
@@ -9,11 +11,15 @@ import java.util.UUID;
 
 @AllArgsConstructor
 @Data
-public class BookingRequestObject {
+public class FinalBookingRequestObject {
 
     @NotNull
     @NotEmpty
     private UUID eventID;
+
+    @NotNull
+    @NotEmpty
+    private User user;
 
     @NotNull
     @NotEmpty
@@ -23,5 +29,5 @@ public class BookingRequestObject {
     @NotEmpty
     private int place;
 
-    public BookingRequestObject(){super();}
+    public FinalBookingRequestObject(){super();}
 }

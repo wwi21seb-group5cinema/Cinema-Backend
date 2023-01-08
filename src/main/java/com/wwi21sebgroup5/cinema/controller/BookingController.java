@@ -1,8 +1,10 @@
 package com.wwi21sebgroup5.cinema.controller;
 
 import com.wwi21sebgroup5.cinema.entities.Booking;
+import com.wwi21sebgroup5.cinema.entities.Seat;
 import com.wwi21sebgroup5.cinema.exceptions.BookingNotFoundException;
 import com.wwi21sebgroup5.cinema.requestObjects.BookingRequestObject;
+import com.wwi21sebgroup5.cinema.requestObjects.FinalBookingRequestObject;
 import com.wwi21sebgroup5.cinema.services.BookingService;
 import org.apache.coyote.Response;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -21,10 +23,10 @@ public class BookingController {
     private BookingService bookingService;
 
     @GetMapping(path = "/get", params = "id")
-    public ResponseEntity<?> getBookingByBookingId(@RequestParam UUID id){
+    public ResponseEntity<Object> getBookingByBookingId(@RequestParam UUID id){
         try{
             Booking requestedBooking = bookingService.findBookingById(id);
-            return new ResponseEntity<Booking>(requestedBooking, HttpStatus.OK);
+            return new ResponseEntity<>(requestedBooking, HttpStatus.OK);
         }catch(BookingNotFoundException bnfe){
             return new ResponseEntity<>(bnfe.getMessage(), HttpStatus.NOT_FOUND);
         }catch(Exception ex){
@@ -37,11 +39,11 @@ public class BookingController {
         return bookingService.temporarilyReserveSeats(SeatsToReserve);
     }
 
-    @PostMapping(path = "/tempUnreserve")
-    public ResponseEntity<?> temporarilyUnreserveSeats(@RequestBody List<BookingRequestObject> SeatsToUnreserve){
-        bookingService.temporarilyUnreserveSeats(SeatsToUnreserve);
-        return null;
+    @PostMapping(path = "/reserve")
+    public ResponseEntity<?> reserveSeats(@RequestBody List<FinalBookingRequestObject> seatsToReserve){
+        return bookingService.reserveSeats(seatsToReserve);
     }
+
 
 
 }

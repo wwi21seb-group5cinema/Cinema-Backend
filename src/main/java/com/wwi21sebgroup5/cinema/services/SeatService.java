@@ -1,6 +1,8 @@
 package com.wwi21sebgroup5.cinema.services;
 
+import com.wwi21sebgroup5.cinema.entities.Event;
 import com.wwi21sebgroup5.cinema.entities.Seat;
+import com.wwi21sebgroup5.cinema.entities.Ticket;
 import com.wwi21sebgroup5.cinema.enums.SeatState;
 import com.wwi21sebgroup5.cinema.exceptions.SeatDoesNotExistException;
 import com.wwi21sebgroup5.cinema.exceptions.SeatNotAvailableException;
@@ -8,6 +10,10 @@ import com.wwi21sebgroup5.cinema.repositories.SeatRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import java.time.LocalDateTime;
+import java.time.chrono.ChronoLocalDate;
+import java.util.ArrayList;
+import java.util.List;
 import java.util.Optional;
 
 @Service
@@ -20,18 +26,18 @@ public class SeatService {
         return seatRepository.save(newSeat);
     }
 
-    public Seat tempReserveSeat(int row, int place) throws SeatDoesNotExistException, SeatNotAvailableException {
-        Optional<Seat> foundSeat = seatRepository.findByRowAndPlace(row, place);
-        if (foundSeat.isEmpty()) {
-            throw new SeatDoesNotExistException(row, place);
-        }
+    public void updateStatesofSeats(Event e){
+        List<Ticket> ticketsOfEvent = e.getTickets();
+        ticketsOfEvent.stream()
+                .filter(t -> t.getSeat().getSeatState() == SeatState.TEMPORAL_RESERVED)
+                .forEach(t -> checkTempReservationTime(t.getSeat()));
 
-        Seat seat = foundSeat.get();
-        if (seat.getSeatState() != SeatState.FREE) {
-            throw new SeatNotAvailableException(row, place);
-        }
+    }
 
-        seat.setSeatState(SeatState.TEMPORAL_RESERVED);
-        return seat;
+    public void checkTempReservationTime(Seat seat) {
+        if(seat.getExpirationTimeStamp().isAfter(LocalDateTime.now())){
+            seat.setSeatState(SeatState.FREE);
+            seatRepository.save(seat);
+        }
     }
 }

@@ -10,6 +10,4 @@ import java.util.UUID;
 @Repository
 public interface SeatRepository extends JpaRepository<Seat, UUID> {
 
-    Optional<Seat> findByRowAndPlace(int Row, int Place);
-
 }
