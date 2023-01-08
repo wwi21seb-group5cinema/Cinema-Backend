@@ -35,7 +35,8 @@ public class GenreTest {
         assertAll(
                 "Validating equality..",
                 () -> assertEquals(firstGenre, secondGenre),
-                () -> assertEquals(firstGenre.hashCode(), secondGenre.hashCode())
+                () -> assertEquals(firstGenre.hashCode(), secondGenre.hashCode()),
+                () -> assertEquals(firstGenre, firstGenre)
         );
 
         secondGenre.setId(UUID.randomUUID());
@@ -43,6 +44,8 @@ public class GenreTest {
         assertAll(
                 "Validating equality..",
                 () -> assertNotEquals(firstGenre, secondGenre),
+                () -> assertNotEquals(firstGenre, null),
+                () -> assertNotEquals(firstGenre, "String"),
                 () -> assertNotEquals(firstGenre.hashCode(), secondGenre.hashCode())
         );
     }
