@@ -87,7 +87,7 @@ public class UserTest {
         second.setLastName(null);
         assertNotEquals(first, second);
 
-        second = getUser(id);
+        second = getUserNull();
         assertNotEquals(first.hashCode(), second.hashCode());
 
     }
