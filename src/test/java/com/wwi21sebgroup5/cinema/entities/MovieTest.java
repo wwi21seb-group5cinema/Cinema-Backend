@@ -59,6 +59,58 @@ public class MovieTest {
     @Test
     @DisplayName("Test equality")
     public void testEquality() {
+        UUID id = UUID.randomUUID();
+        Movie first = getMovie(id);
+        Movie second = getMovie(id);
+
+        assertEquals(first, second);
+        assertEquals(first.hashCode(), second.hashCode());
+        assertEquals(first, first);
+
+        assertNotEquals(first, "String");
+        assertNotEquals(first, null);
+
+        second.setName(null);
+        assertNotEquals(first, second);
+
+        second = getMovie(id);
+        second.setId(null);
+        assertNotEquals(first, second);
+
+        second = getMovie(id);
+        second.setDirector(null);
+        assertNotEquals(first, second);
+
+        second = getMovie(id);
+        second.setFsk(null);
+        assertNotEquals(first, second);
+
+        second = getMovie(id);
+        second.setDescription(null);
+        assertNotEquals(first, second);
+
+        second = getMovie(id);
+        second.setGenre(null);
+        assertNotEquals(first, second);
+
+        second = getMovie(id);
+        second.setImage(null);
+        assertNotEquals(first, second);
+
+        second = getMovie(id);
+        second.setEnd_date(null);
+        assertNotEquals(first, second);
+
+        second = getMovie(id);
+        second.setStart_date(null);
+        assertNotEquals(first, second);
+
+        second = getMovieNull();
+        assertNotEquals(first.hashCode(), second.hashCode());
+
+    }
+
+    private Movie getMovie(UUID id) {
         Producer producer = setupProducer();
         Director director = setupDirector();
         FSK fsk = FSK.SIX;
@@ -67,26 +119,15 @@ public class MovieTest {
         String name = "testName", description = "testDescription";
         LocalDate startDate = LocalDate.of(2023, 1, 12), endDate = LocalDate.of(2023, 3, 14);
 
-        Movie firstMovie = new Movie(
+        Movie movie = new Movie(
                 producer, director, fsk, genre, imageData, name, description, startDate, endDate
         );
-        Movie secondMovie = new Movie(
-                producer, director, fsk, genre, imageData, name, description, startDate, endDate
-        );
+        movie.setId(id);
+        return movie;
+    }
 
-        assertAll(
-                "Asserting equality...",
-                () -> assertEquals(firstMovie, secondMovie),
-                () -> assertEquals(firstMovie.hashCode(), secondMovie.hashCode())
-        );
-
-        secondMovie.setId(UUID.randomUUID());
-
-        assertAll(
-                "Asserting equality...",
-                () -> assertNotEquals(firstMovie, secondMovie),
-                () -> assertNotEquals(firstMovie.hashCode(), secondMovie.hashCode())
-        );
+    private Movie getMovieNull() {
+        return new Movie(null, null, null, null, null, null, null, null, null);
     }
 
 }

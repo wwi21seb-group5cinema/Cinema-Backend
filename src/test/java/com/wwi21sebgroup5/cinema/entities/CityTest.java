@@ -43,6 +43,9 @@ public class CityTest {
         secondCity.setName(null);
         assertNotEquals(firstCity, secondCity);
 
+        secondCity = getCity(UUID.randomUUID());
+        assertNotEquals(firstCity, secondCity);
+
         secondCity = getCityNull();
         assertNotEquals(firstCity.hashCode(), secondCity.hashCode());
     }
