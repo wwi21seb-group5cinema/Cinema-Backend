@@ -84,4 +84,11 @@ public class EventTest {
         assertNotEquals(firstEvent, secondEvent);
     }
 
+    @Test
+    @DisplayName("Test null hashcode")
+    public void testNullHash() {
+        Event event = new Event();
+        assertEquals(event.hashCode(), event.hashCode());
+    }
+
 }

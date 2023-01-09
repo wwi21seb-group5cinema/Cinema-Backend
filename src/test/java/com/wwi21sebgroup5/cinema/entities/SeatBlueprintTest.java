@@ -43,7 +43,7 @@ public class SeatBlueprintTest {
     @DisplayName("Test equality")
     public void testEquality() {
         SeatBlueprint firstSeatBlueprint = setupSeatBlueprint(UUID.randomUUID());
-        SeatBlueprint secondSeatblueprint = setupSeatBlueprint(firstSeatBlueprint.getId());
+        SeatBlueprint secondSeatblueprint = firstSeatBlueprint;
 
         // Test equality
         assertEquals(firstSeatBlueprint, secondSeatblueprint);
