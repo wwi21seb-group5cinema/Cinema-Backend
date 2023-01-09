@@ -9,6 +9,12 @@ import static org.junit.jupiter.api.Assertions.*;
 
 public class SeatTypeTest {
 
+    private SeatType setupSeatType(UUID id) {
+        SeatType seatType = new SeatType("TestName", 5.0);
+        seatType.setId(id);
+        return seatType;
+    }
+
     @Test
     @DisplayName("Test constructor")
     public void testConstructor() {
@@ -27,25 +33,30 @@ public class SeatTypeTest {
     @Test
     @DisplayName("Test equality")
     public void testEquality() {
-        String name = "testName";
-        double price = 14.03;
+        SeatType firstType = setupSeatType(UUID.randomUUID());
+        SeatType secondType = setupSeatType(firstType.getId());
 
-        SeatType firstSeatType = new SeatType(name, price);
-        SeatType secondSeatType = new SeatType(name, price);
+        // test equality
+        assertEquals(firstType, secondType);
+        assertEquals(firstType.hashCode(), secondType.hashCode());
 
-        assertAll(
-                "Validating equality...",
-                () -> assertEquals(firstSeatType, secondSeatType),
-                () -> assertEquals(firstSeatType.hashCode(), secondSeatType.hashCode())
-        );
+        // test null and different class
+        assertNotEquals(firstType, null);
+        assertNotEquals(firstType, "");
 
-        secondSeatType.setId(UUID.randomUUID());
+        // test different id
+        secondType.setId(UUID.randomUUID());
+        assertNotEquals(firstType, secondType);
 
-        assertAll(
-                "Validating equality...",
-                () -> assertNotEquals(firstSeatType, secondSeatType),
-                () -> assertNotEquals(firstSeatType.hashCode(), secondSeatType.hashCode())
-        );
+        // test different name
+        secondType = setupSeatType(firstType.getId());
+        secondType.setName("otherName");
+        assertNotEquals(firstType, secondType);
+
+        // test different price
+        secondType = setupSeatType(firstType.getId());
+        secondType.setPrice(8.0);
+        assertNotEquals(firstType, secondType);
     }
 
 }

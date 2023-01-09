@@ -1,7 +1,6 @@
 package com.wwi21sebgroup5.cinema.services;
 
 import com.wwi21sebgroup5.cinema.entities.*;
-import com.wwi21sebgroup5.cinema.enums.SeatState;
 import com.wwi21sebgroup5.cinema.exceptions.CinemaHallNotFoundException;
 import com.wwi21sebgroup5.cinema.exceptions.MovieNotFoundException;
 import com.wwi21sebgroup5.cinema.exceptions.TicketAlreadyExistsException;
@@ -76,7 +75,7 @@ public class EventService {
 
         for (SeatBlueprint seatBlueprint : seatingPlan.getSeats()) {
             Seat newSeat = new Seat(
-                    seatingPlan, seatBlueprint.getSeatType(), newEvent, seatBlueprint.getRow(), seatBlueprint.getPlace()
+                    seatBlueprint.getSeatType(), seatBlueprint.getRow(), seatBlueprint.getPlace()
             );
             newSeat = seatService.save(newSeat);
 
@@ -95,9 +94,8 @@ public class EventService {
      */
     public Optional<Event> findById(UUID id) {
         Optional<Event> foundEvent = eventRepository.findById(id);
-        if(foundEvent.isPresent()){
-            seatService.updateStatesofSeats(foundEvent.get());
-        }
+        foundEvent.ifPresent(
+                event -> seatService.updateStatesofSeats(event));
         return foundEvent;
     }
 

@@ -86,9 +86,7 @@ public class Event {
         if (!Objects.equals(id, event.id)) return false;
         if (!Objects.equals(movie, event.movie)) return false;
         if (!Objects.equals(cinemaHall, event.cinemaHall)) return false;
-        if (!Objects.equals(tickets, event.tickets)) return false;
-        if (!Objects.equals(eventTime, event.eventTime)) return false;
-        return Objects.equals(eventDay, event.eventDay);
+        return Objects.equals(eventDateTime, event.eventDateTime);
     }
 
     @Override
@@ -97,9 +95,7 @@ public class Event {
         result = 31 * result + (movie != null ? movie.hashCode() : 0);
         result = 31 * result + (cinemaHall != null ? cinemaHall.hashCode() : 0);
         result = 31 * result + (tickets != null ? tickets.hashCode() : 0);
-        result = 31 * result + (eventTime != null ? eventTime.hashCode() : 0);
-        result = 31 * result + (eventDay != null ? eventDay.hashCode() : 0);
+        result = 31 * result + (eventDateTime != null ? eventDateTime.hashCode() : 0);
         return result;
     }
-
 }

@@ -9,19 +9,21 @@ import static org.junit.jupiter.api.Assertions.*;
 
 public class SeatBlueprintTest {
 
-    private SeatingPlan setupSeatingPlan() {
-        return new SeatingPlan();
-    }
-
-    private SeatType setupSeatType() {
-        return new SeatType("Premium", 14.3);
+    private SeatBlueprint setupSeatBlueprint(UUID id) {
+        SeatBlueprint seatBlueprint = new SeatBlueprint(
+                new SeatingPlan(),
+                new SeatType(),
+                3, 2
+        );
+        seatBlueprint.setId(id);
+        return seatBlueprint;
     }
 
     @Test
     @DisplayName("Test constructor")
     public void testConstructor() {
-        SeatingPlan seatingPlan = setupSeatingPlan();
-        SeatType seatType = setupSeatType();
+        SeatingPlan seatingPlan = new SeatingPlan();
+        SeatType seatType = new SeatType();
         int row = 3, place = 5;
 
         SeatBlueprint allArgSeatBlueprint = new SeatBlueprint(
@@ -40,30 +42,31 @@ public class SeatBlueprintTest {
     @Test
     @DisplayName("Test equality")
     public void testEquality() {
-        SeatingPlan seatingPlan = setupSeatingPlan();
-        SeatType seatType = setupSeatType();
-        int row = 3, place = 5;
+        SeatBlueprint firstSeatBlueprint = setupSeatBlueprint(UUID.randomUUID());
+        SeatBlueprint secondSeatblueprint = firstSeatBlueprint;
 
-        SeatBlueprint firstSeatBlueprint = new SeatBlueprint(
-                seatingPlan, seatType, row, place
-        );
-        SeatBlueprint secondSeatblueprint = new SeatBlueprint(
-                seatingPlan, seatType, row, place
-        );
+        // Test equality
+        assertEquals(firstSeatBlueprint, secondSeatblueprint);
+        assertEquals(firstSeatBlueprint.hashCode(), secondSeatblueprint.hashCode());
 
-        assertAll(
-                "Validating equality...",
-                () -> assertEquals(firstSeatBlueprint, secondSeatblueprint),
-                () -> assertEquals(firstSeatBlueprint.hashCode(), secondSeatblueprint.hashCode())
-        );
+        // Test null and different class
+        assertNotEquals(firstSeatBlueprint, null);
+        assertNotEquals(firstSeatBlueprint, "");
 
-        secondSeatblueprint.setId(UUID.randomUUID());
 
-        assertAll(
-                "Validating equality...",
-                () -> assertNotEquals(firstSeatBlueprint, secondSeatblueprint),
-                () -> assertNotEquals(firstSeatBlueprint.hashCode(), secondSeatblueprint.hashCode())
-        );
+        // Test different id
+        secondSeatblueprint = setupSeatBlueprint(UUID.randomUUID());
+        assertNotEquals(firstSeatBlueprint, secondSeatblueprint);
+
+        // Test different row
+        secondSeatblueprint = setupSeatBlueprint(firstSeatBlueprint.getId());
+        secondSeatblueprint.setRow(2);
+        assertNotEquals(firstSeatBlueprint, secondSeatblueprint);
+
+        // Test different place
+        secondSeatblueprint = setupSeatBlueprint(firstSeatBlueprint.getId());
+        secondSeatblueprint.setPlace(4);
+        assertNotEquals(firstSeatBlueprint, secondSeatblueprint);
     }
 
 }

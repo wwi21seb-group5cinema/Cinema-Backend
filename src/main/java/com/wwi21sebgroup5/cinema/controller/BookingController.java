@@ -1,13 +1,11 @@
 package com.wwi21sebgroup5.cinema.controller;
 
 import com.wwi21sebgroup5.cinema.entities.Booking;
-import com.wwi21sebgroup5.cinema.entities.Seat;
 import com.wwi21sebgroup5.cinema.exceptions.BookingNotFoundException;
 import com.wwi21sebgroup5.cinema.exceptions.UserDoesNotExistException;
 import com.wwi21sebgroup5.cinema.requestObjects.BookingRequestObject;
 import com.wwi21sebgroup5.cinema.requestObjects.FinalBookingRequestObject;
 import com.wwi21sebgroup5.cinema.services.BookingService;
-import org.apache.coyote.Response;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;

@@ -10,7 +10,6 @@ import lombok.NoArgsConstructor;
 import lombok.Setter;
 import lombok.ToString;
 
-import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.util.Objects;
 import java.util.UUID;
@@ -33,22 +32,12 @@ public class Seat {
     private UUID id;
 
     @ManyToOne(fetch = FetchType.LAZY, cascade = CascadeType.PERSIST)
-    @JoinColumn(name = "seatingplan_id", referencedColumnName = "id")
-    @ToString.Exclude
-    private SeatingPlan seatingPlan;
-
-    @ManyToOne(fetch = FetchType.LAZY, cascade = CascadeType.PERSIST)
     @JoinColumn(name = "seattype_id", referencedColumnName = "id")
     @ToString.Exclude
     private SeatType seatType;
 
     @Enumerated(EnumType.STRING)
     private SeatState seatState;
-
-    @ManyToOne(fetch = FetchType.LAZY, cascade = CascadeType.PERSIST)
-    @JoinColumn(name = "event_id", referencedColumnName = "id")
-    @ToString.Exclude
-    private Event event;
 
     @Column
     @NotNull
@@ -61,10 +50,8 @@ public class Seat {
     @Column
     private LocalDateTime expirationTimeStamp;
 
-    public Seat(SeatingPlan seatingPlan, SeatType seatType, Event event, int row, int place) {
-        this.seatingPlan = seatingPlan;
+    public Seat(SeatType seatType, int row, int place) {
         this.seatType = seatType;
-        this.event = event;
         this.row = row;
         this.place = place;
         this.seatState = SeatState.FREE;
@@ -80,10 +67,8 @@ public class Seat {
         if (row != seat.row) return false;
         if (place != seat.place) return false;
         if (!Objects.equals(id, seat.id)) return false;
-        if (!Objects.equals(seatingPlan, seat.seatingPlan)) return false;
         if (!Objects.equals(seatType, seat.seatType)) return false;
-        if (seatState != seat.seatState) return false;
-        return Objects.equals(event, seat.event);
+        return Objects.equals(seatState, seat.seatState);
     }
 
     @Override
@@ -91,10 +76,8 @@ public class Seat {
         int hash = id != null ? id.hashCode() : 0;
         int prime = 31;
 
-        hash = prime * hash + (seatingPlan != null ? seatingPlan.hashCode() : 0);
         hash = prime * hash + (seatType != null ? seatType.hashCode() : 0);
         hash = prime * hash + (seatState != null ? seatState.hashCode() : 0);
-        hash = prime * hash + (event != null ? event.hashCode() : 0);
         hash = prime * hash + row;
         hash = prime * hash + place;
         return hash;

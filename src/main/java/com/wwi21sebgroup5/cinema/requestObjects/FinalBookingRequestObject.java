@@ -1,8 +1,5 @@
 package com.wwi21sebgroup5.cinema.requestObjects;
 
-
-import com.wwi21sebgroup5.cinema.entities.Event;
-import com.wwi21sebgroup5.cinema.entities.User;
 import jakarta.validation.constraints.NotEmpty;
 import jakarta.validation.constraints.NotNull;
 import lombok.AllArgsConstructor;
@@ -29,5 +26,8 @@ public class FinalBookingRequestObject {
     @NotEmpty
     private int place;
 
-    public FinalBookingRequestObject(){super();}
+    public FinalBookingRequestObject() {
+        super();
+    }
+
 }

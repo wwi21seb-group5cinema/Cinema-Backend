@@ -4,12 +4,27 @@ GET http://localhost:8082/v1/event/get?movieId={{movieId}}
 ### Get event by id
 GET http://localhost:8082/v1/event/get?id={{eventId}}
 
+### Get events between two dates
+# DATE_TIME_FORMATTER = "dd-MM-yyyy HH:mm" -> "02-12-2023 18:00"
+GET http://localhost:8082/v1/event/get?startDate={{startDate}}&endDate={{endDate}}
+
+### Get events between two dates by movie
+GET http://localhost:8082/v1/event/get?movieId={{movieId}}&startDate={{startDate}}&endDate={{endDate}}
+
+### Get events for a specific day
+# DATE_FORMATTER = "dd-MM-yyyy" -> "02-12-2023"
+GET http://localhost:8082/v1/event/get?date={{date}}
+
+### Get events for a specific day by movie
+GET http://localhost:8082/v1/event/get?movieId={{movieId}}&date={{date}}
+
 ### Add new event
 POST http://localhost:8082/v1/event/add
 Content-Type: application/json
 
 {
-  "movieId": "ae380bcd-4be2-4e70-a7bf-43671ae1c60f",
-  "cinemaHallId": "9fc61d39-f4ca-4a60-97d7-3fa30c1d6fde",
-  "eventDateTime": "12-02-2023 18:00"
+  "movieId": "386d2115-3976-4f84-9e5f-13835808ca63",
+  "cinemaHallId": "26d4436b-b8df-48d7-8282-8b69c8b83b4d",
+  "eventDay": "12-02-2023",
+  "eventTime": "18:00"
 }

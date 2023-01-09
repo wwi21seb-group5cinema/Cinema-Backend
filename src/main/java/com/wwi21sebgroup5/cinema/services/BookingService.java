@@ -11,8 +11,6 @@ import com.wwi21sebgroup5.cinema.repositories.BookingRepository;
 import java.util.List;
 import java.util.UUID;
 
-import com.wwi21sebgroup5.cinema.repositories.SeatRepository;
-import com.wwi21sebgroup5.cinema.repositories.TicketRepository;
 import com.wwi21sebgroup5.cinema.requestObjects.BookingRequestObject;
 import com.wwi21sebgroup5.cinema.requestObjects.FinalBookingRequestObject;
 import org.springframework.beans.factory.annotation.Autowired;

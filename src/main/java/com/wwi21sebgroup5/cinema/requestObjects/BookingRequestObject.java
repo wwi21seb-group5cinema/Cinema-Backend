@@ -23,5 +23,8 @@ public class BookingRequestObject {
     @NotEmpty
     private int place;
 
-    public BookingRequestObject(){super();}
+    public BookingRequestObject() {
+        super();
+    }
+
 }

@@ -4,17 +4,12 @@ import com.wwi21sebgroup5.cinema.entities.Event;
 import com.wwi21sebgroup5.cinema.entities.Seat;
 import com.wwi21sebgroup5.cinema.entities.Ticket;
 import com.wwi21sebgroup5.cinema.enums.SeatState;
-import com.wwi21sebgroup5.cinema.exceptions.SeatDoesNotExistException;
-import com.wwi21sebgroup5.cinema.exceptions.SeatNotAvailableException;
 import com.wwi21sebgroup5.cinema.repositories.SeatRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import java.time.LocalDateTime;
-import java.time.chrono.ChronoLocalDate;
-import java.util.ArrayList;
 import java.util.List;
-import java.util.Optional;
 
 @Service
 public class SeatService {
