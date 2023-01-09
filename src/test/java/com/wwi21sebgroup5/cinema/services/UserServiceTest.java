@@ -1,8 +1,8 @@
 package com.wwi21sebgroup5.cinema.services;
 
 import com.wwi21sebgroup5.cinema.entities.City;
-import com.wwi21sebgroup5.cinema.entities.Role;
 import com.wwi21sebgroup5.cinema.entities.User;
+import com.wwi21sebgroup5.cinema.enums.Role;
 import com.wwi21sebgroup5.cinema.repositories.UserRepository;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
@@ -16,7 +16,7 @@ import java.util.Optional;
 import java.util.UUID;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
-import static org.mockito.Mockito.when;
+import static org.mockito.Mockito.*;
 
 @ExtendWith(MockitoExtension.class)
 public class UserServiceTest {
@@ -79,6 +79,17 @@ public class UserServiceTest {
 
         List<User> actualUsers = userService.getAllUsers();
         assertEquals(expectedUsers, actualUsers, "Returned wrong list of users");
+    }
+
+    @Test
+    @DisplayName("Test saving")
+    public void testSave() {
+        User userToSave = getUser();
+
+        when(userRepository.save(userToSave)).thenReturn(userToSave);
+
+        userService.save(userToSave);
+        verify(userRepository, times(1)).save(userToSave);
     }
 
 }

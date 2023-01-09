@@ -3,6 +3,8 @@ package com.wwi21sebgroup5.cinema.entities;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 
+import java.util.UUID;
+
 import static org.junit.jupiter.api.Assertions.*;
 
 public class CityTest {
@@ -23,26 +25,40 @@ public class CityTest {
     @Test
     @DisplayName("Testing equality")
     public void equalityTest() {
-        String plz = "68259", firstName = "Mannheim", secondName = "Wallstadt";
-        City firstCity = new City(plz, firstName);
-        City secondCity = new City(plz, secondName);
+        UUID id = UUID.randomUUID();
+        City firstCity = getCity(id);
+        City secondCity = getCity(id);
 
-        assertAll(
-                "Testing inequality with different cities",
-                () -> assertNotEquals(firstCity, secondCity, "Equals returns wrong result"),
-                () -> assertNotEquals(firstCity.hashCode(), secondCity.hashCode(),
-                        "HashCode returns wrong result")
-        );
+        assertEquals(firstCity, secondCity);
+        assertEquals(firstCity.hashCode(), secondCity.hashCode());
+        assertEquals(firstCity, firstCity);
 
+        assertNotEquals(firstCity, "String");
+        assertNotEquals(firstCity, null);
 
-        firstCity.setName(secondName);
+        secondCity.setPlz(null);
+        assertNotEquals(firstCity, secondCity);
 
-        assertAll(
-                "Testing equality with same cities",
-                () -> assertEquals(firstCity, secondCity, "Equals returns wrong result"),
-                () -> assertEquals(firstCity.hashCode(), secondCity.hashCode(),
-                        "HashCode returns wrong result")
-        );
+        secondCity = getCity(id);
+        secondCity.setName(null);
+        assertNotEquals(firstCity, secondCity);
+
+        secondCity = getCity(UUID.randomUUID());
+        assertNotEquals(firstCity, secondCity);
+
+        secondCity = getCityNull();
+        assertNotEquals(firstCity.hashCode(), secondCity.hashCode());
+    }
+
+    private City getCity(UUID id) {
+        String plz = "68259", firstName = "Mannheim";
+        City city = new City(plz, firstName);
+        city.setId(id);
+        return city;
+    }
+
+    private City getCityNull() {
+        return new City(null, null);
     }
 
 }

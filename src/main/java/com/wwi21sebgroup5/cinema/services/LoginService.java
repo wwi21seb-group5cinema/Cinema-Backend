@@ -1,8 +1,7 @@
 package com.wwi21sebgroup5.cinema.services;
 
-import com.wwi21sebgroup5.cinema.entities.City;
-import com.wwi21sebgroup5.cinema.entities.Role;
 import com.wwi21sebgroup5.cinema.entities.User;
+import com.wwi21sebgroup5.cinema.enums.Role;
 import com.wwi21sebgroup5.cinema.exceptions.EmailAlreadyExistsException;
 import com.wwi21sebgroup5.cinema.exceptions.EmailNotFoundException;
 import com.wwi21sebgroup5.cinema.exceptions.PasswordsNotMatchingException;
@@ -14,7 +13,6 @@ import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
-import java.util.List;
 import java.util.Optional;
 
 @Service
@@ -47,26 +45,13 @@ public class LoginService {
             throw new EmailAlreadyExistsException(registrationObject.getEmail());
         }
 
-        Optional<City> foundCity = cityService.getCityByPlz(registrationObject.getPlz());
-
-        if (foundCity.isEmpty()) {
-            List<City> foundCities = cityService.getAllCitiesByName(registrationObject.getCityName());
-
-            if (foundCities.isEmpty()) {
-                foundCity = Optional.of(cityService.save(
-                        new City(registrationObject.getPlz(), registrationObject.getCityName())));
-            } else {
-                foundCity = Optional.of(foundCities.get(0));
-            }
-        }
-
         User newUser = new User(registrationObject.getUserName(),
                 passwordEncoder.encode(registrationObject.getPassword()),
                 registrationObject.isAdmin() ? Role.ADMIN : Role.USER,
                 registrationObject.getFirstName(),
                 registrationObject.getLastName(),
                 registrationObject.getEmail(),
-                foundCity.get(),
+                cityService.findByPlzAndName(registrationObject.getPlz(), registrationObject.getCityName()),
                 registrationObject.getStreet(),
                 registrationObject.getHouseNumber());
 
@@ -79,7 +64,7 @@ public class LoginService {
      * @throws PasswordsNotMatchingException Thrown when password doesn't match the found users password
      * @throws UsernameNotFoundException     Thrown when the username wasn't found
      */
-    public void login(LoginRequestObject loginObject) throws PasswordsNotMatchingException, EmailNotFoundException {
+    public User login(LoginRequestObject loginObject) throws PasswordsNotMatchingException, EmailNotFoundException {
         Optional<User> foundUser = userService.getUserByEmail(loginObject.getEmail());
 
         if (foundUser.isEmpty()) {
@@ -89,5 +74,7 @@ public class LoginService {
         if (!passwordEncoder.matches(loginObject.getPassword(), foundUser.get().getPassword())) {
             throw new PasswordsNotMatchingException(loginObject.getEmail());
         }
+
+        return foundUser.get();
     }
 }

@@ -1,5 +1,6 @@
 package com.wwi21sebgroup5.cinema.entities;
 
+import com.wwi21sebgroup5.cinema.enums.Role;
 import jakarta.persistence.*;
 import jakarta.validation.constraints.NotNull;
 import lombok.Getter;

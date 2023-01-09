@@ -1,10 +1,12 @@
 package com.wwi21sebgroup5.cinema.entities;
 
+import com.wwi21sebgroup5.cinema.enums.Role;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 
-import static org.junit.jupiter.api.Assertions.assertAll;
-import static org.junit.jupiter.api.Assertions.assertEquals;
+import java.util.UUID;
+
+import static org.junit.jupiter.api.Assertions.*;
 
 public class UserTest {
 
@@ -35,20 +37,75 @@ public class UserTest {
     @Test
     @DisplayName("Testing equality")
     public void equalityTest() {
+        UUID id = UUID.randomUUID();
+        User first = getUser(id);
+        User second = getUser(id);
+
+        assertEquals(first, second);
+        assertEquals(first.hashCode(), second.hashCode());
+        assertEquals(first, first);
+
+        assertNotEquals(first, "String");
+        assertNotEquals(first, null);
+
+        second.setFirstName(null);
+        assertNotEquals(first, second);
+
+        second = getUser(id);
+        second.setPassword(null);
+        assertNotEquals(first, second);
+
+        second = getUser(id);
+        second.setId(null);
+        assertNotEquals(first, second);
+
+        second = getUser(id);
+        second.setEmail(null);
+        assertNotEquals(first, second);
+
+        second = getUser(id);
+        second.setCity(null);
+        assertNotEquals(first, second);
+
+        second = getUser(id);
+        second.setRole(null);
+        assertNotEquals(first, second);
+
+        second = getUser(id);
+        second.setStreet(null);
+        assertNotEquals(first, second);
+
+        second = getUser(id);
+        second.setHouseNumber(null);
+        assertNotEquals(first, second);
+
+        second = getUser(id);
+        second.setUserName(null);
+        assertNotEquals(first, second);
+
+        second = getUser(id);
+        second.setLastName(null);
+        assertNotEquals(first, second);
+
+        second = getUserNull();
+        assertNotEquals(first.hashCode(), second.hashCode());
+
+    }
+
+    private User getUser(UUID id) {
         String userName = "testUser", password = "testPassword", firstName = "testFirstName",
                 lastName = "testSecondName", email = "testEmail", street = "testStreet",
                 houseNumber = "testHouseNumber", cityName = "Wallstadt", plz = "68259";
         Role role = Role.USER;
         City city = new City(plz, cityName);
-        User firstUser = new User(userName, password, role, firstName, lastName, email, city, street, houseNumber);
-        User secondUser = new User(userName, password, role, firstName, lastName, email, city, street, houseNumber);
+        User user = new User(userName, password, role, firstName, lastName, email, city, street, houseNumber);
 
-        assertAll(
-                "Asserting equality...",
-                () -> assertEquals(firstUser, secondUser, "Equals returns wrong result"),
-                () -> assertEquals(firstUser.hashCode(), secondUser.hashCode(), "HashCode returns wrong result")
-        );
+        user.setId(id);
+        return user;
+    }
 
+    private User getUserNull() {
+        return new User(null, null, null, null, null, null, null, null, null);
     }
 
 }

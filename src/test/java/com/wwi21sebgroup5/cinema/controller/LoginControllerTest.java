@@ -1,8 +1,8 @@
 package com.wwi21sebgroup5.cinema.controller;
 
 import com.wwi21sebgroup5.cinema.entities.City;
-import com.wwi21sebgroup5.cinema.entities.Role;
 import com.wwi21sebgroup5.cinema.entities.User;
+import com.wwi21sebgroup5.cinema.enums.Role;
 import com.wwi21sebgroup5.cinema.exceptions.EmailAlreadyExistsException;
 import com.wwi21sebgroup5.cinema.exceptions.EmailNotFoundException;
 import com.wwi21sebgroup5.cinema.exceptions.PasswordsNotMatchingException;
@@ -111,14 +111,36 @@ public class LoginControllerTest {
     }
 
     @Test
+    @DisplayName("Test internal server error during registration")
+    public void testInternalServerErrorDuringRegistration() {
+        RegistrationRequestObject registrationRequestObject = new RegistrationRequestObject(
+                "TestUserName", "TestLastName", "TestFirstName", "TestLastName",
+                "TestEmail", "67065", "Maudach", "TestStreet", "TestHouseNumber",
+                false
+        );
+
+        try {
+            when(loginService.register(registrationRequestObject)).thenThrow(new RuntimeException("Error!"));
+        } catch (UserAlreadyExistsException | EmailAlreadyExistsException e) {
+            fail("Registration failed");
+        }
+
+        ResponseEntity<Object> response = loginController.register(registrationRequestObject);
+
+        assertAll(
+                "Validating response ...",
+                () -> assertEquals(HttpStatus.INTERNAL_SERVER_ERROR, response.getStatusCode()),
+                () -> assertFalse(response.hasBody())
+        );
+    }
+
+    @Test
     @DisplayName("Test successful login")
     public void testSuccessfulLogin() {
         LoginRequestObject loginRequestObject = new LoginRequestObject("TestEmail", "TestPassword");
 
         try {
-            doNothing()
-                    .when(loginService)
-                    .login(loginRequestObject);
+            when(loginService.login(loginRequestObject)).thenReturn(new User());
         } catch (PasswordsNotMatchingException | EmailNotFoundException e) {
             fail("Login failed");
         }
@@ -128,7 +150,7 @@ public class LoginControllerTest {
         assertAll(
                 "Validating respones ...",
                 () -> assertEquals(HttpStatus.OK, response.getStatusCode()),
-                () -> assertFalse(response.hasBody())
+                () -> assertNotNull(response.getBody())
         );
     }
 
@@ -174,6 +196,28 @@ public class LoginControllerTest {
                 () -> assertEquals(HttpStatus.UNAUTHORIZED, response.getStatusCode()),
                 () -> assertEquals("Passwords for user with the email TestEmail don't match!",
                         response.getBody())
+        );
+    }
+
+    @Test
+    @DisplayName("Test internal server error during login")
+    public void testInternalServerErrorDuringLogin() {
+        LoginRequestObject loginRequestObject = new LoginRequestObject("TestEmail", "TestPassword");
+
+        try {
+            doThrow(new RuntimeException("Error!"))
+                    .when(loginService)
+                    .login(loginRequestObject);
+        } catch (PasswordsNotMatchingException | EmailNotFoundException e) {
+            fail("Login failed");
+        }
+
+        ResponseEntity<Object> response = loginController.login(loginRequestObject);
+
+        assertAll(
+                "Validating respones ...",
+                () -> assertEquals(HttpStatus.INTERNAL_SERVER_ERROR, response.getStatusCode()),
+                () -> assertFalse(response.hasBody())
         );
     }
 

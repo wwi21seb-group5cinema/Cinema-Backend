@@ -10,6 +10,7 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
+import java.util.Optional;
 
 
 @RestController
@@ -22,18 +23,39 @@ public class ActorController {
 
     @GetMapping("/getAll")
     public ResponseEntity<List<Actor>> getAll() {
-        return new ResponseEntity<>(actorService.findAll(), HttpStatus.OK);
+        List<Actor> actors = actorService.findAll();
+        if (actors.isEmpty()) {
+            return new ResponseEntity<>(HttpStatus.NOT_FOUND);
+        }
+        return new ResponseEntity<>(actors, HttpStatus.OK);
     }
 
+    /**
+     * @param name
+     * @param firstName
+     * @return the actor with the matching first- and lastname
+     */
+    @GetMapping(value = "/get", params = {"name", "firstName"})
+    public ResponseEntity<Actor> getActorByName(@RequestParam("name") String name, @RequestParam("firstName") String firstName) {
+        Optional<Actor> a = actorService.findByNameAndFirstName(name, firstName);
+        if (a.isPresent()) {
+            return new ResponseEntity<>(a.get(), HttpStatus.OK);
+        }
+        return new ResponseEntity<>(HttpStatus.NOT_FOUND);
+    }
+
+
+    /**
+     * @param actorObject
+     * @return The newly created actor-object
+     */
     @PostMapping(path = "/add")
-    public ResponseEntity<Object> putAll(@RequestBody ActorRequestObject actorObject) {
+    public ResponseEntity<Object> add(@RequestBody ActorRequestObject actorObject) {
         Actor a;
         try {
             a = actorService.add(actorObject);
         } catch (ActorAlreadyExistsException e) {
             return new ResponseEntity<>(e.getMessage(), HttpStatus.NOT_ACCEPTABLE);
-        } catch (Exception ex) {
-            return new ResponseEntity<>(HttpStatus.INTERNAL_SERVER_ERROR);
         }
         return new ResponseEntity<>(a, HttpStatus.CREATED);
     }

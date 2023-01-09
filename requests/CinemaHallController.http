@@ -1,0 +1,17 @@
+### Get all
+GET http://localhost:8082/v1/cinemaHall/get?cinemaId={{cinemaId}}
+
+### Get by id
+GET http://localhost:8082/v1/cinemaHall/get?id={{cinemaHallId}}
+
+### Add cinema hall
+POST http://localhost:8082/v1/cinemaHall/add
+Content-Type: application/json
+
+{
+  "cinemaId": "5f944056-4a48-49ee-b26c-2753ccd6408c",
+  "rows": 12,
+  "placesPerRow": 20,
+  "name": "Gottes Halle",
+  "floor": 2
+}
