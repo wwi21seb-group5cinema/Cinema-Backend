@@ -10,7 +10,7 @@ public class FinalBookingRequestObjectTest {
     @Test
     @DisplayName("Test constructor")
     public void testConstructor() {
-        FinalBookingRequestObjectTest requestObject = new FinalBookingRequestObjectTest();
+        FinalBookingRequestObject requestObject = new FinalBookingRequestObject();
         assertNotNull(requestObject);
     }
 
