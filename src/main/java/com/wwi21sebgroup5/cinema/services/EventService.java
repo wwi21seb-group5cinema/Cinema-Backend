@@ -93,7 +93,10 @@ public class EventService {
      * @return Returns event associated with the id
      */
     public Optional<Event> findById(UUID id) {
-        return eventRepository.findById(id);
+        Optional<Event> foundEvent = eventRepository.findById(id);
+        foundEvent.ifPresent(
+                event -> seatService.updateStatesofSeats(event));
+        return foundEvent;
     }
 
     /**

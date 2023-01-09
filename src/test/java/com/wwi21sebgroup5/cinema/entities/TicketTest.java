@@ -3,6 +3,8 @@ package com.wwi21sebgroup5.cinema.entities;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 
+import java.time.LocalDateTime;
+import java.util.List;
 import java.util.UUID;
 
 import static org.junit.jupiter.api.Assertions.*;
@@ -27,32 +29,56 @@ public class TicketTest {
     @Test
     @DisplayName("Test equality")
     public void testEquality() {
-        Event event = new Event();
+        UUID id = UUID.randomUUID();
+        Event event = new Event(new Movie(), new CinemaHall(), List.of(), LocalDateTime.of(12, 12, 12, 12, 12, 12));
         Seat seat = new Seat();
-        QR_Code qr_code = new QR_Code();
-        Booking booking = new Booking();
+        Booking b = new Booking();
+        QR_Code q = new QR_Code();
+        Ticket first = getTicket(id, event, seat, b, q);
+        Ticket second = getTicket(id, event, seat, b, q);
 
-        Ticket firstTicket = new Ticket(event, seat);
-        firstTicket.setBooking(booking);
-        firstTicket.setQr_code(qr_code);
+        assertEquals(first, first);
+        assertEquals(first.hashCode(), second.hashCode());
+        assertEquals(first, first);
 
-        Ticket secondTicket = new Ticket(event, seat);
-        secondTicket.setBooking(booking);
-        secondTicket.setQr_code(qr_code);
+        assertNotEquals(first, "String");
+        assertNotEquals(first, null);
 
-        assertAll(
-                "Validating equality..",
-                () -> assertEquals(firstTicket, secondTicket),
-                () -> assertEquals(firstTicket.hashCode(), secondTicket.hashCode())
-        );
+        second.setBooking(null);
+        assertNotEquals(first, second);
 
-        secondTicket.setId(UUID.randomUUID());
+        second = getTicket(id, event, seat, b, q);
+        second.setQr_code(null);
+        assertNotEquals(first, second);
 
-        assertAll(
-                "Validating equality..",
-                () -> assertNotEquals(firstTicket, secondTicket),
-                () -> assertNotEquals(firstTicket.hashCode(), secondTicket.hashCode())
-        );
+        second = getTicket(id, event, seat, b, q);
+        second.setId(null);
+        assertNotEquals(first, second);
+
+        second = getTicket(id, event, seat, b, q);
+        second.setEvent(null);
+        assertNotEquals(first, second);
+
+        second = getTicket(id, event, seat, b, q);
+        second.setSeat(null);
+        assertNotEquals(first, second);
+
+        second = getTicketNull();
+        assertNotEquals(first.hashCode(), second.hashCode());
+
     }
+
+    private Ticket getTicket(UUID id, Event event, Seat seat, Booking b, QR_Code q) {
+        Ticket allArgsTicket = new Ticket(event, seat);
+        allArgsTicket.setId(id);
+        allArgsTicket.setQr_code(q);
+        allArgsTicket.setBooking(b);
+        return allArgsTicket;
+    }
+
+    private Ticket getTicketNull() {
+        return new Ticket(null, null);
+    }
+
 }
 

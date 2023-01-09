@@ -43,6 +43,9 @@ public class DirectorTest {
         second.setFirstName(null);
         assertNotEquals(first, second);
 
+        second = getDirector(UUID.randomUUID());
+        assertNotEquals(first, second);
+
         second = getDirectorNull();
         assertNotEquals(first.hashCode(), second.hashCode());
     }

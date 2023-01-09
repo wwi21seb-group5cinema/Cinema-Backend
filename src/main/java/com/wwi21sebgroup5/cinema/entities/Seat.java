@@ -10,6 +10,7 @@ import lombok.NoArgsConstructor;
 import lombok.Setter;
 import lombok.ToString;
 
+import java.time.LocalDateTime;
 import java.util.Objects;
 import java.util.UUID;
 
@@ -55,6 +56,9 @@ public class Seat {
     @Column
     @NotNull
     private int place;
+
+    @Column
+    private LocalDateTime expirationTimeStamp;
 
     public Seat(SeatingPlan seatingPlan, SeatType seatType, Event event, int row, int place) {
         this.seatingPlan = seatingPlan;
