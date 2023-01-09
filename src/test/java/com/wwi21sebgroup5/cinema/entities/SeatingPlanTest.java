@@ -3,20 +3,26 @@ package com.wwi21sebgroup5.cinema.entities;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 
+import java.util.List;
 import java.util.UUID;
 
 import static org.junit.jupiter.api.Assertions.*;
 
 public class SeatingPlanTest {
 
-    private CinemaHall setupCinemaHall() {
-        return new CinemaHall();
+    private SeatingPlan setupSeatingPlan(UUID uuid) {
+        SeatingPlan seatingPlan = new SeatingPlan(
+                new CinemaHall(), 3
+        );
+        seatingPlan.setSeats(List.of(new SeatBlueprint(), new SeatBlueprint()));
+        seatingPlan.setId(uuid);
+        return seatingPlan;
     }
 
     @Test
     @DisplayName("Test constructor")
     public void testConstructor() {
-        CinemaHall cinemaHall = setupCinemaHall();
+        CinemaHall cinemaHall = new CinemaHall();
         int rows = 13;
 
         SeatingPlan allArgsSeatingPlan = new SeatingPlan(
@@ -33,29 +39,30 @@ public class SeatingPlanTest {
     @Test
     @DisplayName("Test equality")
     public void testEquality() {
-        CinemaHall cinemaHall = setupCinemaHall();
-        int rows = 13;
+        SeatingPlan firstSeatingPlan = setupSeatingPlan(UUID.randomUUID());
+        SeatingPlan secondSeatingPlan = setupSeatingPlan(firstSeatingPlan.getId());
 
-        SeatingPlan firstSeatingPlan = new SeatingPlan(
-                cinemaHall, rows
-        );
-        SeatingPlan secondSeatingPlan = new SeatingPlan(
-                cinemaHall, rows
-        );
+        // test equality
+        assertEquals(firstSeatingPlan, secondSeatingPlan);
+        assertEquals(firstSeatingPlan.hashCode(), secondSeatingPlan.hashCode());
 
-        assertAll(
-                "Validating equality...",
-                () -> assertEquals(firstSeatingPlan, secondSeatingPlan),
-                () -> assertEquals(firstSeatingPlan.hashCode(), secondSeatingPlan.hashCode())
-        );
+        // test null and different class
+        assertNotEquals(firstSeatingPlan, null);
+        assertNotEquals(firstSeatingPlan, "");
 
+        // test different id
         secondSeatingPlan.setId(UUID.randomUUID());
+        assertNotEquals(firstSeatingPlan, secondSeatingPlan);
 
-        assertAll(
-                "Validating inequality...",
-                () -> assertNotEquals(firstSeatingPlan, secondSeatingPlan),
-                () -> assertNotEquals(firstSeatingPlan.hashCode(), secondSeatingPlan.hashCode())
-        );
+        // test different rows
+        secondSeatingPlan = setupSeatingPlan(firstSeatingPlan.getId());
+        secondSeatingPlan.setRows(4);
+        assertNotEquals(firstSeatingPlan, secondSeatingPlan);
+
+        // test different seats
+        secondSeatingPlan = setupSeatingPlan(firstSeatingPlan.getId());
+        secondSeatingPlan.setSeats(List.of(new SeatBlueprint(), new SeatBlueprint(), new SeatBlueprint()));
+        assertNotEquals(firstSeatingPlan, secondSeatingPlan);
     }
 
 }

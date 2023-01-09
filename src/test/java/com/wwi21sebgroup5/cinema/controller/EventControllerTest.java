@@ -69,7 +69,7 @@ public class EventControllerTest {
 
         for (SeatBlueprint seatBlueprint : seatingPlan.getSeats()) {
             Seat newSeat = new Seat(
-                    seatingPlan, seatBlueprint.getSeatType(), expectedEvent, seatBlueprint.getRow(), seatBlueprint.getPlace()
+                    seatBlueprint.getSeatType(), seatBlueprint.getRow(), seatBlueprint.getPlace()
             );
 
             Ticket newTicket = new Ticket(expectedEvent, newSeat);
@@ -195,15 +195,21 @@ public class EventControllerTest {
     @Test
     @DisplayName("Test get events by movie successful")
     public void testGetEventsByMovieSuccessful() {
-        Event event = setupEvent(
+        Event firstEvent = setupEvent(
                 LocalDateTime.of(2023, 2, 12, 17, 30), UUID.randomUUID());
+        Event secondEvent = setupEvent(
+                LocalDateTime.of(2023, 2, 13, 17, 30), UUID.randomUUID());
+        Event thirdEvent = setupEvent(
+                LocalDateTime.of(2023, 2, 14, 17, 30), UUID.randomUUID());
+        List<Event> expectedEvents = List.of(firstEvent, secondEvent, thirdEvent);
+        UUID movieId = UUID.randomUUID();
 
-        when(eventService.findById(event.getId())).thenReturn(Optional.of(event));
-        ResponseEntity<Event> response = eventController.getEventById(event.getId());
+        when(eventService.findAllByMovie(movieId)).thenReturn(expectedEvents);
+        ResponseEntity<List<Event>> response = eventController.getEventsByMovie(movieId);
 
         assertAll(
                 "Validating response...",
-                () -> assertEquals(event, response.getBody()),
+                () -> assertEquals(expectedEvents, response.getBody()),
                 () -> assertEquals(HttpStatus.OK, response.getStatusCode())
         );
     }
@@ -211,11 +217,9 @@ public class EventControllerTest {
     @Test
     @DisplayName("Test get events by movie not successful")
     public void testGetEventsByMovieNotSuccessful() {
-        Event event = setupEvent(
-                LocalDateTime.of(2023, 2, 12, 17, 30), UUID.randomUUID());
-
-        when(eventService.findById(event.getId())).thenReturn(Optional.empty());
-        ResponseEntity<Event> response = eventController.getEventById(event.getId());
+        UUID movieId = UUID.randomUUID();
+        when(eventService.findAllByMovie(movieId)).thenReturn(List.of());
+        ResponseEntity<List<Event>> response = eventController.getEventsByMovie(movieId);
 
         assertAll(
                 "Validating response...",

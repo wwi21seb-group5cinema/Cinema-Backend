@@ -80,7 +80,7 @@ public class EventServiceTest {
 
         for (SeatBlueprint seatBlueprint : seatingPlan.getSeats()) {
             Seat newSeat = new Seat(
-                    seatingPlan, seatBlueprint.getSeatType(), expectedEvent, seatBlueprint.getRow(), seatBlueprint.getPlace()
+                    seatBlueprint.getSeatType(), seatBlueprint.getRow(), seatBlueprint.getPlace()
             );
 
             Ticket newTicket = new Ticket(expectedEvent, newSeat);

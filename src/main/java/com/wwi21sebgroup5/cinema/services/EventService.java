@@ -75,7 +75,7 @@ public class EventService {
 
         for (SeatBlueprint seatBlueprint : seatingPlan.getSeats()) {
             Seat newSeat = new Seat(
-                    seatingPlan, seatBlueprint.getSeatType(), newEvent, seatBlueprint.getRow(), seatBlueprint.getPlace()
+                    seatBlueprint.getSeatType(), seatBlueprint.getRow(), seatBlueprint.getPlace()
             );
             newSeat = seatService.save(newSeat);
 
