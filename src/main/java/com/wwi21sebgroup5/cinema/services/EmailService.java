@@ -45,10 +45,10 @@ public class EmailService {
                     = new MimeMessageHelper(mimeMessage, true, "UTF-8");
             mimeMessageHelper.setFrom(sender);
             mimeMessageHelper.setTo(recipient);
-            mimeMessageHelper.setText(msgBody);
+            mimeMessageHelper.setText(msgBody, true);
             mimeMessageHelper.setSubject(subject);
             mimeMessageHelper.addInline("logo.ico", logoResource);
-            
+
             // Sending the mail
             javaMailSender.send(mimeMessage);
         } catch (Exception ex) {
