@@ -1,70 +1,85 @@
 package com.wwi21sebgroup5.cinema.services;
 
+import com.wwi21sebgroup5.cinema.entities.Booking;
+import com.wwi21sebgroup5.cinema.entities.User;
 import jakarta.mail.internet.MimeMessage;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
-import org.springframework.core.io.FileSystemResource;
-import org.springframework.mail.SimpleMailMessage;
+import org.springframework.core.io.Resource;
 import org.springframework.mail.javamail.JavaMailSender;
 import org.springframework.mail.javamail.MimeMessageHelper;
 import org.springframework.stereotype.Service;
 import org.thymeleaf.TemplateEngine;
-
-import java.io.File;
+import org.thymeleaf.context.Context;
 
 @Service
 public class EmailService {
 
+    private final static String CONFIRM_BOOKING = "confirmBooking.html";
+    private final static String CONFIRM_REGISTRATION = "confirmRegistration.html";
+    private final static String CONFIRM_TOKEN = "confirmToken.html";
+
+    private final static String BOOKING_SUBJECT = "Vielen Dank für deine Buchung bei Cineverse!";
+
+    private final static String REGISTRATION_SUBJECT = "Willkommen bei Cineverse!";
+
+    private final static String TOKEN_SUBJECT = "Deine E-Mail wurde bestätigt!";
+
+    @Value("classpath:/static/cinemaGroupFiveLogo.ico")
+    private Resource logoResource;
+
     @Autowired
     private JavaMailSender javaMailSender;
-
     @Autowired
     private TemplateEngine templateEngine;
-
     @Value("${spring.mail.username}")
     private String sender;
 
-    public void sendMail(String recipient, String subject, String msgBody) {
-        SimpleMailMessage mailMessage = new SimpleMailMessage();
-
-        try {
-            mailMessage.setFrom(sender);
-            mailMessage.setTo(recipient);
-            mailMessage.setText(msgBody);
-            mailMessage.setSubject(subject);
-
-            javaMailSender.send(mailMessage);
-        } catch (Exception ex) {
-            ex.printStackTrace();
-        }
-    }
-
-    public void sendMail(String recipient, String subject, String msgBody, String attachment) {
+    private void sendMail(String recipient, String subject, String msgBody) {
         MimeMessage mimeMessage
                 = javaMailSender.createMimeMessage();
         MimeMessageHelper mimeMessageHelper;
 
         try {
             mimeMessageHelper
-                    = new MimeMessageHelper(mimeMessage, true);
+                    = new MimeMessageHelper(mimeMessage, true, "UTF-8");
             mimeMessageHelper.setFrom(sender);
             mimeMessageHelper.setTo(recipient);
             mimeMessageHelper.setText(msgBody);
             mimeMessageHelper.setSubject(subject);
-
-            // Adding the attachment
-            FileSystemResource file
-                    = new FileSystemResource(
-                    new File(attachment));
-
-            mimeMessageHelper.addAttachment(
-                    file.getFilename(), file);
-
+            mimeMessageHelper.addInline("logo.ico", logoResource);
+            
             // Sending the mail
             javaMailSender.send(mimeMessage);
         } catch (Exception ex) {
             ex.printStackTrace();
         }
+    }
+
+    public void sendRegistrationConfirmation(User user, String tokenUrl) {
+        Context context = new Context();
+        context.setVariable("user", user);
+        context.setVariable("confirmationUrl", tokenUrl);
+        String msgBody = templateEngine.process(CONFIRM_REGISTRATION, context);
+
+        sendMail(user.getEmail(), REGISTRATION_SUBJECT, msgBody);
+    }
+
+    public void sendTokenConfirmation(User user) {
+        Context context = new Context();
+        context.setVariable("user", user);
+        String msgBody = templateEngine.process(CONFIRM_TOKEN, context);
+
+        sendMail(user.getEmail(), TOKEN_SUBJECT, msgBody);
+    }
+
+    public void sendBookingConfirmation(User user, Booking booking) {
+        Context context = new Context();
+        context.setVariable("user", user);
+        context.setVariable("booking", booking);
+        String msgBody = templateEngine.process(CONFIRM_BOOKING, context);
+
+        sendMail(user.getEmail(), BOOKING_SUBJECT, msgBody);
     }
 
 }

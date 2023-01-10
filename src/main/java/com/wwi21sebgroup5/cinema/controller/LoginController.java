@@ -7,6 +7,7 @@ import com.wwi21sebgroup5.cinema.exceptions.PasswordsNotMatchingException;
 import com.wwi21sebgroup5.cinema.exceptions.UserAlreadyExistsException;
 import com.wwi21sebgroup5.cinema.requestObjects.LoginRequestObject;
 import com.wwi21sebgroup5.cinema.requestObjects.RegistrationRequestObject;
+import com.wwi21sebgroup5.cinema.services.EmailService;
 import com.wwi21sebgroup5.cinema.services.LoginService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
@@ -19,6 +20,9 @@ import org.springframework.web.bind.annotation.RestController;
 @RestController
 @RequestMapping("/v1")
 public class LoginController {
+
+    @Autowired
+    private EmailService emailService;
 
     @Autowired
     private LoginService loginService;
@@ -35,6 +39,7 @@ public class LoginController {
             return new ResponseEntity<>(HttpStatus.INTERNAL_SERVER_ERROR);
         }
 
+        emailService.sendRegistrationConfirmation(newUser, "jaja kommt noch");
         return new ResponseEntity<>(newUser, HttpStatus.CREATED);
     }
 
