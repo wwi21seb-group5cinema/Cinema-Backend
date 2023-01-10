@@ -1,28 +1,35 @@
 package com.wwi21sebgroup5.cinema.services;
 
+import com.wwi21sebgroup5.cinema.entities.Token;
 import com.wwi21sebgroup5.cinema.entities.User;
 import com.wwi21sebgroup5.cinema.enums.Role;
-import com.wwi21sebgroup5.cinema.exceptions.EmailAlreadyExistsException;
-import com.wwi21sebgroup5.cinema.exceptions.EmailNotFoundException;
-import com.wwi21sebgroup5.cinema.exceptions.PasswordsNotMatchingException;
-import com.wwi21sebgroup5.cinema.exceptions.UserAlreadyExistsException;
+import com.wwi21sebgroup5.cinema.exceptions.*;
 import com.wwi21sebgroup5.cinema.requestObjects.LoginRequestObject;
 import com.wwi21sebgroup5.cinema.requestObjects.RegistrationRequestObject;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
+import java.time.LocalDateTime;
 import java.util.Optional;
+import java.util.UUID;
 
 @Service
 public class LoginService {
+
+    @Value("${frontend.url}")
+    private String FRONTEND_URL;
 
     @Autowired
     private PasswordEncoder passwordEncoder;
 
     @Autowired
     private UserService userService;
+
+    @Autowired
+    private TokenService tokenService;
 
     @Autowired
     private CityService cityService;
@@ -58,8 +65,12 @@ public class LoginService {
                 registrationObject.getStreet(),
                 registrationObject.getHouseNumber());
 
+        // Save user and create new token to confirm registration
         userService.save(newUser);
-        emailService.sendRegistrationConfirmation(newUser, "jaja kommt noch");
+        String token = UUID.randomUUID().toString();
+        Token registrationToken = tokenService.save(new Token(token, newUser));
+        emailService.sendRegistrationConfirmation(newUser, String.format("%s/confirm/%s", FRONTEND_URL, token));
+
         return newUser;
     }
 
@@ -80,5 +91,39 @@ public class LoginService {
         }
 
         return foundUser.get();
+    }
+
+    public void confirmToken(String token) throws TokenNotFoundException, TokenExpiredException,
+            TokenAlreadyConfirmedException {
+        Optional<Token> foundToken = tokenService.findByTokenValue(token);
+        Token tokenToConfirm;
+
+        if (foundToken.isEmpty()) {
+            throw new TokenNotFoundException(token);
+        }
+
+        LocalDateTime now = LocalDateTime.now();
+        tokenToConfirm = foundToken.get();
+
+        // First check if the token was already confirmed
+        if (tokenToConfirm.getConfirmationDate() != null) {
+            throw new TokenAlreadyConfirmedException();
+        }
+
+        // If the token expired, we simply send a new token to the email and set the expiration date to one day from now
+        if (now.isAfter(tokenToConfirm.getExpirationDate())) {
+            tokenToConfirm.setToken(UUID.randomUUID().toString());
+            tokenToConfirm.setExpirationDate(now.plusDays(1));
+            emailService.sendRegistrationConfirmation(tokenToConfirm.getUser(),
+                    String.format("%s/confirm/%s", FRONTEND_URL, token));
+            throw new TokenExpiredException();
+        }
+
+        // Set confirmation date and set enabled to true
+        tokenToConfirm.setConfirmationDate(now);
+        User userToUpdate = tokenToConfirm.getUser();
+        userToUpdate.setEnabled(true);
+        userService.save(userToUpdate);
+        emailService.sendTokenConfirmation(tokenToConfirm.getUser());
     }
 }

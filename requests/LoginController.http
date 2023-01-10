@@ -24,6 +24,9 @@ Content-Type: application/json
   "password": "hartNachMaggi2"
 }
 
+### Confirm token
+POST http://localhost:8082/v1/confirm?token={{token}}
+
 ### Register normal user
 POST http://localhost:8082/v1/register
 Content-Type: application/json
