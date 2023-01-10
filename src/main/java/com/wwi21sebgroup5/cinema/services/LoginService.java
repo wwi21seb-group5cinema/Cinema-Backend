@@ -27,6 +27,9 @@ public class LoginService {
     @Autowired
     private CityService cityService;
 
+    @Autowired
+    private EmailService emailService;
+
     /**
      * @param registrationObject DTO which holds all necessary attributes for a new user
      * @return the registered User if registered successfully
@@ -56,6 +59,7 @@ public class LoginService {
                 registrationObject.getHouseNumber());
 
         userService.save(newUser);
+        emailService.sendRegistrationConfirmation(newUser, "jaja kommt noch");
         return newUser;
     }
 

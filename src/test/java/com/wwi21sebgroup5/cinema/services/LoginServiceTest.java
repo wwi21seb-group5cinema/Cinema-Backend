@@ -20,6 +20,9 @@ import org.springframework.security.crypto.password.PasswordEncoder;
 import java.util.Optional;
 
 import static org.junit.jupiter.api.Assertions.*;
+import static org.mockito.ArgumentMatchers.any;
+import static org.mockito.ArgumentMatchers.anyString;
+import static org.mockito.Mockito.doNothing;
 import static org.mockito.Mockito.when;
 
 @ExtendWith(MockitoExtension.class)
@@ -33,6 +36,9 @@ public class LoginServiceTest {
 
     @Mock
     private CityService cityService;
+
+    @Mock
+    private EmailService emailService;
 
     @InjectMocks
     private LoginService loginService;
@@ -58,6 +64,7 @@ public class LoginServiceTest {
         when(userService.getUserByUserName(userName)).thenReturn(Optional.empty());
         when(userService.getUserByEmail(email)).thenReturn(Optional.empty());
         when(cityService.findByPlzAndName(plz, cityName)).thenReturn(city);
+        doNothing().when(emailService).sendRegistrationConfirmation(any(), anyString());
         when(passwordEncoder.encode(password)).thenReturn(password);
 
         User actualUser = null;
