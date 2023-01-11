@@ -60,7 +60,7 @@ public class LoginController {
         } catch (TokenAlreadyConfirmedException e) {
             return new ResponseEntity<>(e.getMessage(), HttpStatus.ALREADY_REPORTED);
         } catch (Exception ex) {
-            return new ResponseEntity<>(HttpStatus.INTERNAL_SERVER_ERROR);
+            return new ResponseEntity<>(ex.getMessage(), HttpStatus.INTERNAL_SERVER_ERROR);
         }
 
         return new ResponseEntity<>(HttpStatus.OK);
