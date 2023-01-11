@@ -32,7 +32,7 @@ public class LoginController {
         } catch (UserAlreadyExistsException | EmailAlreadyExistsException ex) {
             return new ResponseEntity<>(ex.getMessage(), HttpStatus.NOT_ACCEPTABLE);
         } catch (Exception ex) {
-            return new ResponseEntity<>(HttpStatus.INTERNAL_SERVER_ERROR);
+            return new ResponseEntity<>(ex.getMessage(), HttpStatus.INTERNAL_SERVER_ERROR);
         }
 
         return new ResponseEntity<>(newUser, HttpStatus.CREATED);
@@ -49,7 +49,7 @@ public class LoginController {
         } catch (PasswordsNotMatchingException pnmE) {
             return new ResponseEntity<>(pnmE.getMessage(), HttpStatus.UNAUTHORIZED);
         } catch (Exception ex) {
-            return new ResponseEntity<>(HttpStatus.INTERNAL_SERVER_ERROR);
+            return new ResponseEntity<>(ex.getMessage(), HttpStatus.INTERNAL_SERVER_ERROR);
         }
 
         return new ResponseEntity<>(user, HttpStatus.OK);
