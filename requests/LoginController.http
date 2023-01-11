@@ -25,7 +25,7 @@ Content-Type: application/json
 }
 
 ### Confirm token
-POST http://localhost:8082/v1/confirm?token={{token}}
+POST http://localhost:8082/v1/confirm?token=e50c121d-9aaa-481c-baa4-173a491c3c64
 
 ### Register normal user
 POST http://localhost:8082/v1/register

@@ -1,0 +1,5 @@
+### Get tmdb movies by query-name
+GET http://localhost:8082/v1/movie/tmdb/getTmdb?movieName={{movieName}}
+
+### Get tmdb movie by id
+GET http://localhost:8082/v1/movie/tmdb/getTmdb?movieId={{tmdbMovieId}}

@@ -21,20 +21,25 @@ import static com.wwi21sebgroup5.cinema.helper.DateFormatter.DATE_FORMATTER;
 
 @Service
 public class MovieService {
-    @Autowired
-    MovieRepository movieRepository;
 
     @Autowired
-    ProducerService producerService;
-    @Autowired
-    DirectorService directorService;
-    @Autowired
-    GenreService genreService;
-    @Autowired
-    ActorService actorService;
+    private MovieRepository movieRepository;
 
     @Autowired
-    ActsInService actsInService;
+    private ProducerService producerService;
+
+    @Autowired
+    private DirectorService directorService;
+
+    @Autowired
+    private GenreService genreService;
+
+    @Autowired
+    private ActorService actorService;
+
+    @Autowired
+    private ActsInService actsInService;
+
     @Autowired
     private ImageDataRepository imageDataRepository;
 
@@ -111,6 +116,7 @@ public class MovieService {
         return m;
     }
 
+
     public List<Movie> findAll() {
         return movieRepository.findAll();
 
@@ -119,5 +125,6 @@ public class MovieService {
     public Optional<Movie> findById(UUID id) {
         return movieRepository.findById(id);
     }
+
 
 }
