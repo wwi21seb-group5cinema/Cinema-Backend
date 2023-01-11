@@ -1,12 +1,10 @@
 package com.wwi21sebgroup5.cinema.services;
 
 import com.wwi21sebgroup5.cinema.entities.City;
+import com.wwi21sebgroup5.cinema.entities.Token;
 import com.wwi21sebgroup5.cinema.entities.User;
 import com.wwi21sebgroup5.cinema.enums.Role;
-import com.wwi21sebgroup5.cinema.exceptions.EmailAlreadyExistsException;
-import com.wwi21sebgroup5.cinema.exceptions.EmailNotFoundException;
-import com.wwi21sebgroup5.cinema.exceptions.PasswordsNotMatchingException;
-import com.wwi21sebgroup5.cinema.exceptions.UserAlreadyExistsException;
+import com.wwi21sebgroup5.cinema.exceptions.*;
 import com.wwi21sebgroup5.cinema.requestObjects.LoginRequestObject;
 import com.wwi21sebgroup5.cinema.requestObjects.RegistrationRequestObject;
 import org.junit.jupiter.api.DisplayName;
@@ -14,10 +12,13 @@ import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
 import org.mockito.InjectMocks;
 import org.mockito.Mock;
+import org.mockito.MockedStatic;
 import org.mockito.junit.jupiter.MockitoExtension;
 import org.springframework.security.crypto.password.PasswordEncoder;
 
+import java.time.LocalDateTime;
 import java.util.Optional;
+import java.util.UUID;
 
 import static org.junit.jupiter.api.Assertions.*;
 import static org.mockito.ArgumentMatchers.any;
@@ -201,6 +202,84 @@ public class LoginServiceTest {
         when(passwordEncoder.matches(loginRequestObject.getPassword(), user.getPassword())).thenReturn(false);
 
         assertThrows(PasswordsNotMatchingException.class, () -> loginService.login(loginRequestObject));
+    }
+
+    private Token generateToken() {
+        Token token = new Token(UUID.randomUUID().toString(), new User());
+        token.setExpirationDate(LocalDateTime.of(2023, 2, 12, 2, 30, 4));
+        token.setId(UUID.randomUUID());
+        return token;
+    }
+
+    @Test
+    @DisplayName("Test token confirmation successful")
+    public void testConfirmTokenSuccessful() {
+        Token token = generateToken();
+        Token expectedToken = generateToken();
+        expectedToken.setId(token.getId());
+        expectedToken.setToken(token.getToken());
+        User expectedUser = expectedToken.getUser();
+        expectedUser.setEnabled(true);
+
+        LocalDateTime confirmationDateTime =
+                LocalDateTime.of(2023, 2, 12, 2, 30, 3);
+        expectedToken.setConfirmationDate(confirmationDateTime);
+
+        when(tokenService.findByTokenValue(token.getToken())).thenReturn(Optional.of(token));
+        when(tokenService.save(expectedToken)).thenReturn(expectedToken);
+        doNothing().when(emailService).sendTokenConfirmation(expectedUser);
+        try (MockedStatic<LocalDateTime> dateTimeMock = mockStatic(LocalDateTime.class)) {
+            dateTimeMock.when(LocalDateTime::now).thenReturn(confirmationDateTime);
+
+            // No further testing required if method doesn't throw any exception, since we confirm
+            // correct calling of the methods called in it
+            assertDoesNotThrow(() -> loginService.confirmToken(token.getToken()));
+        }
+    }
+
+    @Test
+    @DisplayName("Test token not found when confirming")
+    public void testTokenNotFoundWhileConfirming() {
+        String token = UUID.randomUUID().toString();
+
+        when(tokenService.findByTokenValue(token)).thenReturn(Optional.empty());
+
+        assertThrows(TokenNotFoundException.class, () -> loginService.confirmToken(token));
+    }
+
+    @Test
+    @DisplayName("Test token already expired when confirming")
+    public void testTokenExpiredWhileConfirming() {
+        Token token = generateToken();
+        LocalDateTime dateTime =
+                LocalDateTime.of(2023, 2, 12, 2, 30, 5);
+
+        when(tokenService.findByTokenValue(token.getToken())).thenReturn(Optional.of(token));
+        try (MockedStatic<LocalDateTime> dateTimeMock = mockStatic(LocalDateTime.class)) {
+            dateTimeMock.when(LocalDateTime::now).thenReturn(dateTime);
+
+            // No further testing required if method doesn't throw any exception, since we confirm
+            // correct calling of the methods called in it
+            assertThrows(TokenExpiredException.class, () -> loginService.confirmToken(token.getToken()));
+        }
+    }
+
+    @Test
+    @DisplayName("Test token already confirmed")
+    public void testTokenAlreadyConfirmed() {
+        Token token = generateToken();
+        LocalDateTime dateTime =
+                LocalDateTime.of(2023, 2, 12, 2, 30, 5);
+        token.setConfirmationDate(token.getExpirationDate().minusHours(2));
+
+        when(tokenService.findByTokenValue(token.getToken())).thenReturn(Optional.of(token));
+        try (MockedStatic<LocalDateTime> dateTimeMock = mockStatic(LocalDateTime.class)) {
+            dateTimeMock.when(LocalDateTime::now).thenReturn(dateTime);
+
+            // No further testing required if method doesn't throw any exception, since we confirm
+            // correct calling of the methods called in it
+            assertThrows(TokenAlreadyConfirmedException.class, () -> loginService.confirmToken(token.getToken()));
+        }
     }
 
 }

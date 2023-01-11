@@ -116,9 +116,12 @@ public class LoginService {
 
         // Set confirmation date and set enabled to true
         tokenToConfirm.setConfirmationDate(now);
+        tokenService.save(tokenToConfirm);
+
         User userToUpdate = tokenToConfirm.getUser();
         userToUpdate.setEnabled(true);
         userService.save(userToUpdate);
+
         emailService.sendTokenConfirmation(tokenToConfirm.getUser());
     }
 }

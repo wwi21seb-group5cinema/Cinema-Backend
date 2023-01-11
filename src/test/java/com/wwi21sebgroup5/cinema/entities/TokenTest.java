@@ -30,12 +30,16 @@ public class TokenTest {
         assertEquals(firstToken, secondToken);
         assertEquals(firstToken.hashCode(), secondToken.hashCode());
 
+        // validate this == that
+        secondToken = firstToken;
+        assertEquals(firstToken, secondToken);
+
         // different class and null
         assertNotEquals(firstToken, "");
         assertNotEquals(firstToken, null);
 
         // different id
-        secondToken.setId(UUID.randomUUID());
+        secondToken = generateToken(UUID.randomUUID(), firstToken.getToken());
         assertNotEquals(firstToken, secondToken);
 
         // different token
@@ -48,6 +52,7 @@ public class TokenTest {
         secondToken.setUser(new User("a", "b", Role.USER, "c", "d", "e",
                 new City("f", "g"), "h", "i"));
         assertNotEquals(firstToken, secondToken);
+        assertNotEquals(firstToken.hashCode(), secondToken.hashCode());
 
         // different confirmation date
         secondToken = generateToken(firstToken.getId(), firstToken.getToken());
@@ -58,6 +63,12 @@ public class TokenTest {
         secondToken = generateToken(firstToken.getId(), firstToken.getToken());
         secondToken.setExpirationDate(firstToken.getExpirationDate().plusMinutes(2));
         assertNotEquals(firstToken, secondToken);
+
+        firstToken = new Token();
+        secondToken = new Token();
+
+        assertEquals(firstToken, secondToken);
+        assertEquals(firstToken.hashCode(), secondToken.hashCode());
     }
 
 }
