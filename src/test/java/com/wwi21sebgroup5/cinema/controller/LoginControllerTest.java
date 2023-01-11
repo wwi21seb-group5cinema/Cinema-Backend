@@ -130,7 +130,7 @@ public class LoginControllerTest {
         assertAll(
                 "Validating response ...",
                 () -> assertEquals(HttpStatus.INTERNAL_SERVER_ERROR, response.getStatusCode()),
-                () -> assertFalse(response.hasBody())
+                () -> assertEquals("Error!", response.getBody())
         );
     }
 
@@ -217,7 +217,7 @@ public class LoginControllerTest {
         assertAll(
                 "Validating respones ...",
                 () -> assertEquals(HttpStatus.INTERNAL_SERVER_ERROR, response.getStatusCode()),
-                () -> assertFalse(response.hasBody())
+                () -> assertEquals("Error!", response.getBody())
         );
     }
 
