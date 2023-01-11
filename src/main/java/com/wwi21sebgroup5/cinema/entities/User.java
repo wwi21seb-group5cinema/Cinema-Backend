@@ -61,6 +61,10 @@ public class User {
     @NotNull
     private String houseNumber;
 
+    @Column
+    @NotNull
+    private Boolean enabled;
+
     public User(String userName,
                 String password,
                 Role role,
@@ -79,6 +83,7 @@ public class User {
         this.city = city;
         this.street = street;
         this.houseNumber = houseNumber;
+        this.enabled = false;
     }
 
     @Override

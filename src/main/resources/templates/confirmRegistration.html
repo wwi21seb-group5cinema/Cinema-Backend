@@ -1,0 +1,26 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <title>Willkommen bei Cineverse!</title>
+    <meta content="text/html; charset=UTF-8" http-equiv="Content-Type"/>
+</head>
+<body>
+<p>Wir freuen uns sehr, dich bei uns begrüßen zu dürfen, <span th:text="${user.firstName}"></span><br></p>
+<p>Du hast dich mit folgenden Daten bei uns registriert:</p>
+<ul>
+    <li>Benutzername: <span th:text="${user.userName}"></span></li>
+    <li>Vorname: <span th:text="${user.firstName}"></span></li>
+    <li>Nachname: <span th:text="${user.lastName}"></span></li>
+    <li>Stadt: <span th:text="${user.city.plz}"></span>, <span th:text="${user.city.name}"></span></li>
+</ul>
+<p>Um alle Funktionen unserer Webseite benutzen zu können, musst du noch deinen Account bestätigen, drücke hierfür
+    auf den folgenden Link: </p>
+<a th:href="@{https://wwi21seb-group5cinema.azurewebsites.net/confirm/__${confirmationToken}__}">Confirm</a>
+<br>
+<p>
+    Mit freundlichen Grüßen, <br/>
+    &emsp; <em>Dein Cineverse Team</em>
+</p>
+<img src="cid:logo.ico"/>
+</body>
+</html>

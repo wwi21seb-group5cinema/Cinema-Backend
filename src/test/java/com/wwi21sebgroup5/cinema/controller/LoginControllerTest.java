@@ -3,10 +3,7 @@ package com.wwi21sebgroup5.cinema.controller;
 import com.wwi21sebgroup5.cinema.entities.City;
 import com.wwi21sebgroup5.cinema.entities.User;
 import com.wwi21sebgroup5.cinema.enums.Role;
-import com.wwi21sebgroup5.cinema.exceptions.EmailAlreadyExistsException;
-import com.wwi21sebgroup5.cinema.exceptions.EmailNotFoundException;
-import com.wwi21sebgroup5.cinema.exceptions.PasswordsNotMatchingException;
-import com.wwi21sebgroup5.cinema.exceptions.UserAlreadyExistsException;
+import com.wwi21sebgroup5.cinema.exceptions.*;
 import com.wwi21sebgroup5.cinema.requestObjects.LoginRequestObject;
 import com.wwi21sebgroup5.cinema.requestObjects.RegistrationRequestObject;
 import com.wwi21sebgroup5.cinema.services.LoginService;
@@ -18,6 +15,8 @@ import org.mockito.Mock;
 import org.mockito.junit.jupiter.MockitoExtension;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+
+import java.util.UUID;
 
 import static org.junit.jupiter.api.Assertions.*;
 import static org.mockito.Mockito.*;
@@ -218,6 +217,81 @@ public class LoginControllerTest {
                 "Validating respones ...",
                 () -> assertEquals(HttpStatus.INTERNAL_SERVER_ERROR, response.getStatusCode()),
                 () -> assertEquals("Error!", response.getBody())
+        );
+    }
+
+    @Test
+    @DisplayName("Successfully confirm token")
+    public void confirmTokenSuccessful() throws Exception {
+        String token = UUID.randomUUID().toString();
+
+        doNothing().when(loginService).confirmToken(token);
+        ResponseEntity<Object> response = loginController.confirmToken(token);
+
+        assertAll(
+                "Validating response..",
+                () -> assertFalse(response.hasBody()),
+                () -> assertEquals(HttpStatus.OK, response.getStatusCode())
+        );
+    }
+
+    @Test
+    @DisplayName("Token not found while confirming")
+    public void tokenNotFoundWhileConfirming() throws Exception {
+        String token = UUID.randomUUID().toString();
+
+        doThrow(new TokenNotFoundException(token)).when(loginService).confirmToken(token);
+        ResponseEntity<Object> response = loginController.confirmToken(token);
+
+        assertAll(
+                "Validating response..",
+                () -> assertEquals(String.format("Token with the value %s not found", token), response.getBody()),
+                () -> assertEquals(HttpStatus.NOT_FOUND, response.getStatusCode())
+        );
+    }
+
+    @Test
+    @DisplayName("Token already expired while conf irming")
+    public void tokenExpiredWhileConfirming() throws Exception {
+        String token = UUID.randomUUID().toString();
+
+        doThrow(new TokenExpiredException()).when(loginService).confirmToken(token);
+        ResponseEntity<Object> response = loginController.confirmToken(token);
+
+        assertAll(
+                "Validating response..",
+                () -> assertEquals("Token expired!", response.getBody()),
+                () -> assertEquals(HttpStatus.FORBIDDEN, response.getStatusCode())
+        );
+    }
+
+    @Test
+    @DisplayName("Token already confirmed")
+    public void tokenAlreadyConfirmedWhileConfirming() throws Exception {
+        String token = UUID.randomUUID().toString();
+
+        doThrow(new TokenAlreadyConfirmedException()).when(loginService).confirmToken(token);
+        ResponseEntity<Object> response = loginController.confirmToken(token);
+
+        assertAll(
+                "Validating response..",
+                () -> assertEquals("Token was already confirmed!", response.getBody()),
+                () -> assertEquals(HttpStatus.ALREADY_REPORTED, response.getStatusCode())
+        );
+    }
+
+    @Test
+    @DisplayName("Internal server error while confirming token")
+    public void internalServerErrorWhileConfirming() throws Exception {
+        String token = UUID.randomUUID().toString();
+
+        doThrow(new RuntimeException("Error!")).when(loginService).confirmToken(token);
+        ResponseEntity<Object> response = loginController.confirmToken(token);
+
+        assertAll(
+                "Validating response..",
+                () -> assertEquals("Error!", response.getBody()),
+                () -> assertEquals(HttpStatus.INTERNAL_SERVER_ERROR, response.getStatusCode())
         );
     }
 
