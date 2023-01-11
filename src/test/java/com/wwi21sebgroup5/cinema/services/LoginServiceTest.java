@@ -22,8 +22,7 @@ import java.util.Optional;
 import static org.junit.jupiter.api.Assertions.*;
 import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.ArgumentMatchers.anyString;
-import static org.mockito.Mockito.doNothing;
-import static org.mockito.Mockito.when;
+import static org.mockito.Mockito.*;
 
 @ExtendWith(MockitoExtension.class)
 public class LoginServiceTest {
@@ -33,6 +32,9 @@ public class LoginServiceTest {
 
     @Mock
     private UserService userService;
+
+    @Mock
+    private TokenService tokenService;
 
     @Mock
     private CityService cityService;
@@ -64,6 +66,7 @@ public class LoginServiceTest {
         when(userService.getUserByUserName(userName)).thenReturn(Optional.empty());
         when(userService.getUserByEmail(email)).thenReturn(Optional.empty());
         when(cityService.findByPlzAndName(plz, cityName)).thenReturn(city);
+        when(tokenService.save(any())).thenAnswer(invocationOnMock -> invocationOnMock.getArgument(0));
         doNothing().when(emailService).sendRegistrationConfirmation(any(), anyString());
         when(passwordEncoder.encode(password)).thenReturn(password);
 
@@ -76,6 +79,8 @@ public class LoginServiceTest {
         }
 
         assertEquals(expectedUser, actualUser, "Registered user wrong!");
+        verify(tokenService, times(1)).save(any());
+        verify(emailService, times(1)).sendRegistrationConfirmation(any(), anyString());
     }
 
     @Test
@@ -99,6 +104,8 @@ public class LoginServiceTest {
         when(userService.getUserByUserName(userName)).thenReturn(Optional.empty());
         when(userService.getUserByEmail(email)).thenReturn(Optional.empty());
         when(cityService.findByPlzAndName(plz, cityName)).thenReturn(city);
+        when(tokenService.save(any())).thenAnswer(invocationOnMock -> invocationOnMock.getArgument(0));
+        doNothing().when(emailService).sendRegistrationConfirmation(any(), anyString());
         when(passwordEncoder.encode(password)).thenReturn(password);
 
         User actualUser = null;
@@ -110,6 +117,8 @@ public class LoginServiceTest {
         }
 
         assertEquals(expectedUser, actualUser, "Registered user wrong!");
+        verify(tokenService, times(1)).save(any());
+        verify(emailService, times(1)).sendRegistrationConfirmation(any(), anyString());
     }
 
     @Test
