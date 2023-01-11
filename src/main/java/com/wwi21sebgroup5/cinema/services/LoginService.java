@@ -7,7 +7,6 @@ import com.wwi21sebgroup5.cinema.exceptions.*;
 import com.wwi21sebgroup5.cinema.requestObjects.LoginRequestObject;
 import com.wwi21sebgroup5.cinema.requestObjects.RegistrationRequestObject;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.beans.factory.annotation.Value;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
@@ -18,9 +17,6 @@ import java.util.UUID;
 
 @Service
 public class LoginService {
-
-    @Value("${frontend.url}")
-    private String FRONTEND_URL;
 
     @Autowired
     private PasswordEncoder passwordEncoder;
@@ -69,7 +65,7 @@ public class LoginService {
         userService.save(newUser);
         String token = UUID.randomUUID().toString();
         Token registrationToken = tokenService.save(new Token(token, newUser));
-        emailService.sendRegistrationConfirmation(newUser, String.format("%s/confirm/%s", FRONTEND_URL, token));
+        emailService.sendRegistrationConfirmation(newUser, token);
 
         return newUser;
     }
@@ -114,8 +110,7 @@ public class LoginService {
         if (now.isAfter(tokenToConfirm.getExpirationDate())) {
             tokenToConfirm.setToken(UUID.randomUUID().toString());
             tokenToConfirm.setExpirationDate(now.plusDays(1));
-            emailService.sendRegistrationConfirmation(tokenToConfirm.getUser(),
-                    String.format("%s/confirm/%s", FRONTEND_URL, token));
+            emailService.sendRegistrationConfirmation(tokenToConfirm.getUser(), token);
             throw new TokenExpiredException();
         }
 

@@ -59,7 +59,7 @@ public class EmailService {
     public void sendRegistrationConfirmation(User user, String tokenUrl) {
         Context context = new Context();
         context.setVariable("user", user);
-        context.setVariable("confirmationUrl", tokenUrl);
+        context.setVariable("confirmationToken", tokenUrl);
         String msgBody = templateEngine.process(CONFIRM_REGISTRATION, context);
 
         sendMail(user.getEmail(), REGISTRATION_SUBJECT, msgBody);

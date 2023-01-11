@@ -37,6 +37,10 @@ public class CurrentUserDetailsService implements UserDetailsService {
         return new org.springframework.security.core.userdetails.User(
                 currentUser.getUserName(),
                 currentUser.getPassword(),
+                currentUser.getEnabled(),
+                true,
+                true,
+                true,
                 Collections.singleton(new SimpleGrantedAuthority(
                                 String.format("%s%s", ROLE_PREFIX, currentUser.getRole().name())
                         )
