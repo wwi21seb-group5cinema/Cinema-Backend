@@ -1,3 +1,11 @@
+### Add new tmdb movie into our db
+POST http://localhost:8082/v1/movie/tmdb/addTmdb
+Content-Type: application/json
+
+{
+  "tmdbMovieId": {{tmdbMovieId}}
+}
+
 ### Get tmdb movies by query-name
 GET http://localhost:8082/v1/movie/tmdb/getTmdb?movieName={{movieName}}
 

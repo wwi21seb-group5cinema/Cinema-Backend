@@ -9,4 +9,8 @@ public class TmdbMovieRequestObject {
 
     private int tmdbMovieId;
 
+    public TmdbMovieRequestObject() {
+        super();
+    }
+
 }
