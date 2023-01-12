@@ -34,7 +34,7 @@ public class BookingController {
     }
 
     @PostMapping(path = "/tempReserve")
-    public ResponseEntity<?> temporarilyReserveSeats(@RequestBody List<BookingRequestObject> SeatsToReserve){
+    public ResponseEntity<Object> temporarilyReserveSeats(@RequestBody List<BookingRequestObject> SeatsToReserve){
         return bookingService.temporarilyReserveSeats(SeatsToReserve);
     }
 

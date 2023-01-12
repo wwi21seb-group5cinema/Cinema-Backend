@@ -121,10 +121,9 @@ public class BookingServiceTest {
         List<BookingRequestObject> input = List.of(new BookingRequestObject(sampleEventId, sRow, sPlace));
         doThrow(new SeatNotAvailableException(sRow, sPlace)).when(ticketService).tempReserveSeat(sampleEventId, sRow, sPlace);
 
-        ResponseEntity<?> exp = new ResponseEntity<>("Seat on row 1 and place 1 does not exist", HttpStatus.NOT_ACCEPTABLE);
+        ResponseEntity<?> exp = new ResponseEntity<>("The Seat on row 1 and place 1 is not available", HttpStatus.NOT_ACCEPTABLE);
         ResponseEntity<?> act = bookingService.temporarilyReserveSeats(input);
 
         assertEquals(exp, act);
     }
-
 }

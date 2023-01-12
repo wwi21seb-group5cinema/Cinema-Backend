@@ -42,7 +42,7 @@ public class BookingService {
         return foundBooking.get();
     }
 
-    public ResponseEntity<?> temporarilyReserveSeats(List<BookingRequestObject> seatsToReserve) {
+    public ResponseEntity<Object> temporarilyReserveSeats(List<BookingRequestObject> seatsToReserve) {
         for (BookingRequestObject s : seatsToReserve) {
             try {
                 ticketService.tempReserveSeat(s.getEventID(), s.getRow(), s.getPlace());
