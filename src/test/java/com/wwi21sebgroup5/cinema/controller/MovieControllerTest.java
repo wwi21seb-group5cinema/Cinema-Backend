@@ -46,7 +46,7 @@ public class MovieControllerTest {
             Genre genre = new Genre(UUID.randomUUID(), "Action");
             File fi = new File("src/test/resources/beispielbild2.png");
             byte[] data = Files.readAllBytes(fi.toPath());
-            ImageData image = new ImageData("image/png", data);
+            ImageData image = new ImageData("image/png", data, false);
             Movie firstMovie = new Movie(producer, director, FSK.SIX, genre, image, "film1",
                     "beschreibung", LocalDate.of(2023, 12, 4), LocalDate.of(2023, 12, 6));
             Movie secondMovie = new Movie(producer, director, FSK.SIX, genre, image, "film2",
@@ -88,7 +88,7 @@ public class MovieControllerTest {
             Genre genre = new Genre(UUID.randomUUID(), "Action");
             File fi = new File("src/test/resources/beispielbild2.png");
             byte[] data = Files.readAllBytes(fi.toPath());
-            ImageData image = new ImageData("image/png", data);
+            ImageData image = new ImageData("image/png", data, false);
             Movie firstMovie = new Movie(producer, director, FSK.SIX, genre, image, "film1",
                     "beschreibung", LocalDate.of(2023, 12, 4), LocalDate.of(2023, 12, 6));
 
@@ -125,7 +125,7 @@ public class MovieControllerTest {
             Genre genre = new Genre(UUID.randomUUID(), "Action");
             File fi = new File("src/test/resources/beispielbild2.png");
             byte[] data = Files.readAllBytes(fi.toPath());
-            ImageData image = new ImageData("image/png", data);
+            ImageData image = new ImageData("image/png", data, false);
             Actor a = new Actor("Bahde", "Paul");
             a.setId(UUID.randomUUID());
             List<UUID> actors = List.of(a.getId());
@@ -160,7 +160,7 @@ public class MovieControllerTest {
             Genre genre = new Genre(UUID.randomUUID(), "Action");
             File fi = new File("src/test/resources/beispielbild2.png");
             byte[] data = Files.readAllBytes(fi.toPath());
-            ImageData image = new ImageData("image/png", data);
+            ImageData image = new ImageData("image/png", data, false);
             Actor a = new Actor("Bahde", "Paul");
             a.setId(UUID.randomUUID());
             List<UUID> actors = List.of(a.getId());
@@ -195,7 +195,7 @@ public class MovieControllerTest {
             Genre genre = new Genre(UUID.randomUUID(), "Action");
             File fi = new File("src/test/resources/beispielbild2.png");
             byte[] data = Files.readAllBytes(fi.toPath());
-            ImageData image = new ImageData("image/png", data);
+            ImageData image = new ImageData("image/png", data, false);
             Actor a = new Actor("Bahde", "Paul");
             a.setId(UUID.randomUUID());
             List<UUID> actors = List.of(a.getId());
@@ -230,7 +230,7 @@ public class MovieControllerTest {
             Genre genre = new Genre(UUID.randomUUID(), "Action");
             File fi = new File("src/test/resources/beispielbild2.png");
             byte[] data = Files.readAllBytes(fi.toPath());
-            ImageData image = new ImageData("image/png", data);
+            ImageData image = new ImageData("image/png", data, false);
             Actor a = new Actor("Bahde", "Paul");
             a.setId(UUID.randomUUID());
             List<UUID> actors = List.of(a.getId());

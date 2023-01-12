@@ -67,7 +67,7 @@ public class MovieServiceTest {
             Genre genre = new Genre(UUID.randomUUID(), "Action");
             File fi = new File("src/test/resources/beispielbild2.png");
             byte[] data = Files.readAllBytes(fi.toPath());
-            ImageData image = new ImageData("image/png", data);
+            ImageData image = new ImageData("image/png", data, false);
             Movie firstMovie = new Movie(producer, director, FSK.SIX, genre, image, "film1",
                     "beschreibung", LocalDate.of(2023, 12, 4), LocalDate.of(2023, 12, 6));
             Movie secondMovie = new Movie(producer, director, FSK.SIX, genre, image, "film2",
@@ -94,7 +94,7 @@ public class MovieServiceTest {
             Genre genre = new Genre(UUID.randomUUID(), "Action");
             File fi = new File("src/test/resources/beispielbild2.png");
             byte[] data = Files.readAllBytes(fi.toPath());
-            ImageData image = new ImageData("image/png", data);
+            ImageData image = new ImageData("image/png", data, false);
             Movie firstMovie = new Movie(producer, director, FSK.SIX, genre, image, "film1",
                     "beschreibung", LocalDate.of(2023, 1, 8), LocalDate.of(2023, 4, 8));
 
@@ -135,7 +135,7 @@ public class MovieServiceTest {
             Genre genre = new Genre(UUID.randomUUID(), "Action");
             File fi = new File("src/test/resources/beispielbild2.png");
             byte[] data = Files.readAllBytes(fi.toPath());
-            ImageData image = new ImageData("image/png", data);
+            ImageData image = new ImageData("image/png", data, false);
             Actor actor = new Actor("Paul", "Bahde");
             actor.setId(UUID.randomUUID());
             UUID actorId = actor.getId();
@@ -168,7 +168,7 @@ public class MovieServiceTest {
             Genre genre = new Genre(UUID.randomUUID(), "Action");
             File fi = new File("src/test/resources/beispielbild2.png");
             byte[] data = Files.readAllBytes(fi.toPath());
-            ImageData image = new ImageData("image/png", data);
+            ImageData image = new ImageData("image/png", data, false);
             Actor actor = new Actor("Paul", "Bahde");
             actor.setId(UUID.randomUUID());
             UUID actorId = actor.getId();
@@ -200,7 +200,7 @@ public class MovieServiceTest {
             Genre genre = new Genre(UUID.randomUUID(), "Action");
             File fi = new File("src/test/resources/beispielbild2.png");
             byte[] data = Files.readAllBytes(fi.toPath());
-            ImageData image = new ImageData("image/png", data);
+            ImageData image = new ImageData("image/png", data, false);
             Actor actor = new Actor("Paul", "Bahde");
             actor.setId(UUID.randomUUID());
             UUID actorId = actor.getId();
@@ -234,7 +234,7 @@ public class MovieServiceTest {
             Genre genre = new Genre(UUID.randomUUID(), "Action");
             File fi = new File("src/test/resources/beispielbild2.png");
             byte[] data = Files.readAllBytes(fi.toPath());
-            ImageData image = new ImageData("image/png", data);
+            ImageData image = new ImageData("image/png", data, false);
             Actor actor = new Actor("Paul", "Bahde");
             actor.setId(UUID.randomUUID());
             UUID actorId = actor.getId();
@@ -270,7 +270,7 @@ public class MovieServiceTest {
             Genre genre = new Genre(UUID.randomUUID(), "Action");
             File fi = new File("src/test/resources/beispielbild2.png");
             byte[] data = Files.readAllBytes(fi.toPath());
-            ImageData image = new ImageData("image/png", data);
+            ImageData image = new ImageData("image/png", data, false);
             Actor actor = new Actor("Paul", "Bahde");
             actor.setId(UUID.randomUUID());
             UUID actorId = actor.getId();
@@ -306,7 +306,7 @@ public class MovieServiceTest {
             Genre genre = new Genre(UUID.randomUUID(), "Action");
             File fi = new File("src/test/resources/beispielbild2.png");
             byte[] data = Files.readAllBytes(fi.toPath());
-            ImageData image = new ImageData("image/png", data);
+            ImageData image = new ImageData("image/png", data, false);
             Actor actor = new Actor("Paul", "Bahde");
             actor.setId(UUID.randomUUID());
             UUID actorId = actor.getId();
@@ -340,7 +340,7 @@ public class MovieServiceTest {
             Genre genre = new Genre(UUID.randomUUID(), "Action");
             File fi = new File("src/test/resources/beispielbild2.png");
             byte[] data = Files.readAllBytes(fi.toPath());
-            ImageData image = new ImageData("image/png", data);
+            ImageData image = new ImageData("image/png", data, false);
             Actor actor = new Actor("Paul", "Bahde");
             actor.setId(UUID.randomUUID());
             UUID actorId = actor.getId();
