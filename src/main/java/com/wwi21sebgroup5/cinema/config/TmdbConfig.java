@@ -18,7 +18,7 @@ public class TmdbConfig {
     }
 
     @Bean
-    public TmdbConfiguration tmdbConfig() {
+    public TmdbConfiguration tmdbConfiguration() {
         return tmdbApi().getConfiguration();
     }
 
