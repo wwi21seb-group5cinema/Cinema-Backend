@@ -94,7 +94,7 @@ public class ImageServiceTest {
                         .thenThrow(e);
             } catch (Exception ex) {
             }
-            assertThrows(IOException.class, () -> imageService.uploadImage(multipartFile));
+            assertThrows(ImageCouldNotBeCompressedException.class, () -> imageService.uploadImage(multipartFile));
         } catch (IOException e) {
             fail("Failed to read bytes");
         }
