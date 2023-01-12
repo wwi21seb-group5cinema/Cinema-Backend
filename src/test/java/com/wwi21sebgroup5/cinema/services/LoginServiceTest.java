@@ -166,12 +166,13 @@ public class LoginServiceTest {
         User user = new User();
         user.setFirstName("TestFirstName");
         user.setPassword("TestPassword");
+        user.setEnabled(true);
         when(userService.getUserByEmail(testEmail)).thenReturn(Optional.of(user));
         when(passwordEncoder.matches(loginRequestObject.getPassword(), user.getPassword())).thenReturn(true);
 
         try {
             loginService.login(loginRequestObject);
-        } catch (PasswordsNotMatchingException | EmailNotFoundException e) {
+        } catch (PasswordsNotMatchingException | EmailNotFoundException | UserNotEnabledException e) {
             fail("Login not successful");
         }
     }
@@ -189,7 +190,7 @@ public class LoginServiceTest {
     }
 
     @Test
-    @DisplayName("Test passwords don't mtach during login")
+    @DisplayName("Test passwords don't match during login")
     public void testPasswordsNotMatchingDuringLogin() {
         LoginRequestObject loginRequestObject = new LoginRequestObject();
         String testEmail = "TestEmail";
@@ -198,10 +199,27 @@ public class LoginServiceTest {
         User user = new User();
         user.setFirstName("TestFirstName");
         user.setPassword("TestPassword");
+        user.setEnabled(true);
         when(userService.getUserByEmail(testEmail)).thenReturn(Optional.of(user));
         when(passwordEncoder.matches(loginRequestObject.getPassword(), user.getPassword())).thenReturn(false);
 
         assertThrows(PasswordsNotMatchingException.class, () -> loginService.login(loginRequestObject));
+    }
+
+    @Test
+    @DisplayName("Test user not enabled during login")
+    public void testUserNotEnabledDuringLogin() {
+        LoginRequestObject loginRequestObject = new LoginRequestObject();
+        String testEmail = "TestEmail";
+        loginRequestObject.setEmail(testEmail);
+        loginRequestObject.setPassword("TestPassword");
+        User user = new User();
+        user.setFirstName("TestFirstName");
+        user.setPassword("TestPassword");
+        user.setEnabled(false);
+        when(userService.getUserByEmail(testEmail)).thenReturn(Optional.of(user));
+
+        assertThrows(UserNotEnabledException.class, () -> loginService.login(loginRequestObject));
     }
 
     private Token generateToken() {
