@@ -8,5 +8,6 @@ public class DateFormatter {
 
     public static final DateTimeFormatter DATE_FORMATTER = DateTimeFormatter.ofPattern("dd-MM-yyyy");
 
+    public static final DateTimeFormatter TMDB_DATE_FORMATTER = DateTimeFormatter.ofPattern("yyyy-MM-dd");
 
 }

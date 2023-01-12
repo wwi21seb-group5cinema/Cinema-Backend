@@ -33,7 +33,7 @@ public class Movie {
     private Producer producer;
 
     @NotNull
-    @ManyToOne
+    @ManyToOne(cascade = CascadeType.PERSIST)
     @JoinColumn(name = "Director_id", referencedColumnName = "id")
     @ToString.Exclude
     private Director director;
@@ -60,7 +60,7 @@ public class Movie {
     private String trailer_url;
 
     @Column
-    private double rating;
+    private float rating;
 
     @NotNull
     @Column
@@ -136,7 +136,7 @@ public class Movie {
                  FSK fsk, Genre genre,
                  String image_url,
                  String trailer_url,
-                 double rating,
+                 float rating,
                  String name,
                  String description,
                  int length,

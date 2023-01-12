@@ -7,6 +7,7 @@ import com.wwi21sebgroup5.cinema.entities.Producer;
 import com.wwi21sebgroup5.cinema.enums.FSK;
 import com.wwi21sebgroup5.cinema.exceptions.*;
 import com.wwi21sebgroup5.cinema.exceptions.TmdbInformationException.InformationType;
+import com.wwi21sebgroup5.cinema.repositories.MovieRepository;
 import com.wwi21sebgroup5.cinema.requestObjects.DirectorRequestObject;
 import com.wwi21sebgroup5.cinema.requestObjects.ProducerRequestObject;
 import com.wwi21sebgroup5.cinema.requestObjects.TmdbMovieRequestObject;
@@ -15,13 +16,17 @@ import info.movito.themoviedbapi.TmdbMovies;
 import info.movito.themoviedbapi.TmdbMovies.MovieMethod;
 import info.movito.themoviedbapi.TmdbSearch;
 import info.movito.themoviedbapi.model.MovieDb;
+import info.movito.themoviedbapi.model.config.TmdbConfiguration;
 import info.movito.themoviedbapi.model.core.MovieResultsPage;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import java.time.LocalDate;
 import java.util.List;
 import java.util.NoSuchElementException;
 import java.util.Optional;
+
+import static com.wwi21sebgroup5.cinema.helper.DateFormatter.TMDB_DATE_FORMATTER;
 
 @Service
 public class TmdbService {
@@ -30,11 +35,15 @@ public class TmdbService {
     private static final boolean INCLUDE_ADULT = false;
     private static final int PAGE = 1;
     private static final int SEARCH_YEAR = -1;
-
     private static final String NAME_SPLIT_PATTERN = "\\s+";
+    private static final String BACKDROP_SIZE = "w780";
+    private static final String YOUTUBE_BASE_URL = "https://www.youtube.com/watch?v=";
 
     @Autowired
     private TmdbApi tmdbApi;
+
+    @Autowired
+    private TmdbConfiguration tmdbConfig;
 
     @Autowired
     private DirectorService directorService;
@@ -46,7 +55,7 @@ public class TmdbService {
     private ProducerService producerService;
 
     @Autowired
-    private MovieService movieService;
+    private MovieRepository movieRepository;
 
     public Movie addMovie(TmdbMovieRequestObject requestObject) throws TmdbMovieNotFoundException,
             ProducerAlreadyExistsException, DirectorAlreadyExistsException, FSKNotFoundException,
@@ -64,8 +73,39 @@ public class TmdbService {
         Director director = getDirectorFromMovieDB(movieDb);
         FSK fsk = getFSKfromMovieDb(movieDb);
         Genre genre = getGenreFromMovieDb(movieDb);
+        String imageUrl = getImageUrlFromMovieDb(movieDb);
+        String trailerUrl = getTrailerUrlFromMovieDb(movieDb);
+        float rating = movieDb.getUserRating();
+        String title = movieDb.getTitle();
+        String description = movieDb.getOverview();
+        int length = movieDb.getRuntime();
+        LocalDate startDate = LocalDate.parse(movieDb.getReleaseDate(), TMDB_DATE_FORMATTER);
 
-        return null;
+        Movie newMovie = new Movie(
+                producer, director, fsk, genre, imageUrl, trailerUrl, rating, title, description, length, startDate,
+                null // end date can be set later on, since it depends on the cinema
+        );
+
+        return movieRepository.save(newMovie);
+    }
+
+    private String getTrailerUrlFromMovieDb(MovieDb movieDb) throws TmdbInformationException {
+        String trailerUrl;
+
+        try {
+            String key = movieDb.getVideos().stream()
+                    .filter(video -> video.getType().equals("Trailer") && video.getSite().equals("YouTube"))
+                    .findFirst().get().getKey();
+            trailerUrl = String.format("%s%s", YOUTUBE_BASE_URL, key);
+        } catch (NoSuchElementException e) {
+            throw new TmdbInformationException(InformationType.TrailerUrl);
+        }
+
+        return trailerUrl;
+    }
+
+    private String getImageUrlFromMovieDb(MovieDb movieDb) {
+        return String.format("%s%s%s", tmdbConfig.getBaseUrl(), BACKDROP_SIZE, movieDb.getBackdropPath());
     }
 
     private Genre getGenreFromMovieDb(MovieDb movieDb) throws TmdbInformationException {
@@ -108,7 +148,7 @@ public class TmdbService {
 
     private Director getDirectorFromMovieDB(MovieDb movieDb) throws DirectorAlreadyExistsException,
             TmdbInformationException {
-        Director director = null;
+        Director director;
 
         try {
             String[] directorNames = movieDb.getCrew().stream()
@@ -129,7 +169,7 @@ public class TmdbService {
 
     private Producer getProducerFromMovieDb(MovieDb movieDb) throws ProducerAlreadyExistsException,
             TmdbInformationException {
-        Producer producer = null;
+        Producer producer;
 
         try {
             String productionCompanyName = movieDb.getProductionCompanies().get(0).getName();

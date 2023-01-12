@@ -7,7 +7,7 @@ public class TmdbInformationException extends Exception {
     }
 
     public enum InformationType {
-        Producer, Director, FSK, Genre
+        Producer, Director, FSK, Genre, TrailerUrl, StartDate
     }
 
 }
