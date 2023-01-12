@@ -50,7 +50,7 @@ public class ImageController {
             ImageData imageData = service.downloadImage(id);
             byte[] bytes = imageData.getImageData();
             return ResponseEntity.status(HttpStatus.OK)
-                    .contentType(MediaType.IMAGE_JPEG)
+                    .contentType(MediaType.valueOf(imageData.getType()))
                     .body(bytes);
 
         } catch (ImageNotFoundException e) {

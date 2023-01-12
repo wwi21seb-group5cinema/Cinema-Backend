@@ -35,7 +35,19 @@ Content-Type: image/jpeg
 < ./ressources/rocky.jpg
 --WebAppBoundary
 
+### Upload a PNG file
+POST http://localhost:8082/v1/image/add
+Content-Type: multipart/form-data; boundary=WebAppBoundary
+
+--WebAppBoundary
+Content-Disposition: form-data; name="image"; filename="file.png"
+Content-Type: image/png
+
+// The 'input.txt' file will be uploaded
+< ./ressources/beispielbild2.png
+--WebAppBoundary
+
 
 ### Download the requested image. Set the UUID yourself
-GET http://localhost:8082/v1/image/get/09188d06-4a7e-44bb-b873-570e0089add7
+GET http://localhost:8082/v1/image/get/7bf1f3d5-0d63-42a6-a493-adb9bd345b7f
 
