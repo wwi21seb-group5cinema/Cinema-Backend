@@ -32,6 +32,10 @@ import static com.wwi21sebgroup5.cinema.helper.DateFormatter.TMDB_DATE_FORMATTER
 public class TmdbService {
 
     private static final String LANGUAGE = "de-DE";
+    private static final String GERMANY_COUNTRY_CODE = "DE";
+    private static final String DIRECTOR = "Director";
+    private static final String TRAILER = "Trailer";
+    private static final String YOUTUBE = "YouTube";
     private static final boolean INCLUDE_ADULT = false;
     private static final int PAGE = 1;
     private static final int SEARCH_YEAR = -1;
@@ -94,7 +98,7 @@ public class TmdbService {
 
         try {
             String key = movieDb.getVideos().stream()
-                    .filter(video -> video.getType().equals("Trailer") && video.getSite().equals("YouTube"))
+                    .filter(video -> video.getType().equals(TRAILER) && video.getSite().equals(YOUTUBE))
                     .findFirst().get().getKey();
             trailerUrl = String.format("%s%s", YOUTUBE_BASE_URL, key);
         } catch (NoSuchElementException e) {
@@ -133,7 +137,7 @@ public class TmdbService {
 
         try {
             certification = movieDb.getReleases().stream()
-                    .filter(release -> release.getCountry().equals("DE"))
+                    .filter(release -> release.getCountry().equals(GERMANY_COUNTRY_CODE))
                     .findFirst().get().getReleaseDates().get(0).getCertification();
 
             fsk = FSK.getFSKFromInt(Integer.parseInt(certification));
@@ -152,7 +156,7 @@ public class TmdbService {
 
         try {
             String[] directorNames = movieDb.getCrew().stream()
-                    .filter(personCrew -> personCrew.getJob().equals("Director"))
+                    .filter(personCrew -> personCrew.getJob().equals(DIRECTOR))
                     .findFirst().get().getName().split(NAME_SPLIT_PATTERN);
             String firstName = directorNames[0], lastName = directorNames[directorNames.length - 1];
 
@@ -160,7 +164,7 @@ public class TmdbService {
 
             director = foundDirector.isPresent() ? foundDirector.get()
                     : directorService.add(new DirectorRequestObject(lastName, firstName));
-        } catch (NoSuchElementException e) {
+        } catch (NoSuchElementException | IndexOutOfBoundsException e) {
             throw new TmdbInformationException(InformationType.Director);
         }
 

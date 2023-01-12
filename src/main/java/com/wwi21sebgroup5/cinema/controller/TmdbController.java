@@ -1,6 +1,9 @@
 package com.wwi21sebgroup5.cinema.controller;
 
 import com.wwi21sebgroup5.cinema.entities.Movie;
+import com.wwi21sebgroup5.cinema.exceptions.FSKNotFoundException;
+import com.wwi21sebgroup5.cinema.exceptions.TmdbInformationException;
+import com.wwi21sebgroup5.cinema.exceptions.TmdbMovieNotFoundException;
 import com.wwi21sebgroup5.cinema.requestObjects.TmdbMovieRequestObject;
 import com.wwi21sebgroup5.cinema.services.TmdbService;
 import info.movito.themoviedbapi.model.MovieDb;
@@ -25,6 +28,10 @@ public class TmdbController {
 
         try {
             newMovie = tmdbService.addMovie(requestObject);
+        } catch (TmdbMovieNotFoundException e) {
+            return new ResponseEntity<>(e.getMessage(), HttpStatus.NOT_FOUND);
+        } catch (FSKNotFoundException | TmdbInformationException e) {
+            return new ResponseEntity<>(e.getMessage(), HttpStatus.FAILED_DEPENDENCY);
         } catch (Exception ex) {
             return new ResponseEntity<>(ex.getMessage(), HttpStatus.INTERNAL_SERVER_ERROR);
         }
