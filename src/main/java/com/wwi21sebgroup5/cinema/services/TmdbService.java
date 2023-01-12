@@ -1,9 +1,6 @@
 package com.wwi21sebgroup5.cinema.services;
 
-import com.wwi21sebgroup5.cinema.entities.Director;
-import com.wwi21sebgroup5.cinema.entities.Genre;
-import com.wwi21sebgroup5.cinema.entities.Movie;
-import com.wwi21sebgroup5.cinema.entities.Producer;
+import com.wwi21sebgroup5.cinema.entities.*;
 import com.wwi21sebgroup5.cinema.enums.FSK;
 import com.wwi21sebgroup5.cinema.exceptions.*;
 import com.wwi21sebgroup5.cinema.exceptions.TmdbInformationException.InformationType;
@@ -18,6 +15,7 @@ import info.movito.themoviedbapi.TmdbSearch;
 import info.movito.themoviedbapi.model.MovieDb;
 import info.movito.themoviedbapi.model.config.TmdbConfiguration;
 import info.movito.themoviedbapi.model.core.MovieResultsPage;
+import info.movito.themoviedbapi.model.people.PersonCast;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -40,7 +38,7 @@ public class TmdbService {
     private static final int PAGE = 1;
     private static final int SEARCH_YEAR = -1;
     private static final String NAME_SPLIT_PATTERN = "\\s+";
-    private static final String BACKDROP_SIZE = "w780";
+    private static final String BACKDROP_SIZE = "original";
     private static final String YOUTUBE_BASE_URL = "https://www.youtube.com/watch?v=";
 
     @Autowired
@@ -48,6 +46,9 @@ public class TmdbService {
 
     @Autowired
     private TmdbConfiguration tmdbConfig;
+
+    @Autowired
+    private ActsInService actsInService;
 
     @Autowired
     private DirectorService directorService;
@@ -79,7 +80,7 @@ public class TmdbService {
         Genre genre = getGenreFromMovieDb(movieDb);
         String imageUrl = getImageUrlFromMovieDb(movieDb);
         String trailerUrl = getTrailerUrlFromMovieDb(movieDb);
-        float rating = movieDb.getUserRating();
+        float rating = movieDb.getVoteAverage();
         String title = movieDb.getTitle();
         String description = movieDb.getOverview();
         int length = movieDb.getRuntime();
@@ -90,8 +91,16 @@ public class TmdbService {
                 null // end date can be set later on, since it depends on the cinema
         );
 
+        for (PersonCast personCast : movieDb.getCast()) {
+            String[] names = personCast.getName().split(NAME_SPLIT_PATTERN);
+            Actor actor = new Actor(names[0], names[names.length - 1]);
+            ActsIn actsIn = new ActsIn(newMovie, actor, personCast.getCharacter());
+            actsInService.save(actsIn);
+        }
+
         return movieRepository.save(newMovie);
     }
+
 
     private String getTrailerUrlFromMovieDb(MovieDb movieDb) throws TmdbInformationException {
         String trailerUrl;

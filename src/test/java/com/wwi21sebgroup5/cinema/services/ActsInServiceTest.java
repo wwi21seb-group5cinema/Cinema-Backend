@@ -41,7 +41,7 @@ public class ActsInServiceTest {
             ImageData image = new ImageData("image/png", data);
             Movie firstMovie = new Movie(producer, director, FSK.SIX, genre, image, "film1",
                     "beschreibung", LocalDate.of(2023, 12, 4), LocalDate.of(2023, 12, 6));
-            ActsIn actsIn = new ActsIn(firstMovie, actor);
+            ActsIn actsIn = new ActsIn(firstMovie, actor, "");
             actsInService.save(firstMovie, actor);
             verify(actsInRepository, times(1)).save(actsIn);
         } catch (Exception e) {

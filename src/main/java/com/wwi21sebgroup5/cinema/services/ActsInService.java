@@ -14,6 +14,10 @@ public class ActsInService {
     ActsInRepository actsInRepository;
 
     public void save(Movie m, Actor a) {
-        actsInRepository.save(new ActsIn(m, a));
+        actsInRepository.save(new ActsIn(m, a, ""));
+    }
+
+    public void save(ActsIn actsIn) {
+        actsInRepository.save(actsIn);
     }
 }
