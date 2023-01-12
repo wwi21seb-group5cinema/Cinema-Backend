@@ -46,10 +46,21 @@ public class Movie {
     @JoinColumn(name = "Genre_id", referencedColumnName = "id")
     private Genre genre;
 
-    @NotNull
     @OneToOne
     @JoinColumn(name = "Image_id", referencedColumnName = "id")
     private ImageData image;
+
+    @Column
+    private String image_url;
+
+    @Column
+    private Boolean externalImage;
+
+    @Column
+    private String trailer_url;
+
+    @Column
+    private double rating;
 
     @NotNull
     @Column
@@ -61,11 +72,28 @@ public class Movie {
 
     @NotNull
     @Column
+    private int length;
+
+    @NotNull
+    @Column
     private LocalDate start_date;
 
     @Column
     private LocalDate end_date;
 
+    /**
+     * This constructor is suited for the usecase of adding a custom movie into the db
+     *
+     * @param producer    Producer of the movie
+     * @param director    Director of the movie
+     * @param fsk         FSK of the movie
+     * @param genre       Genre of the movie
+     * @param image       Image of the movie
+     * @param name        Title of the movie
+     * @param description Description of the movie
+     * @param start_date  Start date of the movie in the cinemas
+     * @param end_date    End date of the movie in the cinemas
+     */
     public Movie(Producer producer,
                  Director director,
                  FSK fsk,
@@ -84,6 +112,49 @@ public class Movie {
         this.description = description;
         this.start_date = start_date;
         this.end_date = end_date;
+        this.externalImage = false;
+    }
+
+    /**
+     * this constructor is suited for adding tmdb movies into the db
+     *
+     * @param producer    Producer of the movie
+     * @param director    Director of the movie
+     * @param fsk         FSK of the movie
+     * @param genre       Genre of the movie
+     * @param image_url   URL to the image of the movie
+     * @param trailer_url URL to the trailer of the movie
+     * @param rating      Rating of the movie
+     * @param name        Title of the movie
+     * @param description Description of the movie
+     * @param length      Length of the movie
+     * @param start_date  Start date of the movie in the cinemas
+     * @param end_date    End date of the movie in the cinemas
+     */
+    public Movie(Producer producer,
+                 Director director,
+                 FSK fsk, Genre genre,
+                 String image_url,
+                 String trailer_url,
+                 double rating,
+                 String name,
+                 String description,
+                 int length,
+                 LocalDate start_date,
+                 LocalDate end_date) {
+        this.producer = producer;
+        this.director = director;
+        this.fsk = fsk;
+        this.genre = genre;
+        this.image_url = image_url;
+        this.trailer_url = trailer_url;
+        this.rating = rating;
+        this.name = name;
+        this.description = description;
+        this.length = length;
+        this.start_date = start_date;
+        this.end_date = end_date;
+        this.externalImage = true;
     }
 
     @Override
