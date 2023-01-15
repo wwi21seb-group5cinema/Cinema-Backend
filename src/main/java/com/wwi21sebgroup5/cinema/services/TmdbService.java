@@ -48,6 +48,9 @@ public class TmdbService {
     private TmdbConfiguration tmdbConfig;
 
     @Autowired
+    private ActorService actorService;
+
+    @Autowired
     private ActsInService actsInService;
 
     @Autowired
@@ -93,7 +96,9 @@ public class TmdbService {
 
         for (PersonCast personCast : movieDb.getCast()) {
             String[] names = personCast.getName().split(NAME_SPLIT_PATTERN);
-            Actor actor = new Actor(names[0], names[names.length - 1]);
+            String firstName = names[0], lastName = names[names.length - 1];
+            Optional<Actor> foundActor = actorService.findByNameAndFirstName(firstName, lastName);
+            Actor actor = foundActor.orElseGet(() -> new Actor(firstName, lastName));
             ActsIn actsIn = new ActsIn(newMovie, actor, personCast.getCharacter());
             actsInService.save(actsIn);
         }
