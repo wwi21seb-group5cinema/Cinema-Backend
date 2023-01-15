@@ -12,13 +12,15 @@ Content-Type: application/json
   "directorFirstName": "Quentin",
   "directorLastName": "Tarrentino",
   "actors": [
-    "bb78a883-c3e9-4c34-bfc5-3f6e308c9335"
+    "1b7a3e6f-e506-4c20-8b32-1d42e2b4b6b4"
   ],
-  "image": "eca53527-4dc1-4df3-babb-6b1cc45a91d3",
+  "image": "c5d40619-bd4a-4c3b-b1ed-7d9525806936",
   "fsk": 12,
   "genre": "Action",
   "name": "Der große Testfilm",
   "description": "Dieser Film ist ein Test",
+  "rating": 6.4,
+  "length": 82,
   "start_date": "08-01-2023",
   "end_date": "08-04-2023"
 }
@@ -39,6 +41,8 @@ Content-Type: application/json
   "genre": "ActionPP",
   "name": "Der große Testfilm",
   "description": "Dieser Film ist ein Test",
+  "rating": 6.4,
+  "length": 82,
   "start_date": "08-01-2023",
   "end_date": "08-04-2023"
 }
@@ -59,6 +63,8 @@ Content-Type: application/json
   "genre": "ActionPP",
   "name": "Der große Testfilm",
   "description": "Dieser Film ist ein Test",
+  "rating": 6.4,
+  "length": 82,
   "start_date": "08-01-2023",
   "end_date": "08-04-2023"
 }

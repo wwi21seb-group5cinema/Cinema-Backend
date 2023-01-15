@@ -61,7 +61,7 @@ public class Movie {
     private String trailer_url;
 
     @Column
-    private float rating;
+    private Float rating;
 
     @NotNull
     @Column
@@ -74,7 +74,7 @@ public class Movie {
 
     @NotNull
     @Column
-    private int length;
+    private Integer length;
 
     @NotNull
     @Column
@@ -103,6 +103,8 @@ public class Movie {
                  ImageData image,
                  String name,
                  String description,
+                 Float rating,
+                 Integer length,
                  LocalDate start_date,
                  LocalDate end_date) {
         this.producer = producer;
@@ -112,6 +114,8 @@ public class Movie {
         this.image = image;
         this.name = name;
         this.description = description;
+        this.rating = rating;
+        this.length = length;
         this.start_date = start_date;
         this.end_date = end_date;
         this.externalImage = false;

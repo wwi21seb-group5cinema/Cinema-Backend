@@ -49,14 +49,22 @@ public class MovieRequestObject {
 
     @NotEmpty
     @NotNull
+    private float rating;
+
+    @NotEmpty
+    @NotNull
+    private int length;
+
+    @NotEmpty
+    @NotNull
     private String start_date;
 
     @NotEmpty
     @NotNull
     private String end_date;
 
-
     public MovieRequestObject() {
         super();
     }
+
 }

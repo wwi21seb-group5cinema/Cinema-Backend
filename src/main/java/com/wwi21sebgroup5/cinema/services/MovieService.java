@@ -105,8 +105,11 @@ public class MovieService {
                 foundImageData.get(),
                 movieObject.getName(),
                 movieObject.getDescription(),
+                movieObject.getRating(),
+                movieObject.getLength(),
                 start,
                 end);
+
         movieRepository.save(m);
 
         for (Actor a : actors) {
