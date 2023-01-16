@@ -1,7 +1,9 @@
 package com.wwi21sebgroup5.cinema.controller;
 
 import com.wwi21sebgroup5.cinema.entities.ImageData;
+import com.wwi21sebgroup5.cinema.exceptions.ImageCouldNotBeCompressedException;
 import com.wwi21sebgroup5.cinema.exceptions.ImageNotFoundException;
+import com.wwi21sebgroup5.cinema.requestObjects.AddImageReturnObject;
 import com.wwi21sebgroup5.cinema.services.ImageService;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
@@ -38,7 +40,7 @@ public class ImageControllerTest {
             byte[] data = Files.readAllBytes(fi.toPath());
             MultipartFile multipartFile = new MockMultipartFile("name",
                     "originalFileName", "image/png", data);
-            ImageData image = new ImageData("image/png", data);
+            AddImageReturnObject image = new AddImageReturnObject(UUID.randomUUID(), "image/png", false);
             when(imageService.uploadImage(multipartFile))
                     .thenReturn(image);
             ResponseEntity<?> response = imageController.add(multipartFile);
@@ -77,13 +79,36 @@ public class ImageControllerTest {
     }
 
     @Test
+    @DisplayName("Test unsuccessfully add a new Image - compression failed")
+    public void testAddImageUnsuccessfulCompressionFailed() {
+        try {
+            File fi = new File("src/test/resources/beispielbild2.png");
+            byte[] data = Files.readAllBytes(fi.toPath());
+            MultipartFile multipartFile = new MockMultipartFile("name",
+                    "originalFileName", "image/png", data);
+            ImageCouldNotBeCompressedException e = new ImageCouldNotBeCompressedException();
+            when(imageService.uploadImage(multipartFile))
+                    .thenThrow(e);
+            ResponseEntity<?> response = imageController.add(multipartFile);
+            assertAll(
+                    "Validating correct response from controller...",
+                    () -> assertEquals(response.getBody(), e.getMessage()),
+                    () -> assertEquals(response.getStatusCode(), HttpStatus.NOT_ACCEPTABLE)
+            );
+        } catch (Exception e) {
+            e.printStackTrace();
+            fail("Failed");
+        }
+    }
+
+    @Test
     @DisplayName("Test successfully getting Image by ID")
     public void testGetImageByIDSuccessful() {
         try {
             File fi = new File("src/test/resources/beispielbild2.png");
             byte[] data = Files.readAllBytes(fi.toPath());
 
-            ImageData image = new ImageData("image/png", data);
+            ImageData image = new ImageData("image/png", data, false);
             UUID id = image.getId();
 
             when(imageService.downloadImage(id))

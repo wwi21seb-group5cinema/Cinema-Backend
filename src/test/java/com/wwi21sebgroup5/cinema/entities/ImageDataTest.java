@@ -17,12 +17,13 @@ public class ImageDataTest {
     public void constructorTest() throws IOException {
         File fi = new File("src/test/resources/beispielbild2.png");
         byte[] data = Files.readAllBytes(fi.toPath());
-        ImageData imageData = new ImageData("image/png", data);
+        ImageData imageData = new ImageData("image/png", data, false);
 
         assertAll(
                 "Testing all parameters",
                 () -> assertEquals(data, imageData.getImageData(), "Data returned wrong"),
-                () -> assertEquals("image/png", imageData.getType(), "Type returned wrong")
+                () -> assertEquals("image/png", imageData.getType(), "Type returned wrong"),
+                () -> assertFalse(imageData.isCompressed(), "Compressed returned wrong")
         );
     }
 
@@ -47,6 +48,10 @@ public class ImageDataTest {
         second.setType(null);
         assertNotEquals(first, second);
 
+        second = getImageData(id);
+        second.setCompressed(true);
+        assertNotEquals(first, second);
+
         second = getImageData(UUID.randomUUID());
         assertNotEquals(first, second);
 
@@ -57,13 +62,13 @@ public class ImageDataTest {
     private ImageData getImageData(UUID id) throws IOException {
         File fi = new File("src/test/resources/beispielbild2.png");
         byte[] data = Files.readAllBytes(fi.toPath());
-        ImageData image = new ImageData("image/png", data);
+        ImageData image = new ImageData("image/png", data, false);
         image.setId(id);
         return image;
     }
 
     private ImageData getImageNull() {
-        return new ImageData(null, null);
+        return new ImageData(null, null, true);
     }
 
 }
