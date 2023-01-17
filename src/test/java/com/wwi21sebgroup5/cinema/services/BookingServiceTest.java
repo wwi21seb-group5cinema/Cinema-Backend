@@ -1,7 +1,6 @@
 package com.wwi21sebgroup5.cinema.services;
 
 import com.wwi21sebgroup5.cinema.entities.Booking;
-import com.wwi21sebgroup5.cinema.entities.Invoice;
 import com.wwi21sebgroup5.cinema.entities.User;
 import com.wwi21sebgroup5.cinema.exceptions.BookingNotFoundException;
 import com.wwi21sebgroup5.cinema.exceptions.SeatDoesNotExistException;
