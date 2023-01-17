@@ -15,9 +15,9 @@ import org.thymeleaf.context.Context;
 @Service
 public class EmailService {
 
-    private final static String CONFIRM_BOOKING = "confirmBooking.html";
-    private final static String CONFIRM_REGISTRATION = "confirmRegistration.html";
-    private final static String CONFIRM_TOKEN = "confirmToken.html";
+    private final static String CONFIRM_BOOKING = "/email/confirmBooking.html";
+    private final static String CONFIRM_REGISTRATION = "/email/confirmRegistration.html";
+    private final static String CONFIRM_TOKEN = "/email/confirmToken.html";
 
     private final static String BOOKING_SUBJECT = "Vielen Dank für deine Buchung bei Cineverse!";
 
