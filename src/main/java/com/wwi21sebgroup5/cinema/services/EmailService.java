@@ -1,6 +1,7 @@
 package com.wwi21sebgroup5.cinema.services;
 
 import com.wwi21sebgroup5.cinema.entities.Booking;
+import com.wwi21sebgroup5.cinema.entities.Ticket;
 import com.wwi21sebgroup5.cinema.entities.User;
 import jakarta.mail.internet.MimeMessage;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -11,6 +12,8 @@ import org.springframework.mail.javamail.MimeMessageHelper;
 import org.springframework.stereotype.Service;
 import org.thymeleaf.TemplateEngine;
 import org.thymeleaf.context.Context;
+
+import java.util.List;
 
 @Service
 public class EmailService {
@@ -77,13 +80,15 @@ public class EmailService {
         sendMail(user.getEmail(), TOKEN_SUBJECT, msgBody);
     }
 
-    public void sendBookingConfirmation(User user, Booking booking) {
+    public void sendBookingConfirmation(List<Ticket> ticketList, Booking booking) {
         Context context = new Context();
-        context.setVariable("user", user);
         context.setVariable("booking", booking);
+        context.setVariable("event", ticketList.get(0).getEvent());
+        context.setVariable("tickets", ticketList);
+        context.setVariable("movie", ticketList.get(0).getEvent().getMovie());
         String msgBody = templateEngine.process(CONFIRM_BOOKING, context);
 
-        sendMail(user.getEmail(), BOOKING_SUBJECT, msgBody);
+        sendMail(booking.getUser().getEmail(), BOOKING_SUBJECT, msgBody);
     }
 
 }

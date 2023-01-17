@@ -1,5 +1,5 @@
 <!doctype html>
-<html lang="de">
+<html lang="de" xmlns:th="http://www.thymeleaf.org">
 <head>
     <meta charset="UTF-8">
     <meta content="width=device-width, user-scalable=no, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0"
@@ -17,7 +17,14 @@
     <div class="row">
         <div class="col-3">
             <img alt="Movie Backdrop" class="img-fluid"
-                 src="http://image.tmdb.org/t/p/w780/xEdnGUc8KeZ7h0eEgSN3ERhjgL0.jpg">
+                 th:src="${movie.image_url}">
+            <ul class="list-group list-group-flush">
+                <li class="list-group-item" th:text="${movie.name}"></li>
+                <li class="list-group-item" th:text="${movie.description}"></li>
+                <li class="list-group-item" th:text="${movie.rating}"></li>
+                <li class="list-group-item" th:text="${movie.fsk}"></li>
+            </ul>
+            <h2>Playing on: <span th:text="${event.eventDay}, ${event.eventTime}"></span></h2>
         </div>
         <div class="col-6">
             <p>Booking</p>
@@ -29,21 +36,35 @@
                     <th scope="col">Platz</th>
                 </tr>
                 </thead>
-                <tbody>
+                <tbody th:each="ticket, iterStat: ${tickets}">
                 <tr>
                     <th scope="row">1</th>
+                    <td th:text="${iterStat.index}"></td>
                 </tr>
                 <tr>
                     <th scope="row">2</th>
+                    <td th:text="${ticket.seat.row}"></td>
                 </tr>
                 <tr>
                     <th scope="row">3</th>
+                    <td th:text="${ticket.seat.place}"></td>
                 </tr>
                 </tbody>
             </table>
         </div>
         <div class="col-3">
-            <p>User</p>
+            <div class="card">
+                <img alt="User logo" class="card-img-top" src="">
+                <div class="card-body">
+                    <h4 class="card-title align-self-center" th:text="${booking.user.userName}"></h4>
+                    <ul class="list-group list-group-flush">
+                        <li class="list-group-item" th:text="${booking.user.firstName}"></li>
+                        <li class="list-group-item" th:text="${booking.user.lastName}"></li>
+                        <li class="list-group-item"
+                            th:text="${booking.user.city}, ${booking.user.street} ${booking.user.houseNumber}"></li>
+                    </ul>
+                </div>
+            </div>
         </div>
     </div>
     <div class="align-self-center">
