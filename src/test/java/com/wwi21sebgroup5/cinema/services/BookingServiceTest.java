@@ -13,10 +13,12 @@ import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
 import org.mockito.InjectMocks;
 import org.mockito.Mock;
+import org.mockito.MockedStatic;
 import org.mockito.junit.jupiter.MockitoExtension;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 
+import java.time.LocalDateTime;
 import java.util.List;
 import java.util.Optional;
 import java.util.UUID;
@@ -61,15 +63,22 @@ public class BookingServiceTest {
         UUID sampleEventId = UUID.randomUUID();
         int sRow = 1;
         int sPlace = 1;
+        LocalDateTime expTimeStamp = LocalDateTime.now();
         List<BookingRequestObject> input = List.of(new BookingRequestObject(sampleEventId, sRow, sPlace));
 
-        doNothing().when(ticketService).tempReserveSeat(sampleEventId, sRow, sPlace);
-        ResponseEntity<?> act = bookingService.temporarilyReserveSeats(input);
-        ResponseEntity<?> exp = new ResponseEntity<>(input, HttpStatus.OK);
+        try(MockedStatic<LocalDateTime> ldt = mockStatic(LocalDateTime.class)) {
+            ldt.when(LocalDateTime::now).thenReturn(expTimeStamp);
 
-        assertAll("Validating output...",
-                () -> assertEquals(act.getBody(), exp.getBody()),
-                () -> assertEquals(act.getStatusCode(), exp.getStatusCode()));
+
+            expTimeStamp = expTimeStamp.plusMinutes(15);
+            doNothing().when(ticketService).tempReserveSeat(sampleEventId, sRow, sPlace, expTimeStamp);
+            ResponseEntity<?> act = bookingService.temporarilyReserveSeats(input);
+            ResponseEntity<?> exp = new ResponseEntity<>(expTimeStamp, HttpStatus.OK);
+
+            assertAll("Validating output...",
+                    () -> assertEquals(act.getBody(), exp.getBody()),
+                    () -> assertEquals(act.getStatusCode(), exp.getStatusCode()));
+        }
     }
 
     @Test
@@ -78,6 +87,7 @@ public class BookingServiceTest {
         UUID sampleEventId = UUID.randomUUID();
         int sRow = 1;
         int sPlace = 1;
+        LocalDateTime expTimeStamp = LocalDateTime.now();
 
         UUID sampleEventId1 = UUID.randomUUID();
         int sRow1 =2;
@@ -86,13 +96,20 @@ public class BookingServiceTest {
                 new BookingRequestObject(sampleEventId, sRow, sPlace),
                 new BookingRequestObject(sampleEventId1, sRow1, sPlace1));
 
-        doNothing().when(ticketService).tempReserveSeat(sampleEventId, sRow, sPlace);
-        doNothing().when(ticketService).tempReserveSeat(sampleEventId1, sRow1, sPlace1);
+        try(MockedStatic<LocalDateTime> ldt = mockStatic(LocalDateTime.class)) {
+            ldt.when(LocalDateTime::now).thenReturn(expTimeStamp);
 
-        ResponseEntity<?> act = bookingService.temporarilyReserveSeats(input);
-        ResponseEntity<?> exp = new ResponseEntity<>(input, HttpStatus.OK);
 
-        assertEquals(exp, act);
+            expTimeStamp = expTimeStamp.plusMinutes(15);
+
+            doNothing().when(ticketService).tempReserveSeat(sampleEventId, sRow, sPlace, expTimeStamp);
+            doNothing().when(ticketService).tempReserveSeat(sampleEventId1, sRow1, sPlace1, expTimeStamp);
+
+            ResponseEntity<?> act = bookingService.temporarilyReserveSeats(input);
+            ResponseEntity<?> exp = new ResponseEntity<>(expTimeStamp, HttpStatus.OK);
+
+            assertEquals(exp, act);
+        }
     }
 
     @Test
@@ -101,14 +118,21 @@ public class BookingServiceTest {
         UUID sampleEventId = UUID.randomUUID();
         int sRow = 1;
         int sPlace = 1;
+        LocalDateTime expTimeStamp = LocalDateTime.now();
 
         List<BookingRequestObject> input = List.of(new BookingRequestObject(sampleEventId, sRow, sPlace));
-        doThrow(new SeatDoesNotExistException(sRow, sPlace)).when(ticketService).tempReserveSeat(sampleEventId, sRow, sPlace);
 
-        ResponseEntity<?> exp = new ResponseEntity<>("The Seat on row 1 and place 1 does not exist", HttpStatus.NOT_FOUND);
-        ResponseEntity<?> act = bookingService.temporarilyReserveSeats(input);
+        try(MockedStatic<LocalDateTime> ldt = mockStatic(LocalDateTime.class)) {
+            ldt.when(LocalDateTime::now).thenReturn(expTimeStamp);
 
-        assertEquals(exp, act);
+
+            expTimeStamp = expTimeStamp.plusMinutes(15);
+            doThrow(new SeatDoesNotExistException(sRow, sPlace)).when(ticketService).tempReserveSeat(sampleEventId, sRow, sPlace, expTimeStamp);
+
+            assertThrows(SeatDoesNotExistException.class, () -> bookingService.temporarilyReserveSeats(input));
+
+
+        }
     }
 
     @Test
@@ -117,13 +141,19 @@ public class BookingServiceTest {
         UUID sampleEventId = UUID.randomUUID();
         int sRow = 1;
         int sPlace = 1;
+        LocalDateTime expTimeStamp = LocalDateTime.now();
 
         List<BookingRequestObject> input = List.of(new BookingRequestObject(sampleEventId, sRow, sPlace));
-        doThrow(new SeatNotAvailableException(sRow, sPlace)).when(ticketService).tempReserveSeat(sampleEventId, sRow, sPlace);
 
-        ResponseEntity<?> exp = new ResponseEntity<>("The Seat on row 1 and place 1 is not available", HttpStatus.NOT_ACCEPTABLE);
-        ResponseEntity<?> act = bookingService.temporarilyReserveSeats(input);
+        try(MockedStatic<LocalDateTime> ldt = mockStatic(LocalDateTime.class)) {
+            ldt.when(LocalDateTime::now).thenReturn(expTimeStamp);
 
-        assertEquals(exp, act);
+
+            expTimeStamp = expTimeStamp.plusMinutes(15);
+            doThrow(new SeatNotAvailableException(sRow, sPlace)).when(ticketService).tempReserveSeat(sampleEventId, sRow, sPlace, expTimeStamp);
+
+            assertThrows(SeatNotAvailableException.class,()-> bookingService.temporarilyReserveSeats(input));
+
+        }
     }
 }

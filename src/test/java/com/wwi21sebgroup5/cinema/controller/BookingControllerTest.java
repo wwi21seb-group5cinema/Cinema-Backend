@@ -4,6 +4,8 @@ import com.wwi21sebgroup5.cinema.entities.Booking;
 import com.wwi21sebgroup5.cinema.entities.Seat;
 import com.wwi21sebgroup5.cinema.entities.User;
 import com.wwi21sebgroup5.cinema.exceptions.BookingNotFoundException;
+import com.wwi21sebgroup5.cinema.exceptions.SeatDoesNotExistException;
+import com.wwi21sebgroup5.cinema.exceptions.SeatNotAvailableException;
 import com.wwi21sebgroup5.cinema.requestObjects.BookingRequestObject;
 import com.wwi21sebgroup5.cinema.services.BookingService;
 import jakarta.inject.Inject;
@@ -80,7 +82,7 @@ public class BookingControllerTest {
 
     @Test
     @DisplayName("Test temporarilyReserveSeats with 1 Seat successfully")
-    public void testTemporarilyReserveSeats(){
+    public void testTemporarilyReserveSeats() throws SeatNotAvailableException, SeatDoesNotExistException {
         UUID sampleEventId = UUID.randomUUID();
         int sRow = 1;
         int sPlace = 1;
@@ -98,7 +100,7 @@ public class BookingControllerTest {
 
     @Test
     @DisplayName("Test temporarilyReserveSeats with 2 Seats successfully")
-    public void testTemporarilyReserveSeats2(){
+    public void testTemporarilyReserveSeats2() throws SeatNotAvailableException, SeatDoesNotExistException{
         UUID sampleEventId = UUID.randomUUID();
         int sRow = 1;
         int sPlace = 1;
@@ -120,7 +122,7 @@ public class BookingControllerTest {
 
     @Test
     @DisplayName("Test temporarilyReserveSeats with non existent Seat")
-    public void testTemporarilyReserveNonexistentSeat(){
+    public void testTemporarilyReserveNonexistentSeat() throws SeatNotAvailableException, SeatDoesNotExistException{
         UUID sampleEventId = UUID.randomUUID();
         int sRow = 1;
         int sPlace = 1;
@@ -138,7 +140,7 @@ public class BookingControllerTest {
 
     @Test
     @DisplayName("Test temporarilyReserveSeats with not available Seat")
-    public void testTemporarilyReserveNotAvailableSeat(){
+    public void testTemporarilyReserveNotAvailableSeat() throws SeatNotAvailableException, SeatDoesNotExistException{
         UUID sampleEventId = UUID.randomUUID();
         int sRow = 1;
         int sPlace = 1;
@@ -150,7 +152,7 @@ public class BookingControllerTest {
         when(bookingService.temporarilyReserveSeats(sampleSeats)).thenReturn(res);
 
         ResponseEntity<?> act = bookingController.temporarilyReserveSeats(sampleSeats);
-
+    
         assertEquals(res, act);
     }
 }

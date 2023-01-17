@@ -8,6 +8,7 @@ import com.wwi21sebgroup5.cinema.enums.SeatState;
 import com.wwi21sebgroup5.cinema.exceptions.*;
 import com.wwi21sebgroup5.cinema.repositories.BookingRepository;
 
+import java.time.LocalDateTime;
 import java.util.List;
 import java.util.UUID;
 
@@ -42,17 +43,12 @@ public class BookingService {
         return foundBooking.get();
     }
 
-    public ResponseEntity<Object> temporarilyReserveSeats(List<BookingRequestObject> seatsToReserve) {
+    public ResponseEntity<Object> temporarilyReserveSeats(List<BookingRequestObject> seatsToReserve) throws SeatDoesNotExistException, SeatNotAvailableException{
+        LocalDateTime expTimeStamp = LocalDateTime.now().plusMinutes(15);
         for (BookingRequestObject s : seatsToReserve) {
-            try {
-                ticketService.tempReserveSeat(s.getEventID(), s.getRow(), s.getPlace());
-            } catch (SeatDoesNotExistException ex) {
-                return new ResponseEntity<>(ex.getMessage(), HttpStatus.NOT_FOUND);
-            } catch (SeatNotAvailableException ex) {
-                return new ResponseEntity<>(ex.getMessage(), HttpStatus.NOT_ACCEPTABLE);
-            }
+            ticketService.tempReserveSeat(s.getEventID(), s.getRow(), s.getPlace(), expTimeStamp);
         }
-            return new ResponseEntity<>(seatsToReserve, HttpStatus.OK);
+        return new ResponseEntity<>(expTimeStamp, HttpStatus.OK);
     }
 
     public ResponseEntity<?> reserveSeats(List<FinalBookingRequestObject> seatsToReserve) throws UserDoesNotExistException{
