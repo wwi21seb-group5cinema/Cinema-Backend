@@ -21,20 +21,25 @@ import static com.wwi21sebgroup5.cinema.helper.DateFormatter.DATE_FORMATTER;
 
 @Service
 public class MovieService {
-    @Autowired
-    MovieRepository movieRepository;
 
     @Autowired
-    ProducerService producerService;
-    @Autowired
-    DirectorService directorService;
-    @Autowired
-    GenreService genreService;
-    @Autowired
-    ActorService actorService;
+    private MovieRepository movieRepository;
 
     @Autowired
-    ActsInService actsInService;
+    private ProducerService producerService;
+
+    @Autowired
+    private DirectorService directorService;
+
+    @Autowired
+    private GenreService genreService;
+
+    @Autowired
+    private ActorService actorService;
+
+    @Autowired
+    private ActsInService actsInService;
+
     @Autowired
     private ImageDataRepository imageDataRepository;
 
@@ -43,9 +48,9 @@ public class MovieService {
      * @param movieObject request object
      * @return the newly created movie object
      * @throws GenreDoesNotExistException thrown if the genre can´t be found
-     * @throws FSKNotFoundException       thrown if the fsk cant´t be found
+     * @throws FSKNotFoundException       thrown if the fsk can´t be found
      * @throws ActorNotFoundException     thrown if an actor can´t be found
-     * @throws ImageNotFoundException     thrown if the imageDataobject can´t be found
+     * @throws ImageNotFoundException     thrown if the imageDataObject can´t be found
      *                                    If there is no matching producer in the database, a new one is created.
      *                                    If there is no matching director in the database, a new one is created.
      *                                    For each actor a new entry is made to the ActsIn Entity, which connects actor and movie
@@ -76,10 +81,10 @@ public class MovieService {
         }
 
         ArrayList<Actor> actors = new ArrayList<>();
-        for (UUID id : movieObject.getActors()) {
-            Optional<Actor> a = actorService.findById(id);
+        for (UUID actor : movieObject.getActors().keySet()) {
+            Optional<Actor> a = actorService.findById(actor);
             if (a.isEmpty()) {
-                throw new ActorNotFoundException(id);
+                throw new ActorNotFoundException(actor);
             }
             actors.add(a.get());
         }
@@ -100,16 +105,20 @@ public class MovieService {
                 foundImageData.get(),
                 movieObject.getName(),
                 movieObject.getDescription(),
+                movieObject.getRating(),
+                movieObject.getLength(),
                 start,
                 end);
+
         movieRepository.save(m);
 
         for (Actor a : actors) {
-            actsInService.save(m, a);
+            actsInService.save(new ActsIn(m, a, movieObject.getActors().get(a.getId())));
         }
 
         return m;
     }
+
 
     public List<Movie> findAll() {
         return movieRepository.findAll();
@@ -119,5 +128,6 @@ public class MovieService {
     public Optional<Movie> findById(UUID id) {
         return movieRepository.findById(id);
     }
+
 
 }

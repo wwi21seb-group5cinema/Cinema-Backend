@@ -1,78 +1,100 @@
 package com.wwi21sebgroup5.cinema.helper;
 
+import com.wwi21sebgroup5.cinema.exceptions.ImageCouldNotBeCompressedException;
+
+import javax.imageio.IIOImage;
+import javax.imageio.ImageIO;
+import javax.imageio.ImageWriteParam;
+import javax.imageio.ImageWriter;
+import javax.imageio.stream.ImageOutputStream;
+import java.awt.*;
+import java.awt.image.BufferedImage;
+import java.io.ByteArrayInputStream;
+import java.io.ByteArrayOutputStream;
+import java.io.IOException;
+import java.io.InputStream;
+import java.util.Iterator;
+
 public class ImageCompressor {
 
+
+    //Maximum size of an Image in the database
+    public static final int MAX_IMAGE_SIZE_IN_BYTE = 50000; //50kB
+
     /**
-     * Die Methoden compressImage und decompressImage können zu späterem Zeitpunkt durch funktionierende Methoden ersetzt werden
+     * @param bytes
+     * @param imageQuality Wird genutzt, um das Bild schrittweise zu komprimieren, bis die Maximalgröße unterschritten wurde, der die Qualität zu gering ist.
+     *                     Sollte beim ersten Aufruf 1 sein
+     * @param type         gibt den typ des Bilds an -> z.B.  "image/png" oder "image/jpeg"
+     * @return Byte-Array mit den komprimierten Bild Daten
+     * @throws IOException                        wenn beim Lesen und schreiben der streams etwas fehlschlägt
+     * @throws ImageCouldNotBeCompressedException wenn die Qualität des Bildes zu stark eingeschränkt wird
      */
+    public static byte[] compressImage(byte[] bytes, float imageQuality, String type) throws IOException, ImageCouldNotBeCompressedException {
 
-    public static byte[] compressImage(byte[] input) {
-        /*
-        int compressionLevel = Deflater.BEST_COMPRESSION;
-        boolean GZIPFormat = false;
-        // Create a Deflater object to compress data
-        Deflater compressor = new Deflater(compressionLevel, GZIPFormat);
-        System.out.println(input.length);
-        // Set the input for the compressor
-        compressor.setInput(input);
-
-        // Call the finish() method to indicate that we have
-        // no more input for the compressor object
-        compressor.finish();
-
-        // Compress the data
-        ByteArrayOutputStream bao = new ByteArrayOutputStream();
-        byte[] readBuffer = new byte[1024];
-        int readCount = 0;
-
-        while (!compressor.finished()) {
-            readCount = compressor.deflate(readBuffer);
-            if (readCount > 0) {
-                // Write compressed data to the output stream
-                bao.write(readBuffer, 0, readCount);
-            }
+        if (bytes.length <= MAX_IMAGE_SIZE_IN_BYTE) {
+            return bytes;
         }
+        if (imageQuality < 0.5) {
+            throw new ImageCouldNotBeCompressedException();
+        }
+        // data is written into a byte array
+        ByteArrayOutputStream outputStream = new ByteArrayOutputStream();
+        // Get image writers
+        Iterator<ImageWriter> imageWriters = ImageIO.getImageWritersByMIMEType(
+                type); // Input your Format Name here
 
-        // End the compressor
-        compressor.end();
-        System.out.println(bao.toByteArray().length);
-        // Return the written bytes from output stream
-        return bao.toByteArray();
+        if (!imageWriters.hasNext()) {
+            throw new IllegalStateException("Writers Not Found!!");
+        }
+        ImageWriter imageWriter = imageWriters.next();
+        ImageOutputStream imageOutputStream = ImageIO.createImageOutputStream(outputStream);
+        imageWriter.setOutput(imageOutputStream);
 
-         */
-        return input;
+        ImageWriteParam imageWriteParam = imageWriter.getDefaultWriteParam();
+
+        // Set the compress quality metrics
+        imageWriteParam.setCompressionMode(ImageWriteParam.MODE_EXPLICIT);
+        imageWriteParam.setCompressionQuality(imageQuality);
+
+        // Create the buffered image
+        InputStream inputStream = new ByteArrayInputStream(bytes);
+        BufferedImage bufferedImage = ImageIO.read(inputStream);
+
+        //Remove alpha channel to avoid (bogus input errors)
+        bufferedImage = removeAlphaChannel(bufferedImage);
+
+        // Compress and insert the image into the byte array.
+        imageWriter.write(null, new IIOImage(bufferedImage, null, null), imageWriteParam);
+
+        // close all streams
+        inputStream.close();
+        outputStream.close();
+        imageOutputStream.close();
+        imageWriter.dispose();
+
+        bytes = outputStream.toByteArray();
+
+        return compressImage(bytes, imageQuality - .05f, type);
+
     }
 
-    public static byte[] decompressImage(byte[] input) {
-
-        /*System.out.println(input.length);
-        boolean GZIPFormat = false;
-        // Create an Inflater object to compress the data
-        Inflater decompressor = new Inflater(GZIPFormat);
-
-        // Set the input for the decompressor
-        decompressor.setInput(input);
-
-        // Decompress data
-        ByteArrayOutputStream bao = new ByteArrayOutputStream();
-        byte[] readBuffer = new byte[1024];
-        int readCount = 0;
-
-        while (!decompressor.finished()) {
-            readCount = decompressor.inflate(readBuffer);
-            if (readCount > 0) {
-                // Write the data to the output stream
-                bao.write(readBuffer, 0, readCount);
-            }
+    private static BufferedImage removeAlphaChannel(BufferedImage img) {
+        if (!img.getColorModel().hasAlpha()) {
+            return img;
         }
 
-        // End the decompressor
-        decompressor.end();
-        System.out.println(bao.toByteArray().length);
-        // Return the written bytes from the output stream
-        return bao.toByteArray();
+        BufferedImage target = createImage(img.getWidth(), img.getHeight(), false);
+        Graphics2D g = target.createGraphics();
+        g.fillRect(0, 0, img.getWidth(), img.getHeight());
+        g.drawImage(img, 0, 0, null);
+        g.dispose();
 
-         */
-        return input;
+        return target;
+    }
+
+    private static BufferedImage createImage(int width, int height, boolean hasAlpha) {
+        return new BufferedImage(width, height,
+                hasAlpha ? BufferedImage.TYPE_INT_ARGB : BufferedImage.TYPE_INT_RGB);
     }
 }

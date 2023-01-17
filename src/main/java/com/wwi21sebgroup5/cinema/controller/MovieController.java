@@ -19,9 +19,8 @@ import java.util.List;
 @RequestMapping(path = "/v1/movie")
 public class MovieController {
 
-
     @Autowired
-    MovieService movieService;
+    private MovieService movieService;
 
     /**
      * @return all existing Movies
@@ -36,7 +35,7 @@ public class MovieController {
     }
 
     /**
-     * @param movieObject
+     * @param movieObject Request object which holds all necessary attributes for a new movie
      * @return the newly created movie-object
      */
     @PostMapping(path = "/add")
@@ -50,4 +49,5 @@ public class MovieController {
         }
         return new ResponseEntity<>(m, HttpStatus.CREATED);
     }
+
 }

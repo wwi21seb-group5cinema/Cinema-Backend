@@ -14,7 +14,8 @@
     <li>Stadt: <span th:text="${user.city.plz}"></span>, <span th:text="${user.city.name}"></span></li>
 </ul>
 <p>Um alle Funktionen unserer Webseite benutzen zu können, musst du noch deinen Account bestätigen, drücke hierfür
-    auf den folgenden Link: <span th:href="${confirmationUrl}"></span></p>
+    auf den folgenden Link: </p>
+<a th:href="@{http://__${frontendUrl}__/confirm/__${confirmationToken}__}">Confirm</a>
 <br>
 <p>
     Mit freundlichen Grüßen, <br/>

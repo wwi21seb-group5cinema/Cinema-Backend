@@ -22,6 +22,7 @@ import java.io.IOException;
 import java.nio.file.Files;
 import java.time.LocalDate;
 import java.util.List;
+import java.util.Map;
 import java.util.UUID;
 
 import static org.junit.jupiter.api.Assertions.*;
@@ -46,11 +47,13 @@ public class MovieControllerTest {
             Genre genre = new Genre(UUID.randomUUID(), "Action");
             File fi = new File("src/test/resources/beispielbild2.png");
             byte[] data = Files.readAllBytes(fi.toPath());
-            ImageData image = new ImageData("image/png", data);
+            ImageData image = new ImageData("image/png", data, false);
             Movie firstMovie = new Movie(producer, director, FSK.SIX, genre, image, "film1",
-                    "beschreibung", LocalDate.of(2023, 12, 4), LocalDate.of(2023, 12, 6));
+                    "beschreibung", 8.3F, 92,
+                    LocalDate.of(2023, 12, 4), LocalDate.of(2023, 12, 6));
             Movie secondMovie = new Movie(producer, director, FSK.SIX, genre, image, "film2",
-                    "beschreibung2", LocalDate.of(2023, 12, 4), LocalDate.of(2023, 12, 6));
+                    "beschreibung2", 9.2F, 94,
+                    LocalDate.of(2023, 12, 4), LocalDate.of(2023, 12, 6));
             List<Movie> expected = List.of(firstMovie, secondMovie);
 
             when(movieService.findAll()).thenReturn(expected);
@@ -88,16 +91,17 @@ public class MovieControllerTest {
             Genre genre = new Genre(UUID.randomUUID(), "Action");
             File fi = new File("src/test/resources/beispielbild2.png");
             byte[] data = Files.readAllBytes(fi.toPath());
-            ImageData image = new ImageData("image/png", data);
+            ImageData image = new ImageData("image/png", data, false);
             Movie firstMovie = new Movie(producer, director, FSK.SIX, genre, image, "film1",
-                    "beschreibung", LocalDate.of(2023, 12, 4), LocalDate.of(2023, 12, 6));
+                    "beschreibung", 8.3F, 92, LocalDate.of(2023, 12, 4), LocalDate.of(2023, 12, 6));
 
             Actor a = new Actor("Bahde", "Paul");
             a.setId(UUID.randomUUID());
-            List<UUID> actors = List.of(a.getId());
+            Map<UUID, String> actorList = Map.of(a.getId(), "TestName");
+
             MovieRequestObject movieRequestObject = new MovieRequestObject(
-                    producer.getName(), director.getFirstName(), director.getName(), actors, image.getId(), 6,
-                    genre.getName(), "film", "beschreibung", "08-01-2023", "08-04-2023");
+                    producer.getName(), director.getFirstName(), director.getName(), actorList, image.getId(), 6,
+                    genre.getName(), "film", "beschreibung", 8.3F, 91, "08-01-2023", "08-04-2023");
 
             when(movieService.add(movieRequestObject)).thenReturn(firstMovie);
 
@@ -125,13 +129,14 @@ public class MovieControllerTest {
             Genre genre = new Genre(UUID.randomUUID(), "Action");
             File fi = new File("src/test/resources/beispielbild2.png");
             byte[] data = Files.readAllBytes(fi.toPath());
-            ImageData image = new ImageData("image/png", data);
+            ImageData image = new ImageData("image/png", data, false);
             Actor a = new Actor("Bahde", "Paul");
             a.setId(UUID.randomUUID());
-            List<UUID> actors = List.of(a.getId());
+            Map<UUID, String> actorList = Map.of(a.getId(), "TestName");
+
             MovieRequestObject movieRequestObject = new MovieRequestObject(
-                    producer.getName(), director.getFirstName(), director.getName(), actors, image.getId(), 6,
-                    genre.getName(), "film", "beschreibung", "08-01-2023", "08-04-2023");
+                    producer.getName(), director.getFirstName(), director.getName(), actorList, image.getId(), 6,
+                    genre.getName(), "film", "beschreibung", 8.3F, 120, "08-01-2023", "08-04-2023");
 
             FSKNotFoundException e = new FSKNotFoundException(13);
             when(movieService.add(movieRequestObject)).thenThrow(e);
@@ -160,13 +165,14 @@ public class MovieControllerTest {
             Genre genre = new Genre(UUID.randomUUID(), "Action");
             File fi = new File("src/test/resources/beispielbild2.png");
             byte[] data = Files.readAllBytes(fi.toPath());
-            ImageData image = new ImageData("image/png", data);
+            ImageData image = new ImageData("image/png", data, false);
             Actor a = new Actor("Bahde", "Paul");
             a.setId(UUID.randomUUID());
-            List<UUID> actors = List.of(a.getId());
+            Map<UUID, String> actorList = Map.of(a.getId(), "TestName");
+
             MovieRequestObject movieRequestObject = new MovieRequestObject(
-                    producer.getName(), director.getFirstName(), director.getName(), actors, image.getId(), 6,
-                    genre.getName(), "film", "beschreibung", "08-01-2023", "08-04-2023");
+                    producer.getName(), director.getFirstName(), director.getName(), actorList, image.getId(), 6,
+                    genre.getName(), "film", "beschreibung", 4.2F, 129, "08-01-2023", "08-04-2023");
 
             GenreDoesNotExistException e = new GenreDoesNotExistException("ActionP");
             when(movieService.add(movieRequestObject)).thenThrow(e);
@@ -195,13 +201,14 @@ public class MovieControllerTest {
             Genre genre = new Genre(UUID.randomUUID(), "Action");
             File fi = new File("src/test/resources/beispielbild2.png");
             byte[] data = Files.readAllBytes(fi.toPath());
-            ImageData image = new ImageData("image/png", data);
+            ImageData image = new ImageData("image/png", data, false);
             Actor a = new Actor("Bahde", "Paul");
             a.setId(UUID.randomUUID());
-            List<UUID> actors = List.of(a.getId());
+            Map<UUID, String> actorList = Map.of(a.getId(), "TestName");
+
             MovieRequestObject movieRequestObject = new MovieRequestObject(
-                    producer.getName(), director.getFirstName(), director.getName(), actors, image.getId(), 6,
-                    genre.getName(), "film", "beschreibung", "08-01-2023", "08-04-2023");
+                    producer.getName(), director.getFirstName(), director.getName(), actorList, image.getId(), 6,
+                    genre.getName(), "film", "beschreibung", 4.2F, 129, "08-01-2023", "08-04-2023");
 
             ActorNotFoundException e = new ActorNotFoundException(a.getId());
             when(movieService.add(movieRequestObject)).thenThrow(e);
@@ -230,13 +237,14 @@ public class MovieControllerTest {
             Genre genre = new Genre(UUID.randomUUID(), "Action");
             File fi = new File("src/test/resources/beispielbild2.png");
             byte[] data = Files.readAllBytes(fi.toPath());
-            ImageData image = new ImageData("image/png", data);
+            ImageData image = new ImageData("image/png", data, false);
             Actor a = new Actor("Bahde", "Paul");
             a.setId(UUID.randomUUID());
-            List<UUID> actors = List.of(a.getId());
+            Map<UUID, String> actorList = Map.of(a.getId(), "TestName");
+            
             MovieRequestObject movieRequestObject = new MovieRequestObject(
-                    producer.getName(), director.getFirstName(), director.getName(), actors, image.getId(), 6,
-                    genre.getName(), "film", "beschreibung", "08-01-2023", "08-04-2023");
+                    producer.getName(), director.getFirstName(), director.getName(), actorList, image.getId(), 6,
+                    genre.getName(), "film", "beschreibung", 4.2F, 129, "08-01-2023", "08-04-2023");
 
             ImageNotFoundException e = new ImageNotFoundException(image.getId());
             when(movieService.add(movieRequestObject)).thenThrow(e);

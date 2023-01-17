@@ -39,7 +39,7 @@ public class MovieTest {
         LocalDate startDate = LocalDate.of(2023, 1, 12), endDate = LocalDate.of(2023, 3, 14);
 
         Movie allArgsMovie = new Movie(
-                producer, director, fsk, genre, imageData, name, description, startDate, endDate
+                producer, director, fsk, genre, imageData, name, description, 4.2F, 129, startDate, endDate
         );
 
         assertAll(
@@ -124,14 +124,14 @@ public class MovieTest {
         LocalDate startDate = LocalDate.of(2023, 1, 12), endDate = LocalDate.of(2023, 3, 14);
 
         Movie movie = new Movie(
-                producer, director, fsk, genre, imageData, name, description, startDate, endDate
+                producer, director, fsk, genre, imageData, name, description, 4.2F, 129, startDate, endDate
         );
         movie.setId(id);
         return movie;
     }
 
     private Movie getMovieNull() {
-        return new Movie(null, null, null, null, null, null, null, null, null);
+        return new Movie(null, null, null, null, null, null, null, null, null, null, null);
     }
 
 }
