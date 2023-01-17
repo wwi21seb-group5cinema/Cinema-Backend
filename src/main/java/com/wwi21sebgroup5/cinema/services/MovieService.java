@@ -81,10 +81,10 @@ public class MovieService {
         }
 
         ArrayList<Actor> actors = new ArrayList<>();
-        for (UUID id : movieObject.getActors()) {
-            Optional<Actor> a = actorService.findById(id);
+        for (UUID actor : movieObject.getActors().keySet()) {
+            Optional<Actor> a = actorService.findById(actor);
             if (a.isEmpty()) {
-                throw new ActorNotFoundException(id);
+                throw new ActorNotFoundException(actor);
             }
             actors.add(a.get());
         }
@@ -113,7 +113,7 @@ public class MovieService {
         movieRepository.save(m);
 
         for (Actor a : actors) {
-            actsInService.save(m, a);
+            actsInService.save(new ActsIn(m, a, movieObject.getActors().get(a.getId())));
         }
 
         return m;
