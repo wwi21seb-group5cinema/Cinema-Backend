@@ -69,9 +69,9 @@ public class MovieServiceTest {
             byte[] data = Files.readAllBytes(fi.toPath());
             ImageData image = new ImageData("image/png", data, false);
             Movie firstMovie = new Movie(producer, director, FSK.SIX, genre, image, "film1",
-                    "beschreibung", LocalDate.of(2023, 12, 4), LocalDate.of(2023, 12, 6));
+                    "beschreibung", 3.2F, 62, LocalDate.of(2023, 12, 4), LocalDate.of(2023, 12, 6));
             Movie secondMovie = new Movie(producer, director, FSK.SIX, genre, image, "film2",
-                    "beschreibung2", LocalDate.of(2023, 12, 4), LocalDate.of(2023, 12, 6));
+                    "beschreibung2", 5.1F, 94, LocalDate.of(2023, 12, 4), LocalDate.of(2023, 12, 6));
             List<Movie> expected = List.of(firstMovie, secondMovie);
 
             MockHttpServletRequest request = new MockHttpServletRequest();
@@ -96,7 +96,7 @@ public class MovieServiceTest {
             byte[] data = Files.readAllBytes(fi.toPath());
             ImageData image = new ImageData("image/png", data, false);
             Movie firstMovie = new Movie(producer, director, FSK.SIX, genre, image, "film1",
-                    "beschreibung", LocalDate.of(2023, 1, 8), LocalDate.of(2023, 4, 8));
+                    "beschreibung", 6.2F, 102, LocalDate.of(2023, 1, 8), LocalDate.of(2023, 4, 8));
 
             Actor actor = new Actor("Paul", "Bahde");
             actor.setId(UUID.randomUUID());
@@ -114,7 +114,7 @@ public class MovieServiceTest {
 
             MovieRequestObject movieRequestObject = new MovieRequestObject(
                     producer.getName(), director.getFirstName(), director.getName(), actors, image.getId(), 6,
-                    genre.getName(), "film1", "beschreibung", "08-01-2023", "08-04-2023");
+                    genre.getName(), "film1", "beschreibung", 6.2F, 102, "08-01-2023", "08-04-2023");
 
             Movie actual = null;
             actual = movieService.add(movieRequestObject);
@@ -151,7 +151,7 @@ public class MovieServiceTest {
 
             MovieRequestObject movieRequestObject = new MovieRequestObject(
                     producer.getName(), director.getFirstName(), director.getName(), actors, image.getId(), 6,
-                    genre.getName(), "film1", "beschreibung", "08-01-2023", "08-04-2023");
+                    genre.getName(), "film1", "beschreibung", 3.1F, 102, "08-01-2023", "08-04-2023");
 
             assertThrows(ActorNotFoundException.class, () -> movieService.add(movieRequestObject));
         } catch (IOException e) {
@@ -183,7 +183,7 @@ public class MovieServiceTest {
 
             MovieRequestObject movieRequestObject = new MovieRequestObject(
                     producer.getName(), director.getFirstName(), director.getName(), actors, image.getId(), 6,
-                    genre.getName(), "film1", "beschreibung", "08-01-2023", "08-04-2023");
+                    genre.getName(), "film1", "beschreibung", 3.1F, 102, "08-01-2023", "08-04-2023");
 
             assertThrows(GenreDoesNotExistException.class, () -> movieService.add(movieRequestObject));
         } catch (IOException e) {
@@ -217,7 +217,7 @@ public class MovieServiceTest {
 
             MovieRequestObject movieRequestObject = new MovieRequestObject(
                     producer.getName(), director.getFirstName(), director.getName(), actors, image.getId(), 6,
-                    genre.getName(), "film1", "beschreibung", "08-01-2023", "08-04-2023");
+                    genre.getName(), "film1", "beschreibung", 3.1F, 102, "08-01-2023", "08-04-2023");
 
             assertThrows(ImageNotFoundException.class, () -> movieService.add(movieRequestObject));
         } catch (IOException e) {
@@ -251,7 +251,7 @@ public class MovieServiceTest {
             when(directorService.add(new DirectorRequestObject(director.getName(), director.getFirstName()))).thenReturn(director);
             MovieRequestObject movieRequestObject = new MovieRequestObject(
                     producer.getName(), director.getFirstName(), director.getName(), actors, image.getId(), 6,
-                    genre.getName(), "film1", "beschreibung", "08-01-2023", "08-04-2023");
+                    genre.getName(), "film1", "beschreibung", 3.1F, 102, "08-01-2023", "08-04-2023");
 
             movieService.add(movieRequestObject);
             verify(directorService, times(1)).add(new DirectorRequestObject(director.getName(), director.getFirstName()));
@@ -287,7 +287,7 @@ public class MovieServiceTest {
             when(producerService.add(new ProducerRequestObject(producer.getName()))).thenReturn(producer);
             MovieRequestObject movieRequestObject = new MovieRequestObject(
                     producer.getName(), director.getFirstName(), director.getName(), actors, image.getId(), 6,
-                    genre.getName(), "film1", "beschreibung", "08-01-2023", "08-04-2023");
+                    genre.getName(), "film1", "beschreibung", 3.1F, 102, "08-01-2023", "08-04-2023");
 
             movieService.add(movieRequestObject);
             verify(producerService, times(1)).add(new ProducerRequestObject(producer.getName()));
@@ -323,7 +323,7 @@ public class MovieServiceTest {
             }
             MovieRequestObject movieRequestObject = new MovieRequestObject(
                     producer.getName(), director.getFirstName(), director.getName(), actors, image.getId(), 6,
-                    genre.getName(), "film1", "beschreibung", "08-01-2023", "08-04-2023");
+                    genre.getName(), "film1", "beschreibung", 3.1F, 102, "08-01-2023", "08-04-2023");
             assertThrows(InternalError.class, () -> movieService.add(movieRequestObject));
 
         } catch (IOException e) {
@@ -358,7 +358,7 @@ public class MovieServiceTest {
             }
             MovieRequestObject movieRequestObject = new MovieRequestObject(
                     producer.getName(), director.getFirstName(), director.getName(), actors, image.getId(), 6,
-                    genre.getName(), "film1", "beschreibung", "08-01-2023", "08-04-2023");
+                    genre.getName(), "film1", "beschreibung", 3.1F, 102, "08-01-2023", "08-04-2023");
             assertThrows(InternalError.class, () -> movieService.add(movieRequestObject));
 
         } catch (IOException e) {
