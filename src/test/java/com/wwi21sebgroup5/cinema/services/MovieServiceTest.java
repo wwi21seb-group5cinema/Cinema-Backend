@@ -23,6 +23,7 @@ import java.io.IOException;
 import java.nio.file.Files;
 import java.time.LocalDate;
 import java.util.List;
+import java.util.Map;
 import java.util.Optional;
 import java.util.UUID;
 
@@ -100,8 +101,7 @@ public class MovieServiceTest {
 
             Actor actor = new Actor("Paul", "Bahde");
             actor.setId(UUID.randomUUID());
-            UUID actorId = actor.getId();
-            List<UUID> actors = List.of(actorId);
+            Map<UUID, String> actorList = Map.of(actor.getId(), "TestName");
 
             MockHttpServletRequest request = new MockHttpServletRequest();
             RequestContextHolder.setRequestAttributes(new ServletRequestAttributes(request));
@@ -109,17 +109,17 @@ public class MovieServiceTest {
             when(producerService.findByName(producer.getName())).thenReturn(Optional.of(producer));
             when(directorService.findByNameAndFirstName(director.getName(), director.getFirstName())).thenReturn(Optional.of(director));
             when(genreService.findByName(genre.getName())).thenReturn(Optional.of(genre));
-            when(actorservice.findById(actorId)).thenReturn(Optional.of(actor));
+            when(actorservice.findById(actor.getId())).thenReturn(Optional.of(actor));
             when(imageDataRepository.findById(image.getId())).thenReturn(Optional.of(image));
 
             MovieRequestObject movieRequestObject = new MovieRequestObject(
-                    producer.getName(), director.getFirstName(), director.getName(), actors, image.getId(), 6,
+                    producer.getName(), director.getFirstName(), director.getName(), actorList, image.getId(), 6,
                     genre.getName(), "film1", "beschreibung", 6.2F, 102, "08-01-2023", "08-04-2023");
 
             Movie actual = null;
             actual = movieService.add(movieRequestObject);
             assertEquals(firstMovie, actual);
-            verify(actsInService, times(1)).save(actual, actor);
+            verify(actsInService, times(1)).save(new ActsIn(actual, actor, "TestName"));
 
         } catch (IOException e) {
             fail("Failed to read bytes");
@@ -138,8 +138,7 @@ public class MovieServiceTest {
             ImageData image = new ImageData("image/png", data, false);
             Actor actor = new Actor("Paul", "Bahde");
             actor.setId(UUID.randomUUID());
-            UUID actorId = actor.getId();
-            List<UUID> actors = List.of(actorId);
+            Map<UUID, String> actorList = Map.of(actor.getId(), "TestName");
 
             MockHttpServletRequest request = new MockHttpServletRequest();
             RequestContextHolder.setRequestAttributes(new ServletRequestAttributes(request));
@@ -147,10 +146,10 @@ public class MovieServiceTest {
             when(producerService.findByName(producer.getName())).thenReturn(Optional.of(producer));
             when(directorService.findByNameAndFirstName(director.getName(), director.getFirstName())).thenReturn(Optional.of(director));
             when(genreService.findByName(genre.getName())).thenReturn(Optional.of(genre));
-            when(actorservice.findById(actorId)).thenReturn(Optional.empty());
+            when(actorservice.findById(actor.getId())).thenReturn(Optional.empty());
 
             MovieRequestObject movieRequestObject = new MovieRequestObject(
-                    producer.getName(), director.getFirstName(), director.getName(), actors, image.getId(), 6,
+                    producer.getName(), director.getFirstName(), director.getName(), actorList, image.getId(), 6,
                     genre.getName(), "film1", "beschreibung", 3.1F, 102, "08-01-2023", "08-04-2023");
 
             assertThrows(ActorNotFoundException.class, () -> movieService.add(movieRequestObject));
@@ -171,8 +170,7 @@ public class MovieServiceTest {
             ImageData image = new ImageData("image/png", data, false);
             Actor actor = new Actor("Paul", "Bahde");
             actor.setId(UUID.randomUUID());
-            UUID actorId = actor.getId();
-            List<UUID> actors = List.of(actorId);
+            Map<UUID, String> actorList = Map.of(actor.getId(), "TestName");
 
             MockHttpServletRequest request = new MockHttpServletRequest();
             RequestContextHolder.setRequestAttributes(new ServletRequestAttributes(request));
@@ -182,7 +180,7 @@ public class MovieServiceTest {
             when(genreService.findByName(genre.getName())).thenReturn(Optional.empty());
 
             MovieRequestObject movieRequestObject = new MovieRequestObject(
-                    producer.getName(), director.getFirstName(), director.getName(), actors, image.getId(), 6,
+                    producer.getName(), director.getFirstName(), director.getName(), actorList, image.getId(), 6,
                     genre.getName(), "film1", "beschreibung", 3.1F, 102, "08-01-2023", "08-04-2023");
 
             assertThrows(GenreDoesNotExistException.class, () -> movieService.add(movieRequestObject));
@@ -203,9 +201,7 @@ public class MovieServiceTest {
             ImageData image = new ImageData("image/png", data, false);
             Actor actor = new Actor("Paul", "Bahde");
             actor.setId(UUID.randomUUID());
-            UUID actorId = actor.getId();
-            List<UUID> actors = List.of(actorId);
-
+            Map<UUID, String> actorList = Map.of(actor.getId(), "TestName");
             MockHttpServletRequest request = new MockHttpServletRequest();
             RequestContextHolder.setRequestAttributes(new ServletRequestAttributes(request));
 
@@ -213,10 +209,10 @@ public class MovieServiceTest {
             when(directorService.findByNameAndFirstName(director.getName(), director.getFirstName())).thenReturn(Optional.of(director));
             when(imageDataRepository.findById(image.getId())).thenReturn(Optional.empty());
             when(genreService.findByName(genre.getName())).thenReturn(Optional.of(genre));
-            when(actorservice.findById(actorId)).thenReturn(Optional.of(actor));
+            when(actorservice.findById(actor.getId())).thenReturn(Optional.of(actor));
 
             MovieRequestObject movieRequestObject = new MovieRequestObject(
-                    producer.getName(), director.getFirstName(), director.getName(), actors, image.getId(), 6,
+                    producer.getName(), director.getFirstName(), director.getName(), actorList, image.getId(), 6,
                     genre.getName(), "film1", "beschreibung", 3.1F, 102, "08-01-2023", "08-04-2023");
 
             assertThrows(ImageNotFoundException.class, () -> movieService.add(movieRequestObject));
@@ -237,8 +233,7 @@ public class MovieServiceTest {
             ImageData image = new ImageData("image/png", data, false);
             Actor actor = new Actor("Paul", "Bahde");
             actor.setId(UUID.randomUUID());
-            UUID actorId = actor.getId();
-            List<UUID> actors = List.of(actorId);
+            Map<UUID, String> actorList = Map.of(actor.getId(), "TestName");
 
             MockHttpServletRequest request = new MockHttpServletRequest();
             RequestContextHolder.setRequestAttributes(new ServletRequestAttributes(request));
@@ -247,10 +242,10 @@ public class MovieServiceTest {
             when(directorService.findByNameAndFirstName(director.getName(), director.getFirstName())).thenReturn(Optional.empty());
             when(imageDataRepository.findById(image.getId())).thenReturn(Optional.of(image));
             when(genreService.findByName(genre.getName())).thenReturn(Optional.of(genre));
-            when(actorservice.findById(actorId)).thenReturn(Optional.of(actor));
+            when(actorservice.findById(actor.getId())).thenReturn(Optional.of(actor));
             when(directorService.add(new DirectorRequestObject(director.getName(), director.getFirstName()))).thenReturn(director);
             MovieRequestObject movieRequestObject = new MovieRequestObject(
-                    producer.getName(), director.getFirstName(), director.getName(), actors, image.getId(), 6,
+                    producer.getName(), director.getFirstName(), director.getName(), actorList, image.getId(), 6,
                     genre.getName(), "film1", "beschreibung", 3.1F, 102, "08-01-2023", "08-04-2023");
 
             movieService.add(movieRequestObject);
@@ -273,8 +268,7 @@ public class MovieServiceTest {
             ImageData image = new ImageData("image/png", data, false);
             Actor actor = new Actor("Paul", "Bahde");
             actor.setId(UUID.randomUUID());
-            UUID actorId = actor.getId();
-            List<UUID> actors = List.of(actorId);
+            Map<UUID, String> actorList = Map.of(actor.getId(), "TestName");
 
             MockHttpServletRequest request = new MockHttpServletRequest();
             RequestContextHolder.setRequestAttributes(new ServletRequestAttributes(request));
@@ -283,10 +277,10 @@ public class MovieServiceTest {
             when(directorService.findByNameAndFirstName(director.getName(), director.getFirstName())).thenReturn(Optional.of(director));
             when(imageDataRepository.findById(image.getId())).thenReturn(Optional.of(image));
             when(genreService.findByName(genre.getName())).thenReturn(Optional.of(genre));
-            when(actorservice.findById(actorId)).thenReturn(Optional.of(actor));
+            when(actorservice.findById(actor.getId())).thenReturn(Optional.of(actor));
             when(producerService.add(new ProducerRequestObject(producer.getName()))).thenReturn(producer);
             MovieRequestObject movieRequestObject = new MovieRequestObject(
-                    producer.getName(), director.getFirstName(), director.getName(), actors, image.getId(), 6,
+                    producer.getName(), director.getFirstName(), director.getName(), actorList, image.getId(), 6,
                     genre.getName(), "film1", "beschreibung", 3.1F, 102, "08-01-2023", "08-04-2023");
 
             movieService.add(movieRequestObject);
@@ -309,8 +303,7 @@ public class MovieServiceTest {
             ImageData image = new ImageData("image/png", data, false);
             Actor actor = new Actor("Paul", "Bahde");
             actor.setId(UUID.randomUUID());
-            UUID actorId = actor.getId();
-            List<UUID> actors = List.of(actorId);
+            Map<UUID, String> actorList = Map.of(actor.getId(), "TestName");
 
             MockHttpServletRequest request = new MockHttpServletRequest();
             RequestContextHolder.setRequestAttributes(new ServletRequestAttributes(request));
@@ -322,7 +315,7 @@ public class MovieServiceTest {
                 fail("Failed");
             }
             MovieRequestObject movieRequestObject = new MovieRequestObject(
-                    producer.getName(), director.getFirstName(), director.getName(), actors, image.getId(), 6,
+                    producer.getName(), director.getFirstName(), director.getName(), actorList, image.getId(), 6,
                     genre.getName(), "film1", "beschreibung", 3.1F, 102, "08-01-2023", "08-04-2023");
             assertThrows(InternalError.class, () -> movieService.add(movieRequestObject));
 
@@ -343,8 +336,7 @@ public class MovieServiceTest {
             ImageData image = new ImageData("image/png", data, false);
             Actor actor = new Actor("Paul", "Bahde");
             actor.setId(UUID.randomUUID());
-            UUID actorId = actor.getId();
-            List<UUID> actors = List.of(actorId);
+            Map<UUID, String> actorList = Map.of(actor.getId(), "TestName");
 
             MockHttpServletRequest request = new MockHttpServletRequest();
             RequestContextHolder.setRequestAttributes(new ServletRequestAttributes(request));
@@ -357,7 +349,7 @@ public class MovieServiceTest {
                 fail("Failed");
             }
             MovieRequestObject movieRequestObject = new MovieRequestObject(
-                    producer.getName(), director.getFirstName(), director.getName(), actors, image.getId(), 6,
+                    producer.getName(), director.getFirstName(), director.getName(), actorList, image.getId(), 6,
                     genre.getName(), "film1", "beschreibung", 3.1F, 102, "08-01-2023", "08-04-2023");
             assertThrows(InternalError.class, () -> movieService.add(movieRequestObject));
 
