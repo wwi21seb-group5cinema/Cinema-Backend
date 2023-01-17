@@ -38,7 +38,7 @@ public class ActsInServiceTest {
             Genre genre = new Genre(UUID.randomUUID(), "Action");
             File fi = new File("src/test/resources/beispielbild2.png");
             byte[] data = Files.readAllBytes(fi.toPath());
-            ImageData image = new ImageData("image/png", data);
+            ImageData image = new ImageData("image/png", data, false);
             Movie firstMovie = new Movie(producer, director, FSK.SIX, genre, image, "film1",
                     "beschreibung", 1.2F, 193, LocalDate.of(2023, 12, 4), LocalDate.of(2023, 12, 6));
             ActsIn actsIn = new ActsIn(firstMovie, actor, "");

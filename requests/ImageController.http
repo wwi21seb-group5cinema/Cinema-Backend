@@ -1,4 +1,41 @@
-### Upload a new PNG file
+### Upload a large JPG file - compressed
+POST http://localhost:8082/v1/image/add
+Content-Type: multipart/form-data; boundary=WebAppBoundary
+
+--WebAppBoundary
+Content-Disposition: form-data; name="image"; filename="file.jpeg"
+Content-Type: image/jpeg
+
+// The 'input.txt' file will be uploaded
+< ./ressources/astronaut.jpg
+--WebAppBoundary
+
+
+### Upload a JPG file - uncompressed
+POST http://localhost:8082/v1/image/add
+Content-Type: multipart/form-data; boundary=WebAppBoundary
+
+--WebAppBoundary
+Content-Disposition: form-data; name="image"; filename="file.jpeg"
+Content-Type: image/jpeg
+
+// The 'input.txt' file will be uploaded
+< ./ressources/avatar.jpg
+--WebAppBoundary
+
+### Upload a JPG file - to big to compress
+POST http://localhost:8082/v1/image/add
+Content-Type: multipart/form-data; boundary=WebAppBoundary
+
+--WebAppBoundary
+Content-Disposition: form-data; name="image"; filename="file.jpeg"
+Content-Type: image/jpeg
+
+// The 'input.txt' file will be uploaded
+< ./ressources/rocky.jpg
+--WebAppBoundary
+
+### Upload a PNG file
 POST http://localhost:8082/v1/image/add
 Content-Type: multipart/form-data; boundary=WebAppBoundary
 
@@ -12,5 +49,5 @@ Content-Type: image/png
 
 
 ### Download the requested image. Set the UUID yourself
-GET http://localhost:8082/v1/image/get/5336cb4b-1279-4a31-97fb-df1a7acdd047
+GET http://localhost:8082/v1/image/get/7bf1f3d5-0d63-42a6-a493-adb9bd345b7f
 

@@ -1,7 +1,9 @@
 package com.wwi21sebgroup5.cinema.controller;
 
 import com.wwi21sebgroup5.cinema.entities.ImageData;
+import com.wwi21sebgroup5.cinema.exceptions.ImageCouldNotBeCompressedException;
 import com.wwi21sebgroup5.cinema.exceptions.ImageNotFoundException;
+import com.wwi21sebgroup5.cinema.requestObjects.AddImageReturnObject;
 import com.wwi21sebgroup5.cinema.services.ImageService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
@@ -28,10 +30,12 @@ public class ImageController {
     @PostMapping("/add")
     public ResponseEntity<?> add(@RequestParam("image") MultipartFile file) {
         try {
-            ImageData uploadImage = service.uploadImage(file);
+            AddImageReturnObject uploadImage = service.uploadImage(file);
             return new ResponseEntity<>(uploadImage, HttpStatus.OK);
         } catch (IOException e) {
             return new ResponseEntity<>(e.getMessage(), HttpStatus.INTERNAL_SERVER_ERROR);
+        } catch (ImageCouldNotBeCompressedException e) {
+            return new ResponseEntity<>(e.getMessage(), HttpStatus.NOT_ACCEPTABLE);
         }
 
     }
@@ -44,8 +48,6 @@ public class ImageController {
     public ResponseEntity<?> downloadImage(@PathVariable UUID id) {
         try {
             ImageData imageData = service.downloadImage(id);
-            // In the Moment decompress Image doesn't do anything
-            //byte[] bytes = ImageCompressor.decompressImage(imageData.getImageData());
             byte[] bytes = imageData.getImageData();
             return ResponseEntity.status(HttpStatus.OK)
                     .contentType(MediaType.valueOf(imageData.getType()))
