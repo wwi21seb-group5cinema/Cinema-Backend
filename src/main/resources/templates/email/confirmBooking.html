@@ -14,8 +14,9 @@
     <div class="align-self-center">
         <h1>Vielen Dank für deine Buchung!</h1>
     </div>
+    <br>
     <div class="row">
-        <div class="col-3">
+        <div class="col-6">
             <img alt="Movie Backdrop" class="img-fluid"
                  th:src="${movie.image_url}">
             <ul class="list-group list-group-flush">
@@ -27,7 +28,7 @@
             <h2>Playing on: <span th:text="${event.eventDay}, ${event.eventTime}"></span></h2>
         </div>
         <div class="col-6">
-            <p>Booking</p>
+            <h3>Reservierte Plätze:</h3>
             <table class="table">
                 <thead>
                 <tr>
@@ -38,21 +39,14 @@
                 </thead>
                 <tbody th:each="ticket, iterStat: ${tickets}">
                 <tr>
-                    <th scope="row">1</th>
+                    <th scope="row" th:text="${iterStat.index}"></th>
                     <td th:text="${iterStat.index}"></td>
-                </tr>
-                <tr>
-                    <th scope="row">2</th>
                     <td th:text="${ticket.seat.row}"></td>
-                </tr>
-                <tr>
-                    <th scope="row">3</th>
                     <td th:text="${ticket.seat.place}"></td>
+                    <td><span th:text="${ticket.seat.seatType.price}"></span>€</td>
                 </tr>
                 </tbody>
             </table>
-        </div>
-        <div class="col-3">
             <div class="card">
                 <img alt="User logo" class="card-img-top" src="">
                 <div class="card-body">
