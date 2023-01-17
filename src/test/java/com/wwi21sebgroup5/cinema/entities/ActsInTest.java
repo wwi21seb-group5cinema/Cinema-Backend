@@ -14,12 +14,14 @@ public class ActsInTest {
     public void testConstructor() {
         Movie movie = new Movie();
         Actor actor = new Actor();
+        String characterName = "TestName";
 
-        ActsIn actsIn = new ActsIn(movie, actor);
+        ActsIn actsIn = new ActsIn(movie, actor, characterName);
         assertAll(
                 "Validatiing parameters...",
                 () -> assertEquals(movie, actsIn.getMovie()),
-                () -> assertEquals(actor, actsIn.getActor())
+                () -> assertEquals(actor, actsIn.getActor()),
+                () -> assertEquals(characterName, actsIn.getCharacterName())
         );
     }
 
@@ -30,10 +32,10 @@ public class ActsInTest {
         Actor actor = new Actor();
         Movie movie2 = new Movie();
         movie2.setId(UUID.randomUUID());
-        ActsIn firstActsIn = new ActsIn(movie, actor);
-        ActsIn secondActsIn = new ActsIn(movie, actor);
-        ActsIn thirdActsIn = new ActsIn(movie2, actor);
-        ActsIn forthActsIn = new ActsIn(null, null);
+        ActsIn firstActsIn = new ActsIn(movie, actor, "");
+        ActsIn secondActsIn = new ActsIn(movie, actor, "");
+        ActsIn thirdActsIn = new ActsIn(movie2, actor, "");
+        ActsIn forthActsIn = new ActsIn(null, null, null);
 
         assertAll(
                 "Validating parameters...",

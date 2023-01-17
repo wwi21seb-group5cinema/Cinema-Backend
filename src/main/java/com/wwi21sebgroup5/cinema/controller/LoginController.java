@@ -40,8 +40,8 @@ public class LoginController {
             user = loginService.login(loginObject);
         } catch (EmailNotFoundException enfE) {
             return new ResponseEntity<>(enfE.getMessage(), HttpStatus.NOT_FOUND);
-        } catch (PasswordsNotMatchingException pnmE) {
-            return new ResponseEntity<>(pnmE.getMessage(), HttpStatus.UNAUTHORIZED);
+        } catch (PasswordsNotMatchingException | UserNotEnabledException ex) {
+            return new ResponseEntity<>(ex.getMessage(), HttpStatus.UNAUTHORIZED);
         } catch (Exception ex) {
             return new ResponseEntity<>(ex.getMessage(), HttpStatus.INTERNAL_SERVER_ERROR);
         }

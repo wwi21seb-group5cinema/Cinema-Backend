@@ -16,7 +16,7 @@ import java.util.UUID;
 @ToString
 @Entity
 @NoArgsConstructor
-@Table(name = "ActsIn")
+@Table(name = "acts_in")
 public class ActsIn {
 
     @Id
@@ -26,20 +26,24 @@ public class ActsIn {
     private UUID id;
 
     @NotNull
-    @ManyToOne
-    @JoinColumn(name = "Movie_Id", referencedColumnName = "id")
+    @ManyToOne(cascade = CascadeType.PERSIST)
+    @JoinColumn(name = "movie_Id", referencedColumnName = "id")
     @ToString.Exclude
     private Movie movie;
 
     @NotNull
-    @ManyToOne
-    @JoinColumn(name = "Actor_Id", referencedColumnName = "id")
+    @ManyToOne(cascade = CascadeType.PERSIST)
+    @JoinColumn(name = "actor_Id", referencedColumnName = "id")
     @ToString.Exclude
     private Actor actor;
 
-    public ActsIn(Movie movie, Actor actor) {
+    @Column
+    private String characterName;
+
+    public ActsIn(Movie movie, Actor actor, String characterName) {
         this.movie = movie;
         this.actor = actor;
+        this.characterName = characterName;
     }
 
     @Override

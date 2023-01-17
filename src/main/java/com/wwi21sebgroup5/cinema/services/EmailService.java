@@ -28,6 +28,9 @@ public class EmailService {
     @Value("classpath:/static/cinemaGroupFiveLogo.ico")
     private Resource logoResource;
 
+    @Value("${frontend.url}")
+    private String frontendUrl;
+
     @Autowired
     private JavaMailSender javaMailSender;
     @Autowired
@@ -60,6 +63,7 @@ public class EmailService {
         Context context = new Context();
         context.setVariable("user", user);
         context.setVariable("confirmationToken", tokenUrl);
+        context.setVariable("frontendUrl", frontendUrl);
         String msgBody = templateEngine.process(CONFIRM_REGISTRATION, context);
 
         sendMail(user.getEmail(), REGISTRATION_SUBJECT, msgBody);

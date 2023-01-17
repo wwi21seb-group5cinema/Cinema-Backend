@@ -17,7 +17,7 @@ public class EventTest {
     private Event setupEvent(UUID uuid) {
         Movie movie = new Movie(
                 new Producer(), new Director(), FSK.SIX, new Genre(), new ImageData(),
-                "testName", "testDescription",
+                "testName", "testDescription", 4.2F, 129,
                 LocalDate.of(2022, 12, 2), LocalDate.of(2023, 5, 3)
         );
         CinemaHall cinemaHall = new CinemaHall(

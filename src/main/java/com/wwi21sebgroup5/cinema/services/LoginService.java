@@ -75,11 +75,15 @@ public class LoginService {
      * @throws PasswordsNotMatchingException Thrown when password doesn't match the found users password
      * @throws UsernameNotFoundException     Thrown when the username wasn't found
      */
-    public User login(LoginRequestObject loginObject) throws PasswordsNotMatchingException, EmailNotFoundException {
+    public User login(LoginRequestObject loginObject) throws PasswordsNotMatchingException, EmailNotFoundException, UserNotEnabledException {
         Optional<User> foundUser = userService.getUserByEmail(loginObject.getEmail());
 
         if (foundUser.isEmpty()) {
             throw new EmailNotFoundException(loginObject.getEmail());
+        }
+
+        if (!foundUser.get().getEnabled()) {
+            throw new UserNotEnabledException(foundUser.get().getUserName());
         }
 
         if (!passwordEncoder.matches(loginObject.getPassword(), foundUser.get().getPassword())) {

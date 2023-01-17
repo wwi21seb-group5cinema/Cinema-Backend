@@ -11,14 +11,16 @@ Content-Type: application/json
   "producerName": "MarvelStudios",
   "directorFirstName": "Quentin",
   "directorLastName": "Tarrentino",
-  "actors": [
-    "c52ba6c3-4fd0-4be1-a204-055b75d997db"
-  ],
-  "image": "8c9c2d49-1fdf-4de6-9763-75599a212041",
+  "actors": {
+    "84e42995-8769-48c3-82ef-e54fc36072b7": "Manfred Schneider"
+  },
+  "image": "6f9a6d7d-972c-4216-b83c-04fd1797108e",
   "fsk": 12,
   "genre": "Action",
   "name": "Der große Testfilm",
   "description": "Dieser Film ist ein Test",
+  "rating": 6.4,
+  "length": 82,
   "start_date": "08-01-2023",
   "end_date": "08-04-2023"
 }
@@ -39,6 +41,8 @@ Content-Type: application/json
   "genre": "ActionPP",
   "name": "Der große Testfilm",
   "description": "Dieser Film ist ein Test",
+  "rating": 6.4,
+  "length": 82,
   "start_date": "08-01-2023",
   "end_date": "08-04-2023"
 }
@@ -59,6 +63,8 @@ Content-Type: application/json
   "genre": "ActionPP",
   "name": "Der große Testfilm",
   "description": "Dieser Film ist ein Test",
+  "rating": 6.4,
+  "length": 82,
   "start_date": "08-01-2023",
   "end_date": "08-04-2023"
 }
