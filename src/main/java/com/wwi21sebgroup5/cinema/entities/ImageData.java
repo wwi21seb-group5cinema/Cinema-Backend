@@ -17,7 +17,7 @@ import java.util.UUID;
 @Setter
 @ToString
 @Entity
-@Table(name = "imageData")
+@Table(name = "image_data")
 @NoArgsConstructor
 public class ImageData {
 

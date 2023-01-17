@@ -140,7 +140,7 @@ public class LoginControllerTest {
 
         try {
             when(loginService.login(loginRequestObject)).thenReturn(new User());
-        } catch (PasswordsNotMatchingException | EmailNotFoundException e) {
+        } catch (PasswordsNotMatchingException | EmailNotFoundException | UserNotEnabledException e) {
             fail("Login failed");
         }
 
@@ -164,6 +164,8 @@ public class LoginControllerTest {
                     .login(loginRequestObject);
         } catch (PasswordsNotMatchingException | EmailNotFoundException e) {
             fail("Login failed");
+        } catch (UserNotEnabledException e) {
+            throw new RuntimeException(e);
         }
 
         ResponseEntity<Object> response = loginController.login(loginRequestObject);
@@ -184,7 +186,7 @@ public class LoginControllerTest {
             doThrow(new PasswordsNotMatchingException("TestEmail"))
                     .when(loginService)
                     .login(loginRequestObject);
-        } catch (PasswordsNotMatchingException | EmailNotFoundException e) {
+        } catch (PasswordsNotMatchingException | EmailNotFoundException | UserNotEnabledException e) {
             fail("Login failed");
         }
 
@@ -199,6 +201,30 @@ public class LoginControllerTest {
     }
 
     @Test
+    @DisplayName("Test user not enabled during login")
+    public void testUserNotEnabledDuringLogin() {
+        LoginRequestObject loginRequestObject = new LoginRequestObject("TestEmail", "TestPassword");
+
+        try {
+            doThrow(new UserNotEnabledException("TestUser"))
+                    .when(loginService)
+                    .login(loginRequestObject);
+        } catch (PasswordsNotMatchingException | EmailNotFoundException | UserNotEnabledException e) {
+            fail("Login failed");
+        }
+
+        ResponseEntity<Object> response = loginController.login(loginRequestObject);
+
+        assertAll(
+                "Validating respones ...",
+                () -> assertEquals(HttpStatus.UNAUTHORIZED, response.getStatusCode()),
+                () -> assertEquals("User with the username TestUser is not enabled yet, " +
+                                "please check your mails!",
+                        response.getBody())
+        );
+    }
+
+    @Test
     @DisplayName("Test internal server error during login")
     public void testInternalServerErrorDuringLogin() {
         LoginRequestObject loginRequestObject = new LoginRequestObject("TestEmail", "TestPassword");
@@ -207,7 +233,7 @@ public class LoginControllerTest {
             doThrow(new RuntimeException("Error!"))
                     .when(loginService)
                     .login(loginRequestObject);
-        } catch (PasswordsNotMatchingException | EmailNotFoundException e) {
+        } catch (PasswordsNotMatchingException | EmailNotFoundException | UserNotEnabledException e) {
             fail("Login failed");
         }
 
