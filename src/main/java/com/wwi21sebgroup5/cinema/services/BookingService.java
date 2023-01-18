@@ -84,11 +84,14 @@ public class BookingService {
         return new ResponseEntity<>(seatsToReserve, HttpStatus.OK);
     }
 
-    public void scanQrCode(String barcode) throws TicketNotFoundException, TicketAlreadyCheckedInException {
+    public void scanQrCode(String barcode) throws TicketNotFoundException, TicketAlreadyCheckedInException,
+            TicketNotPaidException {
         Ticket ticket = ticketService.findById(UUID.fromString(barcode));
 
         if (ticket.isScanned()) {
             throw new TicketAlreadyCheckedInException(barcode);
+        } else if (!ticket.getSeat().getSeatState().equals(SeatState.PAID)) {
+            throw new TicketNotPaidException(barcode);
         }
 
         ticket.setScanned(true);
