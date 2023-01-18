@@ -24,7 +24,7 @@ public class Ticket {
     @GeneratedValue(strategy = GenerationType.AUTO)
     private UUID id;
 
-    @ManyToOne
+    @ManyToOne(cascade = CascadeType.PERSIST)
     @JoinColumn(name = "event_id", referencedColumnName = "id")
     private Event event;
 
@@ -32,7 +32,7 @@ public class Ticket {
     @JoinColumn(name = "qrcode_id", referencedColumnName = "id")
     private QR_Code qr_code;
 
-    @OneToOne
+    @OneToOne(cascade = {CascadeType.PERSIST, CascadeType.REMOVE})
     @JoinColumn(name = "seat_id", referencedColumnName = "id")
     private Seat seat;
 
