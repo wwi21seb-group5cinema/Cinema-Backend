@@ -2,6 +2,8 @@ package com.wwi21sebgroup5.cinema.controller;
 
 import com.wwi21sebgroup5.cinema.entities.Booking;
 import com.wwi21sebgroup5.cinema.exceptions.BookingNotFoundException;
+import com.wwi21sebgroup5.cinema.exceptions.TicketAlreadyCheckedInException;
+import com.wwi21sebgroup5.cinema.exceptions.TicketNotFoundException;
 import com.wwi21sebgroup5.cinema.exceptions.UserDoesNotExistException;
 import com.wwi21sebgroup5.cinema.requestObjects.BookingRequestObject;
 import com.wwi21sebgroup5.cinema.requestObjects.FinalBookingRequestObject;
@@ -22,32 +24,45 @@ public class BookingController {
     private BookingService bookingService;
 
     @GetMapping(path = "/get", params = "id")
-    public ResponseEntity<Object> getBookingByBookingId(@RequestParam UUID id){
-        try{
+    public ResponseEntity<Object> getBookingByBookingId(@RequestParam UUID id) {
+        try {
             Booking requestedBooking = bookingService.findBookingById(id);
             return new ResponseEntity<>(requestedBooking, HttpStatus.OK);
-        }catch(BookingNotFoundException bnfe){
+        } catch (BookingNotFoundException bnfe) {
             return new ResponseEntity<>(bnfe.getMessage(), HttpStatus.NOT_FOUND);
-        }catch(Exception ex){
+        } catch (Exception ex) {
             return new ResponseEntity<>(ex.getMessage(), HttpStatus.INTERNAL_SERVER_ERROR);
         }
     }
 
     @PostMapping(path = "/tempReserve")
-    public ResponseEntity<?> temporarilyReserveSeats(@RequestBody List<BookingRequestObject> SeatsToReserve){
+    public ResponseEntity<?> temporarilyReserveSeats(@RequestBody List<BookingRequestObject> SeatsToReserve) {
         return bookingService.temporarilyReserveSeats(SeatsToReserve);
     }
 
     @PostMapping(path = "/reserve")
-    public ResponseEntity<?> reserveSeats(@RequestBody List<FinalBookingRequestObject> seatsToReserve){
-        try{
+    public ResponseEntity<?> reserveSeats(@RequestBody List<FinalBookingRequestObject> seatsToReserve) {
+        try {
             return bookingService.reserveSeats(seatsToReserve);
-        }catch(UserDoesNotExistException ex){
+        } catch (UserDoesNotExistException ex) {
             return new ResponseEntity<>(ex.getMessage(), HttpStatus.NOT_FOUND);
         }
 
     }
 
+    @PostMapping(path = "/scan", params = "barcode")
+    public ResponseEntity<Object> scanQrCode(@RequestParam String barcode) {
+        try {
+            bookingService.scanQrCode(barcode);
+        } catch (TicketNotFoundException tnfE) {
+            return new ResponseEntity<>(HttpStatus.NOT_FOUND);
+        } catch (TicketAlreadyCheckedInException taciE) {
+            return new ResponseEntity<>(HttpStatus.ALREADY_REPORTED);
+        } catch (Exception ex) {
+            return new ResponseEntity<>(HttpStatus.INTERNAL_SERVER_ERROR);
+        }
 
+        return new ResponseEntity<>(HttpStatus.OK);
+    }
 
 }
