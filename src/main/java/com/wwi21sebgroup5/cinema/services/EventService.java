@@ -69,6 +69,7 @@ public class EventService {
         }
 
         newEvent.setEventDateTime(LocalDateTime.parse(requestObject.getEventDateTime(), DATE_TIME_FORMATTER));
+        newEvent = eventRepository.save(newEvent);
 
         SeatingPlan seatingPlan = cinemaHall.getSeatingPlan();
         List<Ticket> tickets = new ArrayList<>();
