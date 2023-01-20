@@ -1,6 +1,8 @@
 ### Get Booking by bookingID id={{bookingId}}
 GET http://localhost:8082/v1/booking/get?id=
 
+
+
 ### temp Reserve given Seats
 POST http://localhost:8082/v1/booking/tempReserve
 Content-Type: application/json
@@ -10,11 +12,12 @@ Content-Type: application/json
     "eventID": "84dc61dc-9870-451b-987d-ee689e4a13b9",
     "row": 1,
     "place": 1
-  }, {
+  },
+  {
     "eventID": "84dc61dc-9870-451b-987d-ee689e4a13b9",
     "row": 1,
     "place": 2
-    }
+  }
 ]
 
 ### fully reserve given Seats
@@ -33,5 +36,8 @@ Content-Type: application/json
     "eventID": "4e6f9d30-64ee-431b-b4b5-c5dd1d88ee99",
     "row": 1,
     "place": 2
-}
+  }
 ]
+
+### scan qr code
+POST http://localhost:8082/v1/booking/scan?code={{code}}
