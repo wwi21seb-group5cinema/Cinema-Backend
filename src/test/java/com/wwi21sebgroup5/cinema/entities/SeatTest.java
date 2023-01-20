@@ -4,6 +4,7 @@ import com.wwi21sebgroup5.cinema.enums.SeatState;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 
+import java.time.LocalDateTime;
 import java.util.UUID;
 
 import static org.junit.jupiter.api.Assertions.*;
@@ -72,6 +73,19 @@ public class SeatTest {
         secondSeat = setupSeat(firstSeat.getId());
         secondSeat.setSeatState(SeatState.RESERVED);
         assertNotEquals(firstSeat, secondSeat);
+    }
+
+    @Test
+    @DisplayName("Test set Expiration Time Stamp correctly")
+    public void testSetExpirationTimeStamp() {
+        LocalDateTime ldt = LocalDateTime.now().plusMinutes(15);
+
+        Seat testSeat = setupSeat(UUID.randomUUID());
+
+        testSeat.setExpirationTimeStamp(ldt);
+
+        assertEquals(ldt, testSeat.getExpirationTimeStamp());
+
     }
 
 }

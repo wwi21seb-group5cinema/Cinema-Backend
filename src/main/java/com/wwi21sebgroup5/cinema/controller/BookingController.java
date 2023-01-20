@@ -33,8 +33,14 @@ public class BookingController {
     }
 
     @PostMapping(path = "/tempReserve")
-    public ResponseEntity<?> temporarilyReserveSeats(@RequestBody List<BookingRequestObject> SeatsToReserve) {
-        return bookingService.temporarilyReserveSeats(SeatsToReserve);
+    public ResponseEntity<Object> temporarilyReserveSeats(@RequestBody List<BookingRequestObject> SeatsToReserve){
+        try {
+            return bookingService.temporarilyReserveSeats(SeatsToReserve);
+        } catch (SeatDoesNotExistException ex) {
+            return new ResponseEntity<>(ex.getMessage(), HttpStatus.NOT_FOUND);
+        } catch (SeatNotAvailableException ex) {
+            return new ResponseEntity<>(ex.getMessage(), HttpStatus.NOT_ACCEPTABLE);
+        }
     }
 
     @PostMapping(path = "/reserve")

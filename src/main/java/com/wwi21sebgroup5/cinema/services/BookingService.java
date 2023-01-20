@@ -7,6 +7,9 @@ import com.wwi21sebgroup5.cinema.entities.User;
 import com.wwi21sebgroup5.cinema.enums.SeatState;
 import com.wwi21sebgroup5.cinema.exceptions.*;
 import com.wwi21sebgroup5.cinema.repositories.BookingRepository;
+
+import java.time.LocalDateTime;
+
 import com.wwi21sebgroup5.cinema.requestObjects.BookingRequestObject;
 import com.wwi21sebgroup5.cinema.requestObjects.FinalBookingRequestObject;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -40,17 +43,12 @@ public class BookingService {
         return foundBooking.get();
     }
 
-    public ResponseEntity<?> temporarilyReserveSeats(List<BookingRequestObject> seatsToReserve) {
+    public ResponseEntity<Object> temporarilyReserveSeats(List<BookingRequestObject> seatsToReserve) throws SeatDoesNotExistException, SeatNotAvailableException{
+        LocalDateTime expTimeStamp = LocalDateTime.now().plusMinutes(15);
         for (BookingRequestObject s : seatsToReserve) {
-            try {
-                ticketService.tempReserveSeat(s.getEventID(), s.getRow(), s.getPlace());
-            } catch (SeatDoesNotExistException ex) {
-                return new ResponseEntity<>(ex.getMessage(), HttpStatus.NOT_FOUND);
-            } catch (SeatNotAvailableException ex) {
-                return new ResponseEntity<>(ex.getMessage(), HttpStatus.NOT_ACCEPTABLE);
-            }
+            ticketService.tempReserveSeat(s.getEventID(), s.getRow(), s.getPlace(), expTimeStamp);
         }
-        return new ResponseEntity<>(seatsToReserve, HttpStatus.OK);
+        return new ResponseEntity<>(expTimeStamp, HttpStatus.OK);
     }
 
     public ResponseEntity<?> reserveSeats(List<FinalBookingRequestObject> seatsToReserve) throws UserDoesNotExistException {
@@ -96,4 +94,5 @@ public class BookingService {
 
         ticket.setScanned(true);
     }
+
 }

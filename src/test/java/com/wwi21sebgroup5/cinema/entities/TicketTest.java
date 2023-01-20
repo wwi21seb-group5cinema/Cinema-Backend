@@ -38,7 +38,7 @@ public class TicketTest {
 
         assertEquals(first, first);
         assertEquals(first.hashCode(), second.hashCode());
-        assertEquals(first, first);
+        assertEquals(first, second);
 
         assertNotEquals(first, "String");
         assertNotEquals(first, null);
