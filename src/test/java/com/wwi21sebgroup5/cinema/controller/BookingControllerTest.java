@@ -25,6 +25,8 @@ import java.util.List;
 import java.util.UUID;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertThrows;
+import static org.mockito.Mockito.doThrow;
 import static org.mockito.Mockito.when;
 
 @ExtendWith(MockitoExtension.class)
@@ -129,14 +131,15 @@ public class BookingControllerTest {
         BookingRequestObject sampleSeat = new BookingRequestObject(sampleEventId, sRow, sPlace);
 
         List<BookingRequestObject> sampleSeats = List.of(sampleSeat);
-        ResponseEntity<Object> res = new ResponseEntity<>("The Seat on row 1 and place 1 does not exist", HttpStatus.NOT_FOUND);
+        doThrow(SeatDoesNotExistException.class).when(bookingService).temporarilyReserveSeats(sampleSeats);
 
-        when(bookingService.temporarilyReserveSeats(sampleSeats)).thenReturn(res);
-
+        ResponseEntity<?> exp = new ResponseEntity<>(HttpStatus.NOT_FOUND);
         ResponseEntity<?> act = bookingController.temporarilyReserveSeats(sampleSeats);
 
-        assertEquals(res, act);
+        assertEquals(exp, act);
+
     }
+
 
     @Test
     @DisplayName("Test temporarilyReserveSeats with not available Seat")
@@ -145,14 +148,13 @@ public class BookingControllerTest {
         int sRow = 1;
         int sPlace = 1;
         BookingRequestObject sampleSeat = new BookingRequestObject(sampleEventId, sRow, sPlace);
-
         List<BookingRequestObject> sampleSeats = List.of(sampleSeat);
-        ResponseEntity<Object> res = new ResponseEntity<>("The Seat on row 1 and place 1 is not available", HttpStatus.NOT_ACCEPTABLE);
 
-        when(bookingService.temporarilyReserveSeats(sampleSeats)).thenReturn(res);
+        doThrow(SeatNotAvailableException.class).when(bookingService).temporarilyReserveSeats(sampleSeats);
 
+        ResponseEntity<?> exp = new ResponseEntity<>(HttpStatus.NOT_ACCEPTABLE);
         ResponseEntity<?> act = bookingController.temporarilyReserveSeats(sampleSeats);
-    
-        assertEquals(res, act);
+
+        assertEquals(exp, act);
     }
 }
