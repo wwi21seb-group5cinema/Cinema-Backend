@@ -1,8 +1,7 @@
 package com.wwi21sebgroup5.cinema.controller;
 
 import com.wwi21sebgroup5.cinema.entities.Booking;
-import com.wwi21sebgroup5.cinema.exceptions.BookingNotFoundException;
-import com.wwi21sebgroup5.cinema.exceptions.UserDoesNotExistException;
+import com.wwi21sebgroup5.cinema.exceptions.*;
 import com.wwi21sebgroup5.cinema.requestObjects.BookingRequestObject;
 import com.wwi21sebgroup5.cinema.requestObjects.FinalBookingRequestObject;
 import com.wwi21sebgroup5.cinema.services.BookingService;
@@ -34,8 +33,14 @@ public class BookingController {
     }
 
     @PostMapping(path = "/tempReserve")
-    public ResponseEntity<?> temporarilyReserveSeats(@RequestBody List<BookingRequestObject> SeatsToReserve) {
-        return bookingService.temporarilyReserveSeats(SeatsToReserve);
+    public ResponseEntity<Object> temporarilyReserveSeats(@RequestBody List<BookingRequestObject> SeatsToReserve){
+        try {
+            return bookingService.temporarilyReserveSeats(SeatsToReserve);
+        } catch (SeatDoesNotExistException ex) {
+            return new ResponseEntity<>(ex.getMessage(), HttpStatus.NOT_FOUND);
+        } catch (SeatNotAvailableException ex) {
+            return new ResponseEntity<>(ex.getMessage(), HttpStatus.NOT_ACCEPTABLE);
+        }
     }
 
     @PostMapping(path = "/reserve")
@@ -46,6 +51,23 @@ public class BookingController {
             return new ResponseEntity<>(ex.getMessage(), HttpStatus.NOT_FOUND);
         }
 
+    }
+
+    @PostMapping(path = "/scan", params = "code")
+    public ResponseEntity<Object> scanQrCode(@RequestParam String code) {
+        try {
+            bookingService.scanQrCode(code);
+        } catch (TicketNotFoundException tnfE) {
+            return new ResponseEntity<>(HttpStatus.NOT_FOUND);
+        } catch (TicketAlreadyCheckedInException taciE) {
+            return new ResponseEntity<>(HttpStatus.ALREADY_REPORTED);
+        } catch (TicketNotPaidException tnpE) {
+            return new ResponseEntity<>(HttpStatus.NOT_ACCEPTABLE);
+        } catch (Exception ex) {
+            return new ResponseEntity<>(HttpStatus.INTERNAL_SERVER_ERROR);
+        }
+
+        return new ResponseEntity<>(HttpStatus.OK);
     }
 
 }

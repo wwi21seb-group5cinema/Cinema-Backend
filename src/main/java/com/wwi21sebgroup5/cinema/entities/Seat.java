@@ -50,6 +50,7 @@ public class Seat {
     @Column
     private LocalDateTime expirationTimeStamp;
 
+
     public Seat(SeatType seatType, int row, int place) {
         this.seatType = seatType;
         this.row = row;
