@@ -29,16 +29,16 @@ public class Ticket {
     private Event event;
 
     @OneToOne
-    @JoinColumn(name = "qrcode_id", referencedColumnName = "id")
-    private QR_Code qr_code;
-
-    @OneToOne
     @JoinColumn(name = "seat_id", referencedColumnName = "id")
     private Seat seat;
 
     @ManyToOne(cascade = CascadeType.REFRESH)
     @JoinColumn(name = "booking_id", referencedColumnName = "id")
     private Booking booking;
+
+    @Column
+    @NotNull
+    private boolean scanned = false;
 
     public Ticket(Event pEvent, Seat pSeat) {
         event = pEvent;
@@ -54,7 +54,6 @@ public class Ticket {
 
         if (!Objects.equals(id, ticket.id)) return false;
         if (!Objects.equals(event, ticket.event)) return false;
-        if (!Objects.equals(qr_code, ticket.qr_code)) return false;
         if (!Objects.equals(seat, ticket.seat)) return false;
         return Objects.equals(booking, ticket.booking);
     }
@@ -63,7 +62,6 @@ public class Ticket {
     public int hashCode() {
         int result = id != null ? id.hashCode() : 0;
         result = 31 * result + (event != null ? event.hashCode() : 0);
-        result = 31 * result + (qr_code != null ? qr_code.hashCode() : 0);
         result = 31 * result + (seat != null ? seat.hashCode() : 0);
         result = 31 * result + (booking != null ? booking.hashCode() : 0);
         return result;

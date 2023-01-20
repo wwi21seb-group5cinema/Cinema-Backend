@@ -9,8 +9,6 @@ import com.wwi21sebgroup5.cinema.exceptions.*;
 import com.wwi21sebgroup5.cinema.repositories.BookingRepository;
 
 import java.time.LocalDateTime;
-import java.util.List;
-import java.util.UUID;
 
 import com.wwi21sebgroup5.cinema.requestObjects.BookingRequestObject;
 import com.wwi21sebgroup5.cinema.requestObjects.FinalBookingRequestObject;
@@ -19,7 +17,9 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
 
+import java.util.List;
 import java.util.Optional;
+import java.util.UUID;
 
 @Service
 public class BookingService {
@@ -37,7 +37,7 @@ public class BookingService {
     public Booking findBookingById(UUID id) throws BookingNotFoundException {
         Optional<Booking> foundBooking = bookingRepository.findBookingById(id);
 
-        if(foundBooking.isEmpty()){
+        if (foundBooking.isEmpty()) {
             throw new BookingNotFoundException(id);
         }
         return foundBooking.get();
@@ -51,21 +51,21 @@ public class BookingService {
         return new ResponseEntity<>(expTimeStamp, HttpStatus.OK);
     }
 
-    public ResponseEntity<?> reserveSeats(List<FinalBookingRequestObject> seatsToReserve) throws UserDoesNotExistException{
+    public ResponseEntity<?> reserveSeats(List<FinalBookingRequestObject> seatsToReserve) throws UserDoesNotExistException {
         //Set user into Booking Entity
         UUID userID = seatsToReserve.get(0).getUserID();
         Optional<User> u = userService.getUserById(userID);
-        if(u.isEmpty()){
+        if (u.isEmpty()) {
             throw new UserDoesNotExistException(userID);
         }
         Booking b = new Booking(u.get());
         b = bookingRepository.save(b);
         //try to Reserve Seats and link booking b with corresponding tickets
-        try{
+        try {
             List<Ticket> ticketsOfEvent = ticketService.getByEventId(seatsToReserve.get(0).getEventID());
-            for(Ticket t : ticketsOfEvent){
-                for(FinalBookingRequestObject o : seatsToReserve){
-                    if(o.getRow() == t.getSeat().getRow() && o.getPlace() == t.getSeat().getPlace()){
+            for (Ticket t : ticketsOfEvent) {
+                for (FinalBookingRequestObject o : seatsToReserve) {
+                    if (o.getRow() == t.getSeat().getRow() && o.getPlace() == t.getSeat().getPlace()) {
                         Seat currSeat = t.getSeat();
                         currSeat.setSeatState(SeatState.RESERVED);
                         t.setBooking(b);
@@ -76,9 +76,23 @@ public class BookingService {
             }
 
             bookingRepository.save(b);
-        }catch(TicketNotFoundException ex){
+        } catch (TicketNotFoundException ex) {
             return new ResponseEntity<>(ex.getMessage(), HttpStatus.NOT_FOUND);
         }
         return new ResponseEntity<>(seatsToReserve, HttpStatus.OK);
     }
+
+    public void scanQrCode(String code) throws TicketNotFoundException, TicketAlreadyCheckedInException,
+            TicketNotPaidException {
+        Ticket ticket = ticketService.findById(UUID.fromString(code));
+
+        if (ticket.isScanned()) {
+            throw new TicketAlreadyCheckedInException(code);
+        } else if (!ticket.getSeat().getSeatState().equals(SeatState.PAID)) {
+            throw new TicketNotPaidException(code);
+        }
+
+        ticket.setScanned(true);
+    }
+
 }
