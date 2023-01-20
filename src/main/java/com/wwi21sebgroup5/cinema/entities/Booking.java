@@ -7,6 +7,7 @@ import lombok.NoArgsConstructor;
 import lombok.Setter;
 import lombok.ToString;
 
+import java.util.Objects;
 import java.util.UUID;
 
 @NoArgsConstructor
@@ -36,4 +37,23 @@ public class Booking {
         this.user = user;
     }
 
+    @Override
+    public boolean equals(Object o){
+        if(this == o) return true;
+        if(o == null || getClass() != o.getClass()) return false;
+
+        Booking booking = (Booking) o;
+
+        if(!Objects.equals(id, booking.id)) return false;
+        if(!Objects.equals(user, booking.user)) return false;
+        return Objects.equals(invoice, booking.invoice);
+    }
+
+    @Override
+    public int hashCode(){
+        int result = id != null ? id.hashCode() : 0;
+        result = 31 * result + (user != null ? user.hashCode() : 0);
+        result = 31 * result + (invoice != null ? invoice.hashCode() : 0);
+        return result;
+    }
 }
