@@ -47,10 +47,10 @@ public class BookingController {
 
     }
 
-    @PostMapping(path = "/scan", params = "barcode")
-    public ResponseEntity<Object> scanQrCode(@RequestParam String barcode) {
+    @PostMapping(path = "/scan", params = "code")
+    public ResponseEntity<Object> scanQrCode(@RequestParam String code) {
         try {
-            bookingService.scanQrCode(barcode);
+            bookingService.scanQrCode(code);
         } catch (TicketNotFoundException tnfE) {
             return new ResponseEntity<>(HttpStatus.NOT_FOUND);
         } catch (TicketAlreadyCheckedInException taciE) {
