@@ -7,9 +7,6 @@ import com.wwi21sebgroup5.cinema.entities.User;
 import com.wwi21sebgroup5.cinema.enums.SeatState;
 import com.wwi21sebgroup5.cinema.exceptions.*;
 import com.wwi21sebgroup5.cinema.repositories.BookingRepository;
-
-import java.time.LocalDateTime;
-
 import com.wwi21sebgroup5.cinema.requestObjects.BookingRequestObject;
 import com.wwi21sebgroup5.cinema.requestObjects.FinalBookingRequestObject;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -17,14 +14,20 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
 
+import java.time.LocalDateTime;
 import java.util.List;
 import java.util.Optional;
 import java.util.UUID;
 
 @Service
 public class BookingService {
+
     @Autowired
     private BookingRepository bookingRepository;
+
+    @Autowired
+    private EmailService emailService;
+
     @Autowired
     private TicketService ticketService;
 
@@ -43,7 +46,7 @@ public class BookingService {
         return foundBooking.get();
     }
 
-    public ResponseEntity<Object> temporarilyReserveSeats(List<BookingRequestObject> seatsToReserve) throws SeatDoesNotExistException, SeatNotAvailableException{
+    public ResponseEntity<Object> temporarilyReserveSeats(List<BookingRequestObject> seatsToReserve) throws SeatDoesNotExistException, SeatNotAvailableException {
         LocalDateTime expTimeStamp = LocalDateTime.now().plusMinutes(15);
         for (BookingRequestObject s : seatsToReserve) {
             ticketService.tempReserveSeat(s.getEventID(), s.getRow(), s.getPlace(), expTimeStamp);
@@ -58,11 +61,14 @@ public class BookingService {
         if (u.isEmpty()) {
             throw new UserDoesNotExistException(userID);
         }
+
         Booking b = new Booking(u.get());
         b = bookingRepository.save(b);
+
         //try to Reserve Seats and link booking b with corresponding tickets
+        List<Ticket> ticketsOfEvent;
         try {
-            List<Ticket> ticketsOfEvent = ticketService.getByEventId(seatsToReserve.get(0).getEventID());
+            ticketsOfEvent = ticketService.getByEventId(seatsToReserve.get(0).getEventID());
             for (Ticket t : ticketsOfEvent) {
                 for (FinalBookingRequestObject o : seatsToReserve) {
                     if (o.getRow() == t.getSeat().getRow() && o.getPlace() == t.getSeat().getPlace()) {
@@ -79,6 +85,8 @@ public class BookingService {
         } catch (TicketNotFoundException ex) {
             return new ResponseEntity<>(ex.getMessage(), HttpStatus.NOT_FOUND);
         }
+
+        emailService.sendBookingConfirmation(ticketsOfEvent, b);
         return new ResponseEntity<>(seatsToReserve, HttpStatus.OK);
     }
 

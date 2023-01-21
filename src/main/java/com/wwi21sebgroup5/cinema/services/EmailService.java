@@ -13,6 +13,13 @@ import org.springframework.stereotype.Service;
 import org.thymeleaf.TemplateEngine;
 import org.thymeleaf.context.Context;
 
+import javax.imageio.ImageIO;
+import java.awt.image.RenderedImage;
+import java.io.ByteArrayOutputStream;
+import java.io.IOException;
+import java.io.UncheckedIOException;
+import java.util.ArrayList;
+import java.util.Base64;
 import java.util.List;
 
 @Service
@@ -34,6 +41,8 @@ public class EmailService {
     @Value("${frontend.url}")
     private String frontendUrl;
 
+    @Autowired
+    private QrCodeService qrCodeService;
     @Autowired
     private JavaMailSender javaMailSender;
     @Autowired
@@ -86,9 +95,28 @@ public class EmailService {
         context.setVariable("event", ticketList.get(0).getEvent());
         context.setVariable("tickets", ticketList);
         context.setVariable("movie", ticketList.get(0).getEvent().getMovie());
+
+        // qr codes
+        List<String> base64images = new ArrayList<>();
+
+        for (Ticket ticket : ticketList) {
+            base64images.add(imgToBase64String(
+                    qrCodeService.generateQRCodeImage(ticket.getId().toString())
+            ));
+        }
+        context.setVariable("codes", base64images);
         String msgBody = templateEngine.process(CONFIRM_BOOKING, context);
 
         sendMail(booking.getUser().getEmail(), BOOKING_SUBJECT, msgBody);
+    }
+
+    private String imgToBase64String(final RenderedImage img) {
+        try (ByteArrayOutputStream os = new ByteArrayOutputStream()) {
+            ImageIO.write(img, "png", os);
+            return Base64.getEncoder().encodeToString(os.toByteArray());
+        } catch (final IOException ioe) {
+            throw new UncheckedIOException(ioe);
+        }
     }
 
 }

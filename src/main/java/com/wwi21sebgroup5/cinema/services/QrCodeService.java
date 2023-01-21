@@ -1,6 +1,7 @@
 package com.wwi21sebgroup5.cinema.services;
 
 import com.google.zxing.BarcodeFormat;
+import com.google.zxing.WriterException;
 import com.google.zxing.client.j2se.MatrixToImageWriter;
 import com.google.zxing.common.BitMatrix;
 import com.google.zxing.qrcode.QRCodeWriter;
@@ -15,9 +16,14 @@ public class QrCodeService {
     @Autowired
     private QRCodeWriter barcodeWriter;
 
-    public BufferedImage generateQRCodeImage(String barcodeText) throws Exception {
-        BitMatrix bitMatrix =
-                barcodeWriter.encode(barcodeText, BarcodeFormat.QR_CODE, 200, 200);
+    public BufferedImage generateQRCodeImage(String barcodeText) {
+        BitMatrix bitMatrix;
+        
+        try {
+            bitMatrix = barcodeWriter.encode(barcodeText, BarcodeFormat.QR_CODE, 200, 200);
+        } catch (WriterException e) {
+            throw new RuntimeException(e);
+        }
 
         return MatrixToImageWriter.toBufferedImage(bitMatrix);
     }
