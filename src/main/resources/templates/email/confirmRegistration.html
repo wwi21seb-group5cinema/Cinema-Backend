@@ -17,7 +17,7 @@
 </ul>
 <p>Um alle Funktionen unserer Webseite benutzen zu können, musst du noch deinen Account bestätigen, drücke hierfür
     auf den folgenden Link: </p>
-<a th:href="@{http://__${frontendUrl}__/confirm/__${confirmationToken}__}">Confirm</a>
+<a th:href="@{https://wwi21seb-group5cinema.azurewebsites.net/confirm/{token}(token=${confirmationToken})}">Confirm</a>
 <br>
 <p>
     Mit freundlichen Grüßen, <br/>
