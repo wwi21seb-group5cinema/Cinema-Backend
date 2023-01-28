@@ -9,8 +9,6 @@ import java.util.UUID;
 
 public interface ActsInRepository extends JpaRepository<ActsIn, UUID> {
 
-    List<ActsIn> findByMovie(Movie movie
-    );
-
+    List<ActsIn> findByMovie(Movie movie);
 
 }
