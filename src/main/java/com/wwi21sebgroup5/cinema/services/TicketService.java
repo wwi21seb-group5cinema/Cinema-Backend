@@ -62,7 +62,7 @@ public class TicketService {
         return foundTickets.get();
     }
 
-    public void tempReserveSeat(UUID eventID, int row, int place, LocalDateTime expTimeStamp) throws SeatDoesNotExistException, SeatNotAvailableException{
+    public void tempReserveSeat(UUID eventID, int row, int place, LocalDateTime expTimeStamp, UUID userId) throws SeatDoesNotExistException, SeatNotAvailableException{
         Optional<Ticket> foundTicket = ticketRepository.findByEvent_IdAndSeat_RowAndSeat_Place(eventID, row, place);
         if(foundTicket.isEmpty()){
             throw new SeatDoesNotExistException(row, place);
@@ -74,7 +74,13 @@ public class TicketService {
         }
         currSeat.setSeatState(SeatState.TEMPORAL_RESERVED);
         currSeat.setExpirationTimeStamp(expTimeStamp);
+        currSeat.setUserId(userId);
         seatService.save(currSeat);
+    }
+
+    public void updateExpTimeStamp(UUID eventId, int row, int place, LocalDateTime expTimeStamp) {
+        Optional<Ticket> foundTicket = ticketRepository.findByEvent_IdAndSeat_RowAndSeat_Place(eventId, row, place);
+        foundTicket.get().getSeat().setExpirationTimeStamp(expTimeStamp);
     }
 
     public Ticket save(Ticket t) {

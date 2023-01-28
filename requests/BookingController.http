@@ -9,12 +9,12 @@ Content-Type: application/json
 
 [
   {
-    "eventID": "84dc61dc-9870-451b-987d-ee689e4a13b9",
+    "eventID": "0ac16971-0b8f-4000-92f9-aacd2eb261c7",
     "row": 1,
     "place": 1
   },
   {
-    "eventID": "84dc61dc-9870-451b-987d-ee689e4a13b9",
+    "eventID": "0ac16971-0b8f-4000-92f9-aacd2eb261c7",
     "row": 1,
     "place": 2
   }

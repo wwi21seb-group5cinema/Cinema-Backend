@@ -1,9 +1,6 @@
 package com.wwi21sebgroup5.cinema.services;
 
-import com.wwi21sebgroup5.cinema.entities.Booking;
-import com.wwi21sebgroup5.cinema.entities.Seat;
-import com.wwi21sebgroup5.cinema.entities.Ticket;
-import com.wwi21sebgroup5.cinema.entities.User;
+import com.wwi21sebgroup5.cinema.entities.*;
 import com.wwi21sebgroup5.cinema.enums.SeatState;
 import com.wwi21sebgroup5.cinema.exceptions.*;
 import com.wwi21sebgroup5.cinema.repositories.BookingRepository;
@@ -34,6 +31,9 @@ public class BookingService {
     @Autowired
     private UserService userService;
 
+    @Autowired
+    private EventService eventService;
+
     public Booking findBookingById(UUID id) throws BookingNotFoundException {
         Optional<Booking> foundBooking = bookingRepository.findBookingById(id);
 
@@ -46,7 +46,14 @@ public class BookingService {
     public ResponseEntity<Object> temporarilyReserveSeats(List<BookingRequestObject> seatsToReserve) throws SeatDoesNotExistException, SeatNotAvailableException{
         LocalDateTime expTimeStamp = LocalDateTime.now().plusMinutes(15);
         for (BookingRequestObject s : seatsToReserve) {
-            ticketService.tempReserveSeat(s.getEventID(), s.getRow(), s.getPlace(), expTimeStamp);
+            ticketService.tempReserveSeat(s.getEventID(), s.getRow(), s.getPlace(), expTimeStamp, s.getUserId());
+        }
+        // Take the first Item of list for eventId since it has to be same in any Item of the list anyway
+        Optional<Event> foundEvent = eventService.findById(seatsToReserve.get(0).getEventID());
+        for (Ticket t : foundEvent.get().getTickets()){
+            if(t.getSeat().getUserId() == seatsToReserve.get(0).getUserId()){ //works accordingly to eventId
+                ticketService.updateExpTimeStamp(seatsToReserve.get(0).getEventID(), t.getSeat().getRow(), t.getSeat().getPlace(), expTimeStamp);
+            }
         }
         return new ResponseEntity<>(expTimeStamp.toString(), HttpStatus.OK);
     }
