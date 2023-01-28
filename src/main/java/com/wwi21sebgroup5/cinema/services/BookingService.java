@@ -48,7 +48,7 @@ public class BookingService {
         for (BookingRequestObject s : seatsToReserve) {
             ticketService.tempReserveSeat(s.getEventID(), s.getRow(), s.getPlace(), expTimeStamp);
         }
-        return new ResponseEntity<>(expTimeStamp, HttpStatus.OK);
+        return new ResponseEntity<>(expTimeStamp.toString(), HttpStatus.OK);
     }
 
     public ResponseEntity<?> reserveSeats(List<FinalBookingRequestObject> seatsToReserve) throws UserDoesNotExistException {

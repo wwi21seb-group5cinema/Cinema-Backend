@@ -12,9 +12,9 @@ Content-Type: application/json
   "directorFirstName": "Quentin",
   "directorLastName": "Tarrentino",
   "actors": {
-    "84e42995-8769-48c3-82ef-e54fc36072b7": "Manfred Schneider"
+    "5acce576-f74e-4e0b-9689-8bebd8290a67": "Manfred Schneider"
   },
-  "image": "6f9a6d7d-972c-4216-b83c-04fd1797108e",
+  "image": "c35d2d69-6f6b-4630-a7c7-2d83242570a2",
   "fsk": 12,
   "genre": "Action",
   "name": "Der große Testfilm",
