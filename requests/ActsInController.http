@@ -1,0 +1,3 @@
+### Get all Actors for film
+GET http://localhost:8082/v1/actsIn/getByMovie?movieId=63a3c4d0-cc95-4c6f-b710-85b3f3b7ea27
+Content-Type: application/json
