@@ -3,9 +3,13 @@ package com.wwi21sebgroup5.cinema.components;
 import com.wwi21sebgroup5.cinema.entities.City;
 import com.wwi21sebgroup5.cinema.entities.Genre;
 import com.wwi21sebgroup5.cinema.entities.SeatType;
+import com.wwi21sebgroup5.cinema.requestObjects.TmdbMovieRequestObject;
 import com.wwi21sebgroup5.cinema.services.CityService;
 import com.wwi21sebgroup5.cinema.services.GenreService;
 import com.wwi21sebgroup5.cinema.services.SeatTypeService;
+import com.wwi21sebgroup5.cinema.services.TmdbService;
+import info.movito.themoviedbapi.TmdbApi;
+import info.movito.themoviedbapi.model.MovieDb;
 import jakarta.annotation.PostConstruct;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
@@ -20,12 +24,19 @@ public class Setup {
     private static final String SEAT_TYPE_FILE = "static/data/seatTypes.csv";
 
     @Autowired
-    CityService cityService;
-    @Autowired
-    GenreService genreService;
+    private CityService cityService;
 
     @Autowired
-    SeatTypeService seatTypeService;
+    private GenreService genreService;
+
+    @Autowired
+    private SeatTypeService seatTypeService;
+
+    @Autowired
+    private TmdbService tmdbService;
+
+    @Autowired
+    private TmdbApi tmdbApi;
 
     @Autowired
     private CsvDataLoader csvDataLoader;
@@ -38,6 +49,7 @@ public class Setup {
         setupCities();
         setupGenres();
         setupSeatTypes();
+        setupMovies();
     }
 
     /**
@@ -68,6 +80,19 @@ public class Setup {
         for (SeatType seatType : seatTypes) {
             seatTypeService.addSeatType(seatType);
         }
+    }
+
+    private void setupMovies() {
+        List<MovieDb> movies = tmdbApi.getMovies()
+                .getNowPlayingMovies("de-DE", 1, "DE").getResults();
+
+        movies.forEach(movie -> {
+            try {
+                tmdbService.addMovie(new TmdbMovieRequestObject(movie.getId()));
+            } catch (Exception e) {
+                System.out.println("Error while adding movie");
+            }
+        });
     }
 
 }
