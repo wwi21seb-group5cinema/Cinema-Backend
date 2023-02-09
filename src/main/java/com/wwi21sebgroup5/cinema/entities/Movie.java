@@ -7,7 +7,6 @@ import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
 import lombok.ToString;
-import org.hibernate.validator.constraints.Length;
 
 import java.time.LocalDate;
 import java.util.Objects;
@@ -68,8 +67,7 @@ public class Movie {
     private String name;
 
     @NotNull
-    @Column
-    @Length(max = 1000)
+    @Column(length = 1500)
     private String description;
 
     @NotNull
