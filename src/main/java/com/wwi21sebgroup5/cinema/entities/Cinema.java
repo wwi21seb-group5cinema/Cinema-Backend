@@ -41,7 +41,7 @@ public class Cinema {
     @ToString.Exclude
     private List<CinemaHall> halls;
 
-    @ManyToOne(fetch = FetchType.LAZY, cascade = CascadeType.PERSIST)
+    @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "city_id", referencedColumnName = "id")
     @ToString.Exclude
     private City city;
@@ -61,10 +61,6 @@ public class Cinema {
     @Transient
     private int cinemaRooms;
 
-    public int getCinemaRooms() {
-        return halls.size();
-    }
-
     public Cinema(String name,
                   List<CinemaHall> halls,
                   City city,
@@ -77,6 +73,10 @@ public class Cinema {
         this.street = street;
         this.houseNumber = houseNumber;
         this.floors = floors;
+    }
+
+    public int getCinemaRooms() {
+        return halls.size();
     }
 
     @Override

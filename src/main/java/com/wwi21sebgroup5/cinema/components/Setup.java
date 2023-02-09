@@ -1,19 +1,23 @@
 package com.wwi21sebgroup5.cinema.components;
 
+import com.wwi21sebgroup5.cinema.entities.Cinema;
 import com.wwi21sebgroup5.cinema.entities.City;
 import com.wwi21sebgroup5.cinema.entities.Genre;
 import com.wwi21sebgroup5.cinema.entities.SeatType;
+import com.wwi21sebgroup5.cinema.exceptions.CinemaAlreadyExistsException;
+import com.wwi21sebgroup5.cinema.exceptions.CinemaNotFoundException;
+import com.wwi21sebgroup5.cinema.requestObjects.CinemaHallRequestObject;
+import com.wwi21sebgroup5.cinema.requestObjects.CinemaRequestObject;
+import com.wwi21sebgroup5.cinema.requestObjects.RegistrationRequestObject;
 import com.wwi21sebgroup5.cinema.requestObjects.TmdbMovieRequestObject;
-import com.wwi21sebgroup5.cinema.services.CityService;
-import com.wwi21sebgroup5.cinema.services.GenreService;
-import com.wwi21sebgroup5.cinema.services.SeatTypeService;
-import com.wwi21sebgroup5.cinema.services.TmdbService;
+import com.wwi21sebgroup5.cinema.services.*;
 import info.movito.themoviedbapi.TmdbApi;
 import info.movito.themoviedbapi.model.MovieDb;
 import jakarta.annotation.PostConstruct;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
+import java.util.ArrayList;
 import java.util.List;
 
 @Component
@@ -27,10 +31,22 @@ public class Setup {
     private CityService cityService;
 
     @Autowired
+    private CinemaService cinemaService;
+
+    @Autowired
+    private CinemaHallService cinemaHallService;
+
+    @Autowired
     private GenreService genreService;
 
     @Autowired
     private SeatTypeService seatTypeService;
+
+    @Autowired
+    private LoginService loginService;
+
+    @Autowired
+    private TokenService tokenService;
 
     @Autowired
     private TmdbService tmdbService;
@@ -49,6 +65,8 @@ public class Setup {
         setupCities();
         setupGenres();
         setupSeatTypes();
+        setupCinemaWithHalls();
+        setupAdminUser();
         setupMovies();
     }
 
@@ -93,6 +111,52 @@ public class Setup {
                 System.out.println("Error while adding movie");
             }
         });
+    }
+
+    private void setupCinemaWithHalls() {
+        CinemaRequestObject cinemaRequestObject = new CinemaRequestObject(
+                "Cineverse 5", "68259", "Mannheim", "Rentnerstraße", "69", 3
+        );
+
+        Cinema cinema;
+        try {
+            cinema = cinemaService.add(cinemaRequestObject);
+        } catch (CinemaAlreadyExistsException e) {
+            throw new RuntimeException("Well, that didn't work, did it?");
+        }
+
+        List<CinemaHallRequestObject> requestObjects = new ArrayList<>();
+        requestObjects.add(new CinemaHallRequestObject(
+                cinema.getId(), 12, 12, "SAP-Saal", 0
+        ));
+        requestObjects.add(new CinemaHallRequestObject(
+                cinema.getId(), 10, 13, "DHBW-Saal", 1
+        ));
+        requestObjects.add(new CinemaHallRequestObject(
+                cinema.getId(), 10, 12, "Top-G-Stage", 2
+        ));
+
+        requestObjects.forEach(hall -> {
+            try {
+                cinemaHallService.addCinemaHall(hall);
+            } catch (CinemaNotFoundException e) {
+                throw new RuntimeException("Well, that didn't work, did it?");
+            }
+        });
+    }
+
+    private void setupAdminUser() {
+        RegistrationRequestObject requestObject = new RegistrationRequestObject(
+                "admin", "admin123", "admin", "admin", "admin@cineverse.com",
+                "68259", "Mannheim", "Rentnerstraße", "69", true
+        );
+
+        try {
+            loginService.register(requestObject);
+            loginService.confirmToken(tokenService.getAll().get(0).getToken());
+        } catch (Exception e) {
+            throw new RuntimeException("Well, that didn't work, did it?");
+        }
     }
 
 }
