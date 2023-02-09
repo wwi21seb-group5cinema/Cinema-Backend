@@ -65,7 +65,7 @@ public class LoginService {
         userService.save(newUser);
         String token = UUID.randomUUID().toString();
         Token registrationToken = tokenService.save(new Token(token, newUser));
-        emailService.sendRegistrationConfirmation(newUser, token);
+        //emailService.sendRegistrationConfirmation(newUser, token);
 
         return newUser;
     }
