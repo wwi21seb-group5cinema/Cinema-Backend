@@ -1,6 +1,7 @@
 package com.wwi21sebgroup5.cinema.services;
 
 import com.wwi21sebgroup5.cinema.entities.Booking;
+import com.wwi21sebgroup5.cinema.entities.Event;
 import com.wwi21sebgroup5.cinema.entities.Ticket;
 import com.wwi21sebgroup5.cinema.entities.User;
 import jakarta.mail.internet.MimeMessage;
@@ -87,19 +88,24 @@ public class EmailService {
 
     public void sendBookingConfirmation(List<Ticket> ticketList, Booking booking) {
         Context context = new Context();
+        Event event = ticketList.get(0).getEvent();
         context.setVariable("booking", booking);
-        context.setVariable("event", ticketList.get(0).getEvent());
+        context.setVariable("event", event);
         context.setVariable("tickets", ticketList);
-        context.setVariable("movie", ticketList.get(0).getEvent().getMovie());
+        context.setVariable("movie", event.getMovie());
+
+        // backdrop
+        if (!event.getMovie().getExternalImage()) {
+            context.setVariable("backdrop", Base64.getEncoder().encodeToString(
+                    event.getMovie().getImage().getImageData()
+            ));
+        }
 
         // qr codes
         List<String> base64images = new ArrayList<>();
+        ticketList.forEach(ticket -> base64images.add(
+                imgToBase64String(qrCodeService.generateQRCodeImage(ticket.getId().toString()))));
 
-        for (Ticket ticket : ticketList) {
-            base64images.add(imgToBase64String(
-                    qrCodeService.generateQRCodeImage(ticket.getId().toString())
-            ));
-        }
         context.setVariable("codes", base64images);
         String msgBody = templateEngine.process(CONFIRM_BOOKING, context);
 

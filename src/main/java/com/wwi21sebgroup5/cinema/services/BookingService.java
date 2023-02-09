@@ -15,6 +15,7 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
 
 import java.time.LocalDateTime;
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
 import java.util.UUID;
@@ -66,9 +67,9 @@ public class BookingService {
         b = bookingRepository.save(b);
 
         //try to Reserve Seats and link booking b with corresponding tickets
-        List<Ticket> ticketsOfEvent;
+        List<Ticket> bookedTickets = new ArrayList<>();
         try {
-            ticketsOfEvent = ticketService.getByEventId(seatsToReserve.get(0).getEventID());
+            List<Ticket> ticketsOfEvent = ticketService.getByEventId(seatsToReserve.get(0).getEventID());
             for (Ticket t : ticketsOfEvent) {
                 for (FinalBookingRequestObject o : seatsToReserve) {
                     if (o.getRow() == t.getSeat().getRow() && o.getPlace() == t.getSeat().getPlace()) {
@@ -77,6 +78,7 @@ public class BookingService {
                         t.setBooking(b);
                         seatService.save(currSeat);
                         ticketService.save(t);
+                        bookedTickets.add(t);
                     }
                 }
             }
@@ -86,7 +88,7 @@ public class BookingService {
             return new ResponseEntity<>(ex.getMessage(), HttpStatus.NOT_FOUND);
         }
 
-        emailService.sendBookingConfirmation(ticketsOfEvent, b);
+        emailService.sendBookingConfirmation(bookedTickets, b);
         return new ResponseEntity<>(seatsToReserve, HttpStatus.OK);
     }
 

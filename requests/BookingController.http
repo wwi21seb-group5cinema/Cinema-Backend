@@ -3,18 +3,48 @@ GET http://localhost:8082/v1/booking/get?id=
 
 
 
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 ### temp Reserve given Seats
 POST http://localhost:8082/v1/booking/tempReserve
 Content-Type: application/json
 
 [
   {
-    "eventID": "84dc61dc-9870-451b-987d-ee689e4a13b9",
+    "eventID": "15c5acc2-d58d-4de7-a818-6047ad51d138",
     "row": 1,
     "place": 1
   },
   {
-    "eventID": "84dc61dc-9870-451b-987d-ee689e4a13b9",
+    "eventID": "f0352246-7d78-423c-8a79-de70f0e6162b",
     "row": 1,
     "place": 2
   }
@@ -26,18 +56,21 @@ Content-Type: application/json
 
 [
   {
-    "userID": "775b778a-8feb-48df-9527-28e54675937e",
-    "eventID": "b93fbf96-7a02-457b-8811-11145c2d8c3a",
+    "userID": "a1814b5f-0d73-4b82-8a21-217961e1f41f",
+    "eventID": "271b0f91-e7e3-4c09-9186-e730185cb461",
     "row": 1,
     "place": 1
   },
   {
-    "userID": "b93fbf96-7a02-457b-8811-11145c2d8c3a",
-    "eventID": "4e6f9d30-64ee-431b-b4b5-c5dd1d88ee99",
+    "userID": "a1814b5f-0d73-4b82-8a21-217961e1f41f",
+    "eventID": "271b0f91-e7e3-4c09-9186-e730185cb461",
     "row": 1,
     "place": 2
   }
 ]
+
+### get qr code (only for testing purposes)
+GET http://localhost:8082/v1/booking/test?ticketId=9ea881a3-273b-4d66-a8be-498c29192c38
 
 ### scan qr code
 POST http://localhost:8082/v1/booking/scan?code={{code}}

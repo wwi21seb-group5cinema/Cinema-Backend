@@ -5,8 +5,10 @@ import com.wwi21sebgroup5.cinema.exceptions.*;
 import com.wwi21sebgroup5.cinema.requestObjects.BookingRequestObject;
 import com.wwi21sebgroup5.cinema.requestObjects.FinalBookingRequestObject;
 import com.wwi21sebgroup5.cinema.services.BookingService;
+import com.wwi21sebgroup5.cinema.services.QrCodeService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
+import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
@@ -19,6 +21,9 @@ public class BookingController {
 
     @Autowired
     private BookingService bookingService;
+
+    @Autowired
+    private QrCodeService qrCodeService;
 
     @GetMapping(path = "/get", params = "id")
     public ResponseEntity<Object> getBookingByBookingId(@RequestParam UUID id) {
@@ -33,7 +38,7 @@ public class BookingController {
     }
 
     @PostMapping(path = "/tempReserve")
-    public ResponseEntity<Object> temporarilyReserveSeats(@RequestBody List<BookingRequestObject> SeatsToReserve){
+    public ResponseEntity<Object> temporarilyReserveSeats(@RequestBody List<BookingRequestObject> SeatsToReserve) {
         try {
             return bookingService.temporarilyReserveSeats(SeatsToReserve);
         } catch (SeatDoesNotExistException ex) {
@@ -53,18 +58,23 @@ public class BookingController {
 
     }
 
+    @GetMapping(path = "/test", params = "ticketId", produces = MediaType.IMAGE_PNG_VALUE)
+    public ResponseEntity<?> getQRCode(@RequestParam UUID ticketId) {
+        return new ResponseEntity<>(qrCodeService.generateQRCodeImage(ticketId.toString()), HttpStatus.OK);
+    }
+
     @PostMapping(path = "/scan", params = "code")
-    public ResponseEntity<Object> scanQrCode(@RequestParam String code) {
+    public ResponseEntity<String> scanQrCode(@RequestParam String code) {
         try {
             bookingService.scanQrCode(code);
         } catch (TicketNotFoundException tnfE) {
-            return new ResponseEntity<>(HttpStatus.NOT_FOUND);
+            return new ResponseEntity<>(tnfE.getMessage(), HttpStatus.NOT_FOUND);
         } catch (TicketAlreadyCheckedInException taciE) {
-            return new ResponseEntity<>(HttpStatus.ALREADY_REPORTED);
+            return new ResponseEntity<>(taciE.getMessage(), HttpStatus.ALREADY_REPORTED);
         } catch (TicketNotPaidException tnpE) {
-            return new ResponseEntity<>(HttpStatus.NOT_ACCEPTABLE);
+            return new ResponseEntity<>(tnpE.getMessage(), HttpStatus.NOT_ACCEPTABLE);
         } catch (Exception ex) {
-            return new ResponseEntity<>(HttpStatus.INTERNAL_SERVER_ERROR);
+            return new ResponseEntity<>(ex.getMessage(), HttpStatus.INTERNAL_SERVER_ERROR);
         }
 
         return new ResponseEntity<>(HttpStatus.OK);

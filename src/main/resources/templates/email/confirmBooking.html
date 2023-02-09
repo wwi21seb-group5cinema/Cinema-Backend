@@ -17,8 +17,12 @@
     <br>
     <div class="row">
         <div class="col-6">
-            <img alt="Movie Backdrop" class="img-fluid"
-                 th:src="${movie.image_url}">
+            <div th:switch="${movie.externalImage}">
+                <img alt="Movie Backdrop" class="img-fluid" th:case="true"
+                     th:src="@{${movie.image_url}}">
+                <img alt="Movie Backdrop" class="img-fluid" th:case="false"
+                     th:src="@{'data:image/png;base64, ' + ${backdrop}}">
+            </div>
             <ul class="list-group list-group-flush">
                 <li class="list-group-item" th:text="${movie.name}"></li>
                 <li class="list-group-item" th:text="${movie.description}"></li>
@@ -41,8 +45,7 @@
                 </thead>
                 <tbody th:each="ticket, iterStat: ${tickets}">
                 <tr>
-                    <th scope="row" th:text="${iterStat.index}"></th>
-                    <td th:text="${iterStat.index}"></td>
+                    <th scope="row" th:text="${iterStat.index} + 1"></th>
                     <td th:text="${ticket.seat.row}"></td>
                     <td th:text="${ticket.seat.place}"></td>
                     <td><img alt="QR-Code" th:src="@{'data:image/png;base64, ' + ${codes[iterStat.index]}}"/></td>
@@ -51,14 +54,13 @@
                 </tbody>
             </table>
             <div class="card">
-                <img alt="User logo" class="card-img-top" src="">
                 <div class="card-body">
                     <h4 class="card-title align-self-center" th:text="${booking.user.userName}"></h4>
                     <ul class="list-group list-group-flush">
                         <li class="list-group-item" th:text="${booking.user.firstName}"></li>
                         <li class="list-group-item" th:text="${booking.user.lastName}"></li>
                         <li class="list-group-item"
-                            th:text="${booking.user.city}, ${booking.user.street} ${booking.user.houseNumber}"></li>
+                            th:text="${booking.user.city.plz} + ' ' + ${booking.user.city.getName()} + ', ' + ${booking.user.street} + ' ' + ${booking.user.houseNumber}"></li>
                     </ul>
                 </div>
             </div>

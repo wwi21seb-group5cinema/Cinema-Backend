@@ -17,15 +17,12 @@ public class QrCodeService {
     private QRCodeWriter barcodeWriter;
 
     public BufferedImage generateQRCodeImage(String barcodeText) {
-        BitMatrix bitMatrix;
-        
         try {
-            bitMatrix = barcodeWriter.encode(barcodeText, BarcodeFormat.QR_CODE, 200, 200);
+            BitMatrix bitMatrix = barcodeWriter.encode(barcodeText, BarcodeFormat.QR_CODE, 200, 200);
+            return MatrixToImageWriter.toBufferedImage(bitMatrix);
         } catch (WriterException e) {
             throw new RuntimeException(e);
         }
-
-        return MatrixToImageWriter.toBufferedImage(bitMatrix);
     }
 
 }
