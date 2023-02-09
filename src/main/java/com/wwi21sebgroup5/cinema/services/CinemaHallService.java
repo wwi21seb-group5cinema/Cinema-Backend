@@ -67,4 +67,7 @@ public class CinemaHallService {
         return cinemaHallRepository.findById(id);
     }
 
+    public List<CinemaHall> getAllCinemaHalls() {
+        return cinemaHallRepository.findAll();
+    }
 }
