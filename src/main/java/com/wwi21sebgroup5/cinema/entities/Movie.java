@@ -28,13 +28,13 @@ public class Movie {
     private UUID id;
 
     @NotNull
-    @ManyToOne(fetch = FetchType.LAZY, cascade = CascadeType.PERSIST)
+    @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "Producer_id", referencedColumnName = "id")
     @ToString.Exclude
     private Producer producer;
 
     @NotNull
-    @ManyToOne(cascade = CascadeType.PERSIST)
+    @ManyToOne
     @JoinColumn(name = "Director_id", referencedColumnName = "id")
     @ToString.Exclude
     private Director director;
