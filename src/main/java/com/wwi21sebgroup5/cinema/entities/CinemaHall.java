@@ -29,7 +29,7 @@ public class CinemaHall {
     @GeneratedValue(strategy = GenerationType.AUTO)
     private UUID id;
 
-    @ManyToOne(fetch = FetchType.LAZY, cascade = CascadeType.PERSIST)
+    @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "cinema_id", referencedColumnName = "id")
     @ToString.Exclude
     private Cinema cinema;

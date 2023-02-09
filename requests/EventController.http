@@ -23,7 +23,7 @@ POST http://localhost:8082/v1/event/add
 Content-Type: application/json
 
 {
-  "movieId": "1329d282-fca2-44ee-9c4f-9693e117333f",
-  "cinemaHallId": "38b17532-9813-4e35-a945-4b500de0a16d",
+  "movieId": "386d2115-3976-4f84-9e5f-13835808ca63",
+  "cinemaHallId": "26d4436b-b8df-48d7-8282-8b69c8b83b4d",
   "eventDateTime": "12-02-2023 18:00"
 }

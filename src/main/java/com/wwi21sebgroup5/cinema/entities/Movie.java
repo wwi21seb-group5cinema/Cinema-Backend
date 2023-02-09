@@ -7,7 +7,6 @@ import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
 import lombok.ToString;
-import org.hibernate.validator.constraints.Length;
 
 import java.time.LocalDate;
 import java.util.Objects;
@@ -28,13 +27,13 @@ public class Movie {
     private UUID id;
 
     @NotNull
-    @ManyToOne(fetch = FetchType.LAZY, cascade = CascadeType.PERSIST)
+    @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "Producer_id", referencedColumnName = "id")
     @ToString.Exclude
     private Producer producer;
 
     @NotNull
-    @ManyToOne(cascade = CascadeType.PERSIST)
+    @ManyToOne
     @JoinColumn(name = "Director_id", referencedColumnName = "id")
     @ToString.Exclude
     private Director director;
@@ -68,8 +67,7 @@ public class Movie {
     private String name;
 
     @NotNull
-    @Column
-    @Length(max = 1000)
+    @Column(length = 1500)
     private String description;
 
     @NotNull

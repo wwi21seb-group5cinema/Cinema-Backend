@@ -24,6 +24,7 @@ public class GenreService {
      * @param genre Genre to be persisted
      */
     public Genre save(Genre genre) {
-        return genreRepository.save(genre);
+        Optional<Genre> foundGenre = genreRepository.findByName(genre.getName());
+        return foundGenre.orElseGet(() -> genreRepository.save(genre));
     }
 }

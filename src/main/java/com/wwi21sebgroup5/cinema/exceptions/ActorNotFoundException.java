@@ -8,4 +8,8 @@ public class ActorNotFoundException extends Exception {
         super(String.format("Actor with the ID %s was not found", id));
     }
 
+    public ActorNotFoundException() {
+        super("No Actor was found");
+    }
+
 }
