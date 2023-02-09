@@ -217,6 +217,7 @@ public class TmdbService {
             resultList.addAll(resultsPage.getResults());
         }
 
+        resultList.forEach(result -> result.setBackdropPath(getImageUrlFromMovieDb(result)));
         return resultList;
     }
 
