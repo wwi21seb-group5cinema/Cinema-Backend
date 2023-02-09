@@ -29,31 +29,25 @@ public class Booking {
     @JoinColumn(name = "user_id", referencedColumnName = "id")
     private User user;
 
-    @OneToOne
-    private Invoice invoice;
-
-
-    public Booking(User user){
+    public Booking(User user) {
         this.user = user;
     }
 
     @Override
-    public boolean equals(Object o){
-        if(this == o) return true;
-        if(o == null || getClass() != o.getClass()) return false;
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (o == null || getClass() != o.getClass()) return false;
 
         Booking booking = (Booking) o;
 
-        if(!Objects.equals(id, booking.id)) return false;
-        if(!Objects.equals(user, booking.user)) return false;
-        return Objects.equals(invoice, booking.invoice);
+        if (!Objects.equals(id, booking.id)) return false;
+        return Objects.equals(user, booking.user);
     }
 
     @Override
-    public int hashCode(){
+    public int hashCode() {
         int result = id != null ? id.hashCode() : 0;
         result = 31 * result + (user != null ? user.hashCode() : 0);
-        result = 31 * result + (invoice != null ? invoice.hashCode() : 0);
         return result;
     }
 }

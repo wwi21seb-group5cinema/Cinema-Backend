@@ -30,7 +30,8 @@ public class SeatTypeService {
     }
 
     public SeatType addSeatType(SeatType seatType) {
-        return seatTypeRepository.save(seatType);
+        Optional<SeatType> foundSeatType = seatTypeRepository.findByName(seatType.getName());
+        return foundSeatType.orElseGet(() -> seatTypeRepository.save(seatType));
     }
 
     public Optional<SeatType> getByName(String name) {

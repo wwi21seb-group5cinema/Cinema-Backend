@@ -34,7 +34,7 @@ public class SeatBlueprint {
     @ToString.Exclude
     private SeatingPlan seatingPlan;
 
-    @ManyToOne(fetch = FetchType.LAZY, cascade = CascadeType.PERSIST)
+    @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "seattype_id", referencedColumnName = "id")
     @ToString.Exclude
     private SeatType seatType;

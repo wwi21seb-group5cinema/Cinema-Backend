@@ -62,13 +62,12 @@ public class CityService {
     }
 
 
-
     /**
      * Persists a given city in the database
      *
      * @param city City to be persisted
      */
     public City save(City city) {
-        return cityRepository.save(city);
+        return this.findByPlzAndName(city.getPlz(), city.getName());
     }
 }

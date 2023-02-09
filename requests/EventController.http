@@ -25,6 +25,5 @@ Content-Type: application/json
 {
   "movieId": "386d2115-3976-4f84-9e5f-13835808ca63",
   "cinemaHallId": "26d4436b-b8df-48d7-8282-8b69c8b83b4d",
-  "eventDay": "12-02-2023",
-  "eventTime": "18:00"
+  "eventDateTime": "12-02-2023 18:00"
 }
