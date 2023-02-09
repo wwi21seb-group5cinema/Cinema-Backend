@@ -6,6 +6,7 @@ import com.wwi21sebgroup5.cinema.entities.Genre;
 import com.wwi21sebgroup5.cinema.entities.SeatType;
 import com.wwi21sebgroup5.cinema.exceptions.CinemaAlreadyExistsException;
 import com.wwi21sebgroup5.cinema.exceptions.CinemaNotFoundException;
+import com.wwi21sebgroup5.cinema.exceptions.UserAlreadyExistsException;
 import com.wwi21sebgroup5.cinema.requestObjects.CinemaHallRequestObject;
 import com.wwi21sebgroup5.cinema.requestObjects.CinemaRequestObject;
 import com.wwi21sebgroup5.cinema.requestObjects.RegistrationRequestObject;
@@ -122,7 +123,9 @@ public class Setup {
         try {
             cinema = cinemaService.add(cinemaRequestObject);
         } catch (CinemaAlreadyExistsException e) {
-            throw new RuntimeException("Well, that didn't work, did it?");
+            cinema = cinemaService.getAllCinemas().get(0);
+        } catch (Exception e) {
+            throw new RuntimeException(e.getCause());
         }
 
         List<CinemaHallRequestObject> requestObjects = new ArrayList<>();
@@ -140,7 +143,7 @@ public class Setup {
             try {
                 cinemaHallService.addCinemaHall(hall);
             } catch (CinemaNotFoundException e) {
-                throw new RuntimeException("Well, that didn't work, did it?");
+                throw new RuntimeException(e.getCause());
             }
         });
     }
@@ -154,6 +157,8 @@ public class Setup {
         try {
             loginService.register(requestObject);
             loginService.confirmToken(tokenService.getAll().get(0).getToken());
+        } catch (UserAlreadyExistsException e) {
+            System.out.println("passt");
         } catch (Exception e) {
             throw new RuntimeException("Well, that didn't work, did it?");
         }
