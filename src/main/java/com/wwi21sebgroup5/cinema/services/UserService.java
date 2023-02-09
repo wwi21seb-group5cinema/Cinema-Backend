@@ -16,7 +16,6 @@ public class UserService {
     UserRepository userRepository;
 
     /**
-     *
      * @param id Id which shall be searched for in the database
      * @return Returns user in the form of an optional
      */
@@ -25,7 +24,6 @@ public class UserService {
     }
 
     /**
-     *
      * @param userName UserName which shall be searched for in the database
      * @return Returns user in the form of an optional
      */
@@ -34,7 +32,6 @@ public class UserService {
     }
 
     /**
-     *
      * @param email Email which shall be searched for in the database
      * @return Returns user in the form of an optional
      */
@@ -43,7 +40,6 @@ public class UserService {
     }
 
     /**
-     *
      * @return Returns all user in the database in the form of a list
      */
     public List<User> getAllUsers() {
@@ -52,9 +48,11 @@ public class UserService {
 
     /**
      * Persists given user in the databse
+     *
      * @param newUser User to be persisted
      */
     public void save(User newUser) {
         userRepository.save(newUser);
     }
+
 }

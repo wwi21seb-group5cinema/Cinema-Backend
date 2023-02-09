@@ -128,4 +128,19 @@ public class LoginService {
 
         emailService.sendTokenConfirmation(tokenToConfirm.getUser());
     }
+
+    public void forgotPassword(String email) throws EmailNotFoundException {
+        Optional<User> foundUser = userService.getUserByEmail(email);
+
+        if (foundUser.isPresent()) {
+            emailService.sendPasswordReset();
+        } else {
+            throw new EmailNotFoundException(email);
+        }
+    }
+
+    public void updateData(RegistrationRequestObject requestObject, UUID id) {
+
+    }
+
 }

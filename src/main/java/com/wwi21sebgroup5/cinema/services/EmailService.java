@@ -86,4 +86,6 @@ public class EmailService {
         sendMail(user.getEmail(), BOOKING_SUBJECT, msgBody);
     }
 
+    public void sendPasswordReset() {
+    }
 }

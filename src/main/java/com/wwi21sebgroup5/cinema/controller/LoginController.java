@@ -10,6 +10,8 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
+import java.util.UUID;
+
 @RestController
 @RequestMapping("/v1")
 public class LoginController {
@@ -61,6 +63,29 @@ public class LoginController {
             return new ResponseEntity<>(e.getMessage(), HttpStatus.ALREADY_REPORTED);
         } catch (Exception ex) {
             return new ResponseEntity<>(ex.getMessage(), HttpStatus.INTERNAL_SERVER_ERROR);
+        }
+
+        return new ResponseEntity<>(HttpStatus.OK);
+    }
+
+    @PostMapping(path = "forgotPassword", params = "email")
+    public ResponseEntity<Object> forgotPassword(@RequestParam String email) {
+        try {
+            loginService.forgotPassword(email);
+        } catch (EmailNotFoundException e) {
+            return new ResponseEntity<>(HttpStatus.NOT_FOUND);
+        }
+
+        return new ResponseEntity<>(HttpStatus.OK);
+    }
+
+    @PostMapping(path = "update", params = "id")
+    public ResponseEntity<Object> updateData(@RequestBody RegistrationRequestObject requestObject,
+                                             @RequestParam UUID id) {
+        try {
+            loginService.updateData(requestObject, id);
+        } catch (Exception e) {
+            return new ResponseEntity<>(HttpStatus.INTERNAL_SERVER_ERROR);
         }
 
         return new ResponseEntity<>(HttpStatus.OK);
