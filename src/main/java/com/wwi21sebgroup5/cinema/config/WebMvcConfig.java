@@ -6,6 +6,7 @@ import com.fasterxml.jackson.datatype.jsr310.JavaTimeModule;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.http.MediaType;
+import org.springframework.http.converter.BufferedImageHttpMessageConverter;
 import org.springframework.http.converter.ByteArrayHttpMessageConverter;
 import org.springframework.http.converter.HttpMessageConverter;
 import org.springframework.http.converter.json.MappingJackson2HttpMessageConverter;
@@ -34,6 +35,7 @@ public class WebMvcConfig implements WebMvcConfigurer {
     public void configureMessageConverters(List<HttpMessageConverter<?>> converters) {
         converters.add(jacksonMessageConverter());
         converters.add(byteArrayHttpMessageConverter());
+        converters.add(bufferedImageHttpMessageConverter());
         WebMvcConfigurer.super.configureMessageConverters(converters);
     }
 
@@ -42,6 +44,11 @@ public class WebMvcConfig implements WebMvcConfigurer {
         ByteArrayHttpMessageConverter arrayHttpMessageConverter = new ByteArrayHttpMessageConverter();
         arrayHttpMessageConverter.setSupportedMediaTypes(getSupportedMediaTypes());
         return arrayHttpMessageConverter;
+    }
+
+    @Bean
+    public BufferedImageHttpMessageConverter bufferedImageHttpMessageConverter() {
+        return new BufferedImageHttpMessageConverter();
     }
 
     private List<MediaType> getSupportedMediaTypes() {
