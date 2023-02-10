@@ -75,6 +75,8 @@ public class TmdbService {
             throw new TmdbMovieNotFoundException(requestObject.getTmdbMovieId());
         } else {
             movieDb = foundMovieDb.get();
+            Optional<Movie> foundMovie = movieRepository.findByName(movieDb.getTitle());
+            if (foundMovie.isPresent()) return foundMovie.get();
         }
 
         Producer producer = getProducerFromMovieDb(movieDb);
@@ -100,10 +102,11 @@ public class TmdbService {
             Optional<Actor> foundActor = actorService.findByNameAndFirstName(firstName, lastName);
             Actor actor = foundActor.orElseGet(() -> new Actor(firstName, lastName));
             ActsIn actsIn = new ActsIn(newMovie, actor, personCast.getCharacter());
+            newMovie = movieRepository.save(newMovie);
             actsInService.save(actsIn);
         }
 
-        return movieRepository.save(newMovie);
+        return newMovie;
     }
 
 
@@ -214,6 +217,7 @@ public class TmdbService {
             resultList.addAll(resultsPage.getResults());
         }
 
+        resultList.forEach(result -> result.setBackdropPath(getImageUrlFromMovieDb(result)));
         return resultList;
     }
 

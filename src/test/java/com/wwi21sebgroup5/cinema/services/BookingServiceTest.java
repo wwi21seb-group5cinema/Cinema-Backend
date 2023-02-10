@@ -72,7 +72,7 @@ public class BookingServiceTest {
             expTimeStamp = expTimeStamp.plusMinutes(15);
             doNothing().when(ticketService).tempReserveSeat(sampleEventId, sRow, sPlace, expTimeStamp);
             ResponseEntity<?> act = bookingService.temporarilyReserveSeats(input);
-            ResponseEntity<?> exp = new ResponseEntity<>(expTimeStamp, HttpStatus.OK);
+            ResponseEntity<?> exp = new ResponseEntity<>(expTimeStamp.toString(), HttpStatus.OK);
 
             assertAll("Validating output...",
                     () -> assertEquals(act.getBody(), exp.getBody()),

@@ -55,7 +55,6 @@ public class BookingController {
         } catch (UserDoesNotExistException ex) {
             return new ResponseEntity<>(ex.getMessage(), HttpStatus.NOT_FOUND);
         }
-
     }
 
     @GetMapping(path = "/test", params = "ticketId", produces = MediaType.IMAGE_PNG_VALUE)

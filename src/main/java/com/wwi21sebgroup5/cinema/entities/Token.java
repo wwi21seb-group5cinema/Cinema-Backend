@@ -29,7 +29,7 @@ public class Token {
     @NotNull
     private String token;
 
-    @OneToOne(targetEntity = User.class, fetch = FetchType.LAZY)
+    @OneToOne(targetEntity = User.class, fetch = FetchType.EAGER)
     @JoinColumn(name = "user_id", referencedColumnName = "id")
     @ToString.Exclude
     private User user;
@@ -71,5 +71,5 @@ public class Token {
         result = 31 * result + (expirationDate != null ? expirationDate.hashCode() : 0);
         return result;
     }
-    
+
 }

@@ -26,7 +26,7 @@ public class ActsIn {
     private UUID id;
 
     @NotNull
-    @ManyToOne(cascade = CascadeType.PERSIST)
+    @ManyToOne
     @JoinColumn(name = "movie_Id", referencedColumnName = "id")
     @ToString.Exclude
     private Movie movie;

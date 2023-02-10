@@ -39,16 +39,15 @@ public class CinemaService {
         }
 
         Cinema newCinema = new Cinema(
-            cinemaObject.getName(),
-            List.of(),
-            city,
-            cinemaObject.getStreet(),
-            cinemaObject.getHouseNumber(),
-            cinemaObject.getFloors()
+                cinemaObject.getName(),
+                List.of(),
+                city,
+                cinemaObject.getStreet(),
+                cinemaObject.getHouseNumber(),
+                cinemaObject.getFloors()
         );
 
         return cinemaRepository.save(newCinema);
-
     }
 
 }

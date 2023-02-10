@@ -5,7 +5,8 @@ import org.junit.jupiter.api.Test;
 
 import java.util.UUID;
 
-import static org.junit.jupiter.api.Assertions.*;
+import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertNotEquals;
 
 public class BookingTest {
 
@@ -21,12 +22,11 @@ public class BookingTest {
 
     @Test
     @DisplayName("Test equality")
-    public void testEquality(){
+    public void testEquality() {
         UUID id = UUID.randomUUID();
         User user = new User();
-        Invoice invoice = new Invoice();
-        Booking first = getBooking(id, user, invoice);
-        Booking second = getBooking(id, user, invoice);
+        Booking first = getBooking(id, user);
+        Booking second = getBooking(id, user);
 
         assertEquals(first, first);
         assertEquals(first.hashCode(), second.hashCode());
@@ -35,12 +35,8 @@ public class BookingTest {
         second.setId(null);
         assertNotEquals(first, second);
 
-        second = getBooking(id, user ,invoice);
+        second = getBooking(id, user);
         second.setUser(null);
-        assertNotEquals(first, second);
-
-        second = getBooking(id, user, invoice);
-        second.setInvoice(null);
         assertNotEquals(first, second);
 
         second.setUser(null);
@@ -48,15 +44,14 @@ public class BookingTest {
         assertNotEquals(first.hashCode(), second.hashCode());
 
         assertEquals(first.hashCode(), first.hashCode());
-        second = getBooking(id, user, invoice);
+        second = getBooking(id, user);
         assertEquals(second.hashCode(), second.hashCode());
 
     }
 
-    public Booking getBooking(UUID id, User user, Invoice invoice){
+    public Booking getBooking(UUID id, User user) {
         Booking b = new Booking(user);
         b.setId(id);
-        b.setInvoice(invoice);
         return b;
     }
 }

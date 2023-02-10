@@ -30,7 +30,7 @@ public class SeatService {
     }
 
     public void checkTempReservationTime(Seat seat) {
-        if(seat.getExpirationTimeStamp().isAfter(LocalDateTime.now())){
+        if(seat.getExpirationTimeStamp().isBefore(LocalDateTime.now())){
             seat.setSeatState(SeatState.FREE);
             seatRepository.save(seat);
         }
