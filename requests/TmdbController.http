@@ -3,11 +3,11 @@ POST http://localhost:8082/v1/movie/tmdb/addTmdb
 Content-Type: application/json
 
 {
-  "tmdbMovieId": {{tmdbMovieId}}
+  "tmdbMovieId": 11
 }
 
 ### Get tmdb movies by query-name
-GET http://localhost:8082/v1/movie/tmdb/getTmdb?movieName={{movieName}}
+GET http://localhost:8082/v1/movie/tmdb/getTmdb?movieName="Star Wars"
 
 ### Get tmdb movie by id
 GET http://localhost:8082/v1/movie/tmdb/getTmdb?movieId={{tmdbMovieId}}
