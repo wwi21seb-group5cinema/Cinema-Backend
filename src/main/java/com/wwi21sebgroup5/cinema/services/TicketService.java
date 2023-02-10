@@ -78,11 +78,10 @@ public class TicketService {
         seatService.save(currSeat);
     }
 
-    public void updateExpTimeStamp(UUID eventId, int row, int place, LocalDateTime expTimeStamp) {
-        Optional<Ticket> foundTicket = ticketRepository.findByEvent_IdAndSeat_RowAndSeat_Place(eventId, row, place);
-        Seat s = foundTicket.get().getSeat();
-        s.setExpirationTimeStamp(expTimeStamp);
-        seatService.save(s);
+    public void updateExpTimeStamp(Seat seat, LocalDateTime expTimeStamp) {
+        System.out.println("Update Ausgeführt!" + expTimeStamp);
+        seat.setExpirationTimeStamp(expTimeStamp);
+        seatService.save(seat);
     }
 
     public Ticket save(Ticket t) {

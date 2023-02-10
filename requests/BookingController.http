@@ -9,15 +9,9 @@ Content-Type: application/json
 
 [
   {
-    "eventID": "f2685699-68b9-4524-a4ad-5ead8ba522a6",
+    "eventID": "3eddcec1-29dc-4667-afb3-3333ea248e48",
     "row": 2,
     "place": 1,
-    "userId": "62ee6730-16a4-4546-90c1-b12a76356464"
-  },
-  {
-    "eventID": "f2685699-68b9-4524-a4ad-5ead8ba522a6",
-    "row": 2,
-    "place": 2,
     "userId": "62ee6730-16a4-4546-90c1-b12a76356464"
   }
 ]

@@ -49,12 +49,13 @@ public class BookingService {
             ticketService.tempReserveSeat(s.getEventID(), s.getRow(), s.getPlace(), expTimeStamp, s.getUserId());
         }
         // Take the first Item of list for eventId since it has to be same in any Item of the list anyway
-        Optional<Event> foundEvent = eventService.findById(seatsToReserve.get(0).getEventID());
-        for (Ticket t : foundEvent.get().getTickets()){
-            if(t.getSeat().getUserId() == seatsToReserve.get(0).getUserId()){ //works accordingly to eventId
-                ticketService.updateExpTimeStamp(seatsToReserve.get(0).getEventID(), t.getSeat().getRow(), t.getSeat().getPlace(), expTimeStamp);
-            }
-        }
+        BookingRequestObject requestObject = seatsToReserve.get(0);
+        Optional<Event> foundEvent = eventService.findById(requestObject.getEventID());
+        Event event = foundEvent.get();
+        event.getTickets().stream()
+                .filter(ticket -> ticket.getSeat().getUserId() != null)
+                .filter(ticket -> ticket.getSeat().getUserId().equals(requestObject.getUserId()))
+                .forEach(ticket -> ticketService.updateExpTimeStamp(ticket.getSeat(), expTimeStamp));
         return new ResponseEntity<>(expTimeStamp.toString(), HttpStatus.OK);
     }
 
