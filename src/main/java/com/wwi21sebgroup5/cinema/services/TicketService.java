@@ -13,7 +13,6 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import java.time.LocalDateTime;
-import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
 import java.util.UUID;
@@ -93,16 +92,18 @@ public class TicketService {
         return ticketRepository.findByBooking_User_Id(id);
     }
 
-    public void cancelTickets(List<UUID> ticketIds) {
-        List<Ticket> cancelledTickets = new ArrayList<>();
+    public void cancelTicket(UUID ticketId) throws TicketNotFoundException {
+        Optional<Ticket> foundTicket = ticketRepository.findById(ticketId);
 
-        ticketIds.forEach(id -> cancelledTickets.add(ticketRepository.findById(id).get()));
-        cancelledTickets.forEach(ticket -> {
-            ticket.setBooking(null);
-            ticket.getSeat().setSeatState(SeatState.FREE);
-            ticket.getSeat().setUserId(null);
-            ticket.getSeat().setExpirationTimeStamp(null);
-            ticketRepository.save(ticket);
-        });
+        if (foundTicket.isEmpty()) {
+            throw new TicketNotFoundException(ticketId);
+        }
+
+        Ticket ticket = foundTicket.get();
+        ticket.setBooking(null);
+        ticket.getSeat().setSeatState(SeatState.FREE);
+        ticket.getSeat().setUserId(null);
+        ticket.getSeat().setExpirationTimeStamp(null);
+        ticketRepository.save(ticket);
     }
 }

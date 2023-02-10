@@ -53,9 +53,9 @@ public class TicketController {
     }
 
     @PostMapping(path = "cancel")
-    public ResponseEntity<Object> cancelTickets(@RequestBody List<UUID> ticketIds) {
+    public ResponseEntity<Object> cancelTicket(@RequestBody UUID ticketId) {
         try {
-            ticketService.cancelTickets(ticketIds);
+            ticketService.cancelTicket(ticketId);
         } catch (Exception e) {
             return new ResponseEntity<>(HttpStatus.INTERNAL_SERVER_ERROR);
         }
