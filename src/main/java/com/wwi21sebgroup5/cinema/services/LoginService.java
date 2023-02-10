@@ -155,14 +155,6 @@ public class LoginService {
         emailService.sendPasswordReset(user, randomPassword);
     }
 
-    public void updateEmail() {
-
-    }
-
-    public void updatePassword(String email, String password) {
-
-    }
-
     public void updateData(RegistrationRequestObject requestObject, UUID id) throws UserDoesNotExistException {
         Optional<User> foundUser = userService.getUserById(id);
 
