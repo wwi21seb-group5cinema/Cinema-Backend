@@ -3,6 +3,16 @@ GET http://localhost:8082/v1/booking/get?id=
 
 
 
+
+
+
+
+
+
+
+
+
+
 ### temp Reserve given Seats
 POST http://localhost:8082/v1/booking/tempReserve
 Content-Type: application/json
@@ -22,14 +32,14 @@ Content-Type: application/json
 
 [
   {
-    "userID": "775b778a-8feb-48df-9527-28e54675937e",
-    "eventID": "b93fbf96-7a02-457b-8811-11145c2d8c3a",
+    "userID": "baf5893f-538d-48a7-ad7c-7a824ec0d0d4",
+    "eventID": "7b07184c-be6d-423b-9972-a343adac87a2",
     "row": 1,
     "place": 1
   },
   {
-    "userID": "b93fbf96-7a02-457b-8811-11145c2d8c3a",
-    "eventID": "4e6f9d30-64ee-431b-b4b5-c5dd1d88ee99",
+    "userID": "baf5893f-538d-48a7-ad7c-7a824ec0d0d4",
+    "eventID": "7b07184c-be6d-423b-9972-a343adac87a2",
     "row": 1,
     "place": 2
   }

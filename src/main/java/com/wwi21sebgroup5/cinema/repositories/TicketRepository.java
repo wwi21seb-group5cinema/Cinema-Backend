@@ -22,4 +22,6 @@ public interface TicketRepository extends JpaRepository<Ticket, UUID> {
     Optional<Ticket> findByEventAndSeat(Event event, Seat seat);
 
     Optional<Ticket> findByEvent_IdAndSeat_RowAndSeat_Place(UUID id, int row, int place);
+
+    List<Ticket> findByBooking_User_Id(UUID id);
 }
