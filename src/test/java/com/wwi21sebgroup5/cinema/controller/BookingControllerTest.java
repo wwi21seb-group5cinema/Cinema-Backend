@@ -76,9 +76,10 @@ public class BookingControllerTest {
     @DisplayName("Test temporarilyReserveSeats with 1 Seat successfully")
     public void testTemporarilyReserveSeats() throws SeatNotAvailableException, SeatDoesNotExistException {
         UUID sampleEventId = UUID.randomUUID();
+        UUID sampleUserId = UUID.randomUUID();
         int sRow = 1;
         int sPlace = 1;
-        BookingRequestObject sampleSeat = new BookingRequestObject(sampleEventId, sRow, sPlace);
+        BookingRequestObject sampleSeat = new BookingRequestObject(sampleEventId, sRow, sPlace, sampleUserId);
 
         List<BookingRequestObject> sampleSeats = List.of(sampleSeat);
         ResponseEntity<Object> res = new ResponseEntity<>(sampleSeats, HttpStatus.OK);
@@ -94,13 +95,14 @@ public class BookingControllerTest {
     @DisplayName("Test temporarilyReserveSeats with 2 Seats successfully")
     public void testTemporarilyReserveSeats2() throws SeatNotAvailableException, SeatDoesNotExistException {
         UUID sampleEventId = UUID.randomUUID();
+        UUID sampleUserId = UUID.randomUUID();
         int sRow = 1;
         int sPlace = 1;
-        BookingRequestObject sampleSeat = new BookingRequestObject(sampleEventId, sRow, sPlace);
+        BookingRequestObject sampleSeat = new BookingRequestObject(sampleEventId, sRow, sPlace, sampleUserId);
         UUID sampleEventId1 = UUID.randomUUID();
         int sRow1 = 1;
         int sPlace1 = 1;
-        BookingRequestObject sampleSeat1 = new BookingRequestObject(sampleEventId1, sRow1, sPlace1);
+        BookingRequestObject sampleSeat1 = new BookingRequestObject(sampleEventId1, sRow1, sPlace1, sampleUserId);
 
         List<BookingRequestObject> sampleSeats = List.of(sampleSeat, sampleSeat1);
         ResponseEntity<Object> res = new ResponseEntity<>(sampleSeats, HttpStatus.OK);
@@ -118,7 +120,7 @@ public class BookingControllerTest {
         UUID sampleEventId = UUID.randomUUID();
         int sRow = 1;
         int sPlace = 1;
-        BookingRequestObject sampleSeat = new BookingRequestObject(sampleEventId, sRow, sPlace);
+        BookingRequestObject sampleSeat = new BookingRequestObject(sampleEventId, sRow, sPlace, sampleEventId);
 
         List<BookingRequestObject> sampleSeats = List.of(sampleSeat);
         doThrow(SeatDoesNotExistException.class).when(bookingService).temporarilyReserveSeats(sampleSeats);
@@ -137,7 +139,7 @@ public class BookingControllerTest {
         UUID sampleEventId = UUID.randomUUID();
         int sRow = 1;
         int sPlace = 1;
-        BookingRequestObject sampleSeat = new BookingRequestObject(sampleEventId, sRow, sPlace);
+        BookingRequestObject sampleSeat = new BookingRequestObject(sampleEventId, sRow, sPlace, sampleEventId);
         List<BookingRequestObject> sampleSeats = List.of(sampleSeat);
 
         doThrow(SeatNotAvailableException.class).when(bookingService).temporarilyReserveSeats(sampleSeats);
