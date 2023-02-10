@@ -18,31 +18,50 @@ public class TicketController {
     private TicketService ticketService;
 
     @GetMapping(path = "/get", params = "eventId")
-    public ResponseEntity<List<Ticket>> getTicketsByEventId(@RequestParam UUID eventId){
-        try{
+    public ResponseEntity<List<Ticket>> getTicketsByEventId(@RequestParam UUID eventId) {
+        try {
             List<Ticket> ticketsOfEvent = ticketService.getByEventId(eventId);
             return new ResponseEntity<>(ticketsOfEvent, HttpStatus.OK);
-        }catch(TicketNotFoundException tnfe){
+        } catch (TicketNotFoundException tnfe) {
             return new ResponseEntity<>(HttpStatus.NOT_FOUND);
-        }catch(Exception e){
+        } catch (Exception e) {
             return new ResponseEntity<>(HttpStatus.INTERNAL_SERVER_ERROR);
         }
-
-
     }
 
     @GetMapping(value = "/get", params = "id")
-    public ResponseEntity<Ticket> getTicketById(@RequestParam UUID id){
+    public ResponseEntity<Ticket> getTicketById(@RequestParam UUID id) {
         try {
             Ticket foundTicket = ticketService.findById(id);
             return new ResponseEntity<>(foundTicket, HttpStatus.OK);
-        }catch(TicketNotFoundException tnfe){
+        } catch (TicketNotFoundException tnfe) {
             return new ResponseEntity<>(HttpStatus.NOT_FOUND);
-        }catch(Exception e){
+        } catch (Exception e) {
             return new ResponseEntity<>(HttpStatus.INTERNAL_SERVER_ERROR);
         }
     }
 
+    @GetMapping(path = "/get", params = "userId")
+    public ResponseEntity<List<Ticket>> getTicketsByUserId(@RequestParam UUID id) {
+        List<Ticket> tickets = ticketService.getByUserId(id);
+
+        if (tickets.isEmpty()) {
+            return new ResponseEntity<>(HttpStatus.NOT_FOUND);
+        }
+
+        return new ResponseEntity<>(tickets, HttpStatus.OK);
+    }
+
+    @PostMapping(path = "cancel")
+    public ResponseEntity<Object> cancelTickets(@RequestBody List<UUID> ticketIds) {
+        try {
+            ticketService.cancelTickets(ticketIds);
+        } catch (Exception e) {
+            return new ResponseEntity<>(HttpStatus.INTERNAL_SERVER_ERROR);
+        }
+
+        return new ResponseEntity<>(HttpStatus.OK);
+    }
 
 }
 

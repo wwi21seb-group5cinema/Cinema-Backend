@@ -13,6 +13,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import java.time.LocalDateTime;
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
 import java.util.UUID;
@@ -62,9 +63,9 @@ public class TicketService {
         return foundTickets.get();
     }
 
-    public void tempReserveSeat(UUID eventID, int row, int place, LocalDateTime expTimeStamp, UUID userId) throws SeatDoesNotExistException, SeatNotAvailableException{
+    public void tempReserveSeat(UUID eventID, int row, int place, LocalDateTime expTimeStamp, UUID userId) throws SeatDoesNotExistException, SeatNotAvailableException {
         Optional<Ticket> foundTicket = ticketRepository.findByEvent_IdAndSeat_RowAndSeat_Place(eventID, row, place);
-        if(foundTicket.isEmpty()){
+        if (foundTicket.isEmpty()) {
             throw new SeatDoesNotExistException(row, place);
         }
 
@@ -86,5 +87,22 @@ public class TicketService {
 
     public Ticket save(Ticket t) {
         return ticketRepository.save(t);
+    }
+
+    public List<Ticket> getByUserId(UUID id) {
+        return ticketRepository.findByBooking_User_Id(id);
+    }
+
+    public void cancelTickets(List<UUID> ticketIds) {
+        List<Ticket> cancelledTickets = new ArrayList<>();
+
+        ticketIds.forEach(id -> cancelledTickets.add(ticketRepository.findById(id).get()));
+        cancelledTickets.forEach(ticket -> {
+            ticket.setBooking(null);
+            ticket.getSeat().setSeatState(SeatState.FREE);
+            ticket.getSeat().setUserId(null);
+            ticket.getSeat().setExpirationTimeStamp(null);
+            ticketRepository.save(ticket);
+        });
     }
 }

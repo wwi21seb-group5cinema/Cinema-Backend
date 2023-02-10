@@ -28,7 +28,7 @@ public class Ticket {
     @JoinColumn(name = "event_id", referencedColumnName = "id")
     private Event event;
 
-    @OneToOne
+    @OneToOne(cascade = CascadeType.REFRESH)
     @JoinColumn(name = "seat_id", referencedColumnName = "id")
     private Seat seat;
 
