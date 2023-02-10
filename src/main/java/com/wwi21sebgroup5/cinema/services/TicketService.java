@@ -9,10 +9,12 @@ import com.wwi21sebgroup5.cinema.exceptions.SeatNotAvailableException;
 import com.wwi21sebgroup5.cinema.exceptions.TicketAlreadyExistsException;
 import com.wwi21sebgroup5.cinema.exceptions.TicketNotFoundException;
 import com.wwi21sebgroup5.cinema.repositories.TicketRepository;
+import com.wwi21sebgroup5.cinema.requestObjects.TicketReturnObject;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import java.time.LocalDateTime;
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
 import java.util.UUID;
@@ -89,11 +91,23 @@ public class TicketService {
         return ticketRepository.save(t);
     }
 
-    public List<Ticket> getByUserId(UUID id) {
+    public List<TicketReturnObject> getByUserId(UUID id) {
         List<Ticket> tickets = ticketRepository.findByBooking_User_Id(id);
-        return tickets.stream()
+        tickets = tickets.stream()
                 .filter(ticket -> ticket.getEvent().getEventDateTime().isAfter(LocalDateTime.now().minusMinutes(30)))
                 .collect(Collectors.toList());
+
+        List<TicketReturnObject> returnObjects = new ArrayList<>();
+        tickets.forEach(ticket -> {
+            returnObjects.add(new TicketReturnObject(ticket.getId(),
+                    ticket.getEvent().getMovie().getName(),
+                    ticket.getEvent().getEventDateTime(),
+                    ticket.getEvent().getCinemaHall().getName(),
+                    ticket.getSeat().getRow(),
+                    ticket.getSeat().getPlace()));
+        });
+
+        return returnObjects;
     }
 
     public void cancelTicket(UUID ticketId) throws TicketNotFoundException {

@@ -2,6 +2,7 @@ package com.wwi21sebgroup5.cinema.controller;
 
 import com.wwi21sebgroup5.cinema.entities.Ticket;
 import com.wwi21sebgroup5.cinema.exceptions.TicketNotFoundException;
+import com.wwi21sebgroup5.cinema.requestObjects.TicketReturnObject;
 import com.wwi21sebgroup5.cinema.services.TicketService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
@@ -42,8 +43,8 @@ public class TicketController {
     }
 
     @GetMapping(path = "/get", params = "userId")
-    public ResponseEntity<List<Ticket>> getTicketsByUserId(@RequestParam UUID userId) {
-        List<Ticket> tickets = ticketService.getByUserId(userId);
+    public ResponseEntity<List<TicketReturnObject>> getTicketsByUserId(@RequestParam UUID userId) {
+        List<TicketReturnObject> tickets = ticketService.getByUserId(userId);
 
         if (tickets.isEmpty()) {
             return new ResponseEntity<>(HttpStatus.NOT_FOUND);

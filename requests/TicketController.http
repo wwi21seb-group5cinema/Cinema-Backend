@@ -1,4 +1,4 @@
 GET http://localhost:8082/v1/ticket/getAll
 
 ### in the following a Ticket ID after the "=" is required
-GET http://localhost:8082/v1/ticket/get?userId=e686ac04-4683-4888-9734-44b0f5783f28
+GET http://localhost:8082/v1/ticket/get?userId=f38b1218-7e08-4f78-aa9a-13d436eb1c50
