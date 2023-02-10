@@ -24,6 +24,10 @@ public class BookingRequestObject {
     @NotEmpty
     private int place;
 
+    @NotNull
+    @NotEmpty
+    private UUID userId;
+
 
     public BookingRequestObject() {
         super();

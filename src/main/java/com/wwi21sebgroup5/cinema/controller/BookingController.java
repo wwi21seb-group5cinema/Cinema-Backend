@@ -50,7 +50,6 @@ public class BookingController {
         } catch (UserDoesNotExistException ex) {
             return new ResponseEntity<>(ex.getMessage(), HttpStatus.NOT_FOUND);
         }
-
     }
 
     @PostMapping(path = "/scan", params = "code")
