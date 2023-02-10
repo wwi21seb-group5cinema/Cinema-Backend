@@ -96,7 +96,7 @@ public class BookingService {
             return new ResponseEntity<>(ex.getMessage(), HttpStatus.NOT_FOUND);
         }
 
-        //emailService.sendBookingConfirmation(bookedTickets, b);
+        emailService.sendBookingConfirmation(bookedTickets, b);
         return new ResponseEntity<>(seatsToReserve, HttpStatus.OK);
     }
 

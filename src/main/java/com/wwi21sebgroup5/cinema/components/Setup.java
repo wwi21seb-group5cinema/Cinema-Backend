@@ -78,7 +78,7 @@ public class Setup {
         List<City> cities = csvDataLoader.loadObjectList(City.class, CITY_FILE);
 
         for (City city : cities) {
-            cityService.save(city);
+            cityService.findByPlzAndName(city.getPlz(), city.getName());
         }
     }
 
@@ -126,6 +126,10 @@ public class Setup {
             cinema = cinemaService.getAllCinemas().get(0);
         } catch (Exception e) {
             throw new RuntimeException(e.getCause());
+        }
+
+        if (cinemaHallService.getAllCinemaHalls().size() >= 3) {
+            return;
         }
 
         List<CinemaHallRequestObject> requestObjects = new ArrayList<>();

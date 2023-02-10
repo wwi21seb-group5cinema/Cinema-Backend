@@ -32,7 +32,7 @@ public class Ticket {
     @JoinColumn(name = "seat_id", referencedColumnName = "id")
     private Seat seat;
 
-    @ManyToOne(cascade = CascadeType.REFRESH)
+    @ManyToOne
     @JoinColumn(name = "booking_id", referencedColumnName = "id")
     private Booking booking;
 

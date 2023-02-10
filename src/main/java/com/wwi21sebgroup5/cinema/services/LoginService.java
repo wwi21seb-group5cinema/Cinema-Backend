@@ -78,7 +78,7 @@ public class LoginService {
         userService.save(newUser);
         String token = UUID.randomUUID().toString();
         Token registrationToken = tokenService.save(new Token(token, newUser));
-        //emailService.sendRegistrationConfirmation(newUser, token);
+        emailService.sendRegistrationConfirmation(newUser, token);
 
         return newUser;
     }
@@ -127,7 +127,7 @@ public class LoginService {
         if (now.isAfter(tokenToConfirm.getExpirationDate())) {
             tokenToConfirm.setToken(UUID.randomUUID().toString());
             tokenToConfirm.setExpirationDate(now.plusDays(1));
-            //emailService.sendRegistrationConfirmation(tokenToConfirm.getUser(), token);
+            emailService.sendRegistrationConfirmation(tokenToConfirm.getUser(), token);
             throw new TokenExpiredException();
         }
 
@@ -139,7 +139,7 @@ public class LoginService {
         userToUpdate.setEnabled(true);
         userService.save(userToUpdate);
 
-        //emailService.sendTokenConfirmation(tokenToConfirm.getUser());
+        emailService.sendTokenConfirmation(tokenToConfirm.getUser());
     }
 
     public void forgotPassword(String email) throws EmailNotFoundException {
