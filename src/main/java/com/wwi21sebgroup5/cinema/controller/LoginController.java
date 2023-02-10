@@ -2,6 +2,7 @@ package com.wwi21sebgroup5.cinema.controller;
 
 import com.wwi21sebgroup5.cinema.entities.User;
 import com.wwi21sebgroup5.cinema.exceptions.*;
+import com.wwi21sebgroup5.cinema.requestObjects.ChangePasswordRequestObject;
 import com.wwi21sebgroup5.cinema.requestObjects.LoginRequestObject;
 import com.wwi21sebgroup5.cinema.requestObjects.RegistrationRequestObject;
 import com.wwi21sebgroup5.cinema.services.LoginService;
@@ -74,6 +75,17 @@ public class LoginController {
             loginService.forgotPassword(email);
         } catch (EmailNotFoundException e) {
             return new ResponseEntity<>(HttpStatus.NOT_FOUND);
+        }
+
+        return new ResponseEntity<>(HttpStatus.OK);
+    }
+
+    @PostMapping(path = "changePassword")
+    public ResponseEntity<Object> changePassword(@RequestBody ChangePasswordRequestObject requestObject) {
+        try {
+            loginService.changePassword(requestObject);
+        } catch (Exception e) {
+            return new ResponseEntity<>(HttpStatus.INTERNAL_SERVER_ERROR);
         }
 
         return new ResponseEntity<>(HttpStatus.OK);
