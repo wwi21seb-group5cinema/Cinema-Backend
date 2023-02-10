@@ -16,6 +16,7 @@ import java.time.LocalDateTime;
 import java.util.List;
 import java.util.Optional;
 import java.util.UUID;
+import java.util.stream.Collectors;
 
 @Service
 public class TicketService {
@@ -89,7 +90,10 @@ public class TicketService {
     }
 
     public List<Ticket> getByUserId(UUID id) {
-        return ticketRepository.findByBooking_User_Id(id);
+        List<Ticket> tickets = ticketRepository.findByBooking_User_Id(id);
+        return tickets.stream()
+                .filter(ticket -> ticket.getEvent().getEventDateTime().isAfter(LocalDateTime.now().minusMinutes(30)))
+                .collect(Collectors.toList());
     }
 
     public void cancelTicket(UUID ticketId) throws TicketNotFoundException {

@@ -29,7 +29,7 @@ public class TicketController {
         }
     }
 
-    @GetMapping(value = "/get", params = "id")
+    @GetMapping(path = "/get", params = "id")
     public ResponseEntity<Ticket> getTicketById(@RequestParam UUID id) {
         try {
             Ticket foundTicket = ticketService.findById(id);
@@ -42,8 +42,8 @@ public class TicketController {
     }
 
     @GetMapping(path = "/get", params = "userId")
-    public ResponseEntity<List<Ticket>> getTicketsByUserId(@RequestParam UUID id) {
-        List<Ticket> tickets = ticketService.getByUserId(id);
+    public ResponseEntity<List<Ticket>> getTicketsByUserId(@RequestParam UUID userId) {
+        List<Ticket> tickets = ticketService.getByUserId(userId);
 
         if (tickets.isEmpty()) {
             return new ResponseEntity<>(HttpStatus.NOT_FOUND);
