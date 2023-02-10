@@ -1,31 +1,25 @@
 package com.wwi21sebgroup5.cinema.controller;
 
 import com.wwi21sebgroup5.cinema.entities.Booking;
-import com.wwi21sebgroup5.cinema.entities.Seat;
 import com.wwi21sebgroup5.cinema.entities.User;
 import com.wwi21sebgroup5.cinema.exceptions.BookingNotFoundException;
 import com.wwi21sebgroup5.cinema.exceptions.SeatDoesNotExistException;
 import com.wwi21sebgroup5.cinema.exceptions.SeatNotAvailableException;
 import com.wwi21sebgroup5.cinema.requestObjects.BookingRequestObject;
 import com.wwi21sebgroup5.cinema.services.BookingService;
-import jakarta.inject.Inject;
-import org.apache.coyote.Response;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
 import org.mockito.InjectMocks;
 import org.mockito.Mock;
 import org.mockito.junit.jupiter.MockitoExtension;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 
-import java.awt.print.Book;
 import java.util.List;
 import java.util.UUID;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
-import static org.junit.jupiter.api.Assertions.assertThrows;
 import static org.mockito.Mockito.doThrow;
 import static org.mockito.Mockito.when;
 
@@ -54,10 +48,8 @@ public class BookingControllerTest {
 
     @Test
     @DisplayName("Test getBookingByBookingId with non existent Booking unsuccessfully")
-    public void testGetBookingbyBookingId() throws BookingNotFoundException{
+    public void testGetBookingbyBookingId() throws BookingNotFoundException {
         UUID sampleId = UUID.randomUUID();
-        User sampleUser = new User();
-        Booking sampleBooking = new Booking(sampleUser);
 
         when(bookingService.findBookingById(sampleId)).thenThrow(new BookingNotFoundException(sampleId));
 
@@ -69,10 +61,8 @@ public class BookingControllerTest {
 
     @Test
     @DisplayName("Test getBookingByBookingId with Internal Server Error unsuccessfully")
-    public void testGetBookingByBookingIdRuntimeError() throws BookingNotFoundException{
+    public void testGetBookingByBookingIdRuntimeError() throws BookingNotFoundException {
         UUID sampleId = UUID.randomUUID();
-        User sampleUser = new User();
-        Booking sampleBooking = new Booking(sampleUser);
 
         when(bookingService.findBookingById(sampleId)).thenThrow(new RuntimeException("Error!"));
 
@@ -102,7 +92,7 @@ public class BookingControllerTest {
 
     @Test
     @DisplayName("Test temporarilyReserveSeats with 2 Seats successfully")
-    public void testTemporarilyReserveSeats2() throws SeatNotAvailableException, SeatDoesNotExistException{
+    public void testTemporarilyReserveSeats2() throws SeatNotAvailableException, SeatDoesNotExistException {
         UUID sampleEventId = UUID.randomUUID();
         int sRow = 1;
         int sPlace = 1;
@@ -124,7 +114,7 @@ public class BookingControllerTest {
 
     @Test
     @DisplayName("Test temporarilyReserveSeats with non existent Seat")
-    public void testTemporarilyReserveNonexistentSeat() throws SeatNotAvailableException, SeatDoesNotExistException{
+    public void testTemporarilyReserveNonexistentSeat() throws SeatNotAvailableException, SeatDoesNotExistException {
         UUID sampleEventId = UUID.randomUUID();
         int sRow = 1;
         int sPlace = 1;
@@ -143,7 +133,7 @@ public class BookingControllerTest {
 
     @Test
     @DisplayName("Test temporarilyReserveSeats with not available Seat")
-    public void testTemporarilyReserveNotAvailableSeat() throws SeatNotAvailableException, SeatDoesNotExistException{
+    public void testTemporarilyReserveNotAvailableSeat() throws SeatNotAvailableException, SeatDoesNotExistException {
         UUID sampleEventId = UUID.randomUUID();
         int sRow = 1;
         int sPlace = 1;
