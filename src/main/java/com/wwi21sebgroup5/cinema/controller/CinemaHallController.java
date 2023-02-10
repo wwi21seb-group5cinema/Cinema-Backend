@@ -61,14 +61,13 @@ public class CinemaHallController {
     }
 
     @GetMapping(path = "/get", params = "id")
-    public ResponseEntity<Optional<CinemaHall>> getById(@RequestParam UUID id) {
+    public ResponseEntity<CinemaHall> getById(@RequestParam UUID id) {
         Optional<CinemaHall> foundHall = cinemaHallService.getCinemaHallById(id);
 
-        if (foundHall.isEmpty()) {
-            return new ResponseEntity<>(HttpStatus.NOT_FOUND);
-        } else {
-            return new ResponseEntity<>(foundHall, HttpStatus.OK);
-        }
+        return foundHall.map(cinemaHall
+                        -> new ResponseEntity<>(cinemaHall, HttpStatus.OK))
+                .orElseGet(()
+                        -> new ResponseEntity<>(HttpStatus.NOT_FOUND));
     }
 
 }

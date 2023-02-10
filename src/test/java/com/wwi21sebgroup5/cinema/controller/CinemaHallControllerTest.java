@@ -152,10 +152,10 @@ public class CinemaHallControllerTest {
 
         when(cinemaHallService.getCinemaHallById(id)).thenReturn(Optional.of(expectedHall));
 
-        ResponseEntity<Optional<CinemaHall>> response = cinemaHallController.getById(id);
+        ResponseEntity<CinemaHall> response = cinemaHallController.getById(id);
         assertAll(
                 "Validating response..",
-                () -> assertEquals(expectedHall, response.getBody().get()),
+                () -> assertEquals(expectedHall, response.getBody()),
                 () -> assertEquals(HttpStatus.OK, response.getStatusCode())
         );
     }
@@ -166,7 +166,7 @@ public class CinemaHallControllerTest {
         UUID id = new UUID(2, 2);
         when(cinemaHallService.getCinemaHallById(id)).thenReturn(Optional.empty());
 
-        ResponseEntity<Optional<CinemaHall>> response = cinemaHallController.getById(id);
+        ResponseEntity<CinemaHall> response = cinemaHallController.getById(id);
         assertAll(
                 "Validating response..",
                 () -> assertFalse(response.hasBody()),
