@@ -2,6 +2,7 @@ package com.wwi21sebgroup5.cinema.controller;
 
 import com.wwi21sebgroup5.cinema.entities.User;
 import com.wwi21sebgroup5.cinema.exceptions.*;
+import com.wwi21sebgroup5.cinema.requestObjects.ChangePasswordRequestObject;
 import com.wwi21sebgroup5.cinema.requestObjects.LoginRequestObject;
 import com.wwi21sebgroup5.cinema.requestObjects.RegistrationRequestObject;
 import com.wwi21sebgroup5.cinema.services.LoginService;
@@ -9,6 +10,8 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
+
+import java.util.UUID;
 
 @RestController
 @RequestMapping("/v1")
@@ -61,6 +64,40 @@ public class LoginController {
             return new ResponseEntity<>(e.getMessage(), HttpStatus.ALREADY_REPORTED);
         } catch (Exception ex) {
             return new ResponseEntity<>(ex.getMessage(), HttpStatus.INTERNAL_SERVER_ERROR);
+        }
+
+        return new ResponseEntity<>(HttpStatus.OK);
+    }
+
+    @PostMapping(path = "forgotPassword", params = "email")
+    public ResponseEntity<Object> forgotPassword(@RequestParam String email) {
+        try {
+            loginService.forgotPassword(email);
+        } catch (EmailNotFoundException e) {
+            return new ResponseEntity<>(HttpStatus.NOT_FOUND);
+        }
+
+        return new ResponseEntity<>(HttpStatus.OK);
+    }
+
+    @PostMapping(path = "changePassword")
+    public ResponseEntity<Object> changePassword(@RequestBody ChangePasswordRequestObject requestObject) {
+        try {
+            loginService.changePassword(requestObject);
+        } catch (Exception e) {
+            return new ResponseEntity<>(HttpStatus.INTERNAL_SERVER_ERROR);
+        }
+
+        return new ResponseEntity<>(HttpStatus.OK);
+    }
+
+    @PostMapping(path = "update", params = "id")
+    public ResponseEntity<Object> updateData(@RequestBody RegistrationRequestObject requestObject,
+                                             @RequestParam UUID id) {
+        try {
+            loginService.updateData(requestObject, id);
+        } catch (Exception e) {
+            return new ResponseEntity<>(HttpStatus.INTERNAL_SERVER_ERROR);
         }
 
         return new ResponseEntity<>(HttpStatus.OK);
