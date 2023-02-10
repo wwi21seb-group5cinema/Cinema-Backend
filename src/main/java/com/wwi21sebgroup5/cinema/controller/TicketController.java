@@ -52,8 +52,8 @@ public class TicketController {
         return new ResponseEntity<>(tickets, HttpStatus.OK);
     }
 
-    @PostMapping(path = "cancel")
-    public ResponseEntity<Object> cancelTicket(@RequestBody UUID ticketId) {
+    @PostMapping(path = "cancel", params = "id")
+    public ResponseEntity<Object> cancelTicket(@RequestParam UUID ticketId) {
         try {
             ticketService.cancelTicket(ticketId);
         } catch (Exception e) {
