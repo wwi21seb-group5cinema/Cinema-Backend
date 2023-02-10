@@ -9,6 +9,7 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
 import java.util.UUID;
@@ -35,6 +36,19 @@ public class CinemaHallController {
         return new ResponseEntity<>(newCinemaHall, HttpStatus.CREATED);
     }
 
+    @GetMapping(path = "/getAll")
+    public ResponseEntity<List<UUID>> getAll() {
+        List<CinemaHall> allCinemaHalls = cinemaHallService.getAllCinemaHalls();
+
+        if (allCinemaHalls.isEmpty()) {
+            return new ResponseEntity<>(HttpStatus.NOT_FOUND);
+        } else {
+            List<UUID> ids = new ArrayList<>();
+            allCinemaHalls.forEach(hall -> ids.add(hall.getId()));
+            return new ResponseEntity<>(ids, HttpStatus.OK);
+        }
+    }
+
     @GetMapping(path = "/get", params = "cinemaId")
     public ResponseEntity<List<CinemaHall>> getAllByCinema(@RequestParam UUID cinemaId) {
         List<CinemaHall> allCinemaHalls = cinemaHallService.getAllCinemaHallsByCinema(cinemaId);
@@ -47,14 +61,13 @@ public class CinemaHallController {
     }
 
     @GetMapping(path = "/get", params = "id")
-    public ResponseEntity<Optional<CinemaHall>> getById(@RequestParam UUID id) {
+    public ResponseEntity<CinemaHall> getById(@RequestParam UUID id) {
         Optional<CinemaHall> foundHall = cinemaHallService.getCinemaHallById(id);
 
-        if (foundHall.isEmpty()) {
-            return new ResponseEntity<>(HttpStatus.NOT_FOUND);
-        } else {
-            return new ResponseEntity<>(foundHall, HttpStatus.OK);
-        }
+        return foundHall.map(cinemaHall
+                        -> new ResponseEntity<>(cinemaHall, HttpStatus.OK))
+                .orElseGet(()
+                        -> new ResponseEntity<>(HttpStatus.NOT_FOUND));
     }
 
 }

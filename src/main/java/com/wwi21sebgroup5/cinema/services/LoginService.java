@@ -4,6 +4,7 @@ import com.wwi21sebgroup5.cinema.entities.Token;
 import com.wwi21sebgroup5.cinema.entities.User;
 import com.wwi21sebgroup5.cinema.enums.Role;
 import com.wwi21sebgroup5.cinema.exceptions.*;
+import com.wwi21sebgroup5.cinema.requestObjects.ChangePasswordRequestObject;
 import com.wwi21sebgroup5.cinema.requestObjects.LoginRequestObject;
 import com.wwi21sebgroup5.cinema.requestObjects.RegistrationRequestObject;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -13,6 +14,7 @@ import org.springframework.stereotype.Service;
 
 import java.time.LocalDateTime;
 import java.util.Optional;
+import java.util.Random;
 import java.util.UUID;
 
 @Service
@@ -32,6 +34,17 @@ public class LoginService {
 
     @Autowired
     private EmailService emailService;
+
+    private static String alphaNumericString(int len) {
+        String AB = "0123456789ABCDEFGHIJKLMNOPQRSTUVWXYZ";
+        Random rnd = new Random();
+
+        StringBuilder sb = new StringBuilder(len);
+        for (int i = 0; i < len; i++) {
+            sb.append(AB.charAt(rnd.nextInt(AB.length())));
+        }
+        return sb.toString();
+    }
 
     /**
      * @param registrationObject DTO which holds all necessary attributes for a new user
@@ -114,7 +127,7 @@ public class LoginService {
         if (now.isAfter(tokenToConfirm.getExpirationDate())) {
             tokenToConfirm.setToken(UUID.randomUUID().toString());
             tokenToConfirm.setExpirationDate(now.plusDays(1));
-            emailService.sendRegistrationConfirmation(tokenToConfirm.getUser(), token);
+            //emailService.sendRegistrationConfirmation(tokenToConfirm.getUser(), token);
             throw new TokenExpiredException();
         }
 
@@ -126,6 +139,50 @@ public class LoginService {
         userToUpdate.setEnabled(true);
         userService.save(userToUpdate);
 
-        emailService.sendTokenConfirmation(tokenToConfirm.getUser());
+        //emailService.sendTokenConfirmation(tokenToConfirm.getUser());
+    }
+
+    public void forgotPassword(String email) throws EmailNotFoundException {
+        Optional<User> foundUser = userService.getUserByEmail(email);
+
+        if (foundUser.isEmpty()) {
+            throw new EmailNotFoundException(email);
+        }
+
+        User user = foundUser.get();
+        String randomPassword = alphaNumericString(10);
+        user.setPassword(passwordEncoder.encode(randomPassword));
+        emailService.sendPasswordReset(user, randomPassword);
+    }
+
+    public void updateData(RegistrationRequestObject requestObject, UUID id) throws UserDoesNotExistException {
+        Optional<User> foundUser = userService.getUserById(id);
+
+        if (foundUser.isEmpty()) {
+            throw new UserDoesNotExistException(id);
+        }
+
+        User user = foundUser.get();
+        user.setCity(cityService.findByPlzAndName(requestObject.getPlz(), requestObject.getCityName()));
+        user.setStreet(requestObject.getStreet());
+        user.setHouseNumber(requestObject.getHouseNumber());
+        user.setFirstName(requestObject.getFirstName());
+        user.setLastName(requestObject.getLastName());
+        user.setUserName(requestObject.getUserName());
+        user.setEmail(requestObject.getEmail());
+        userService.save(user);
+    }
+
+    public void changePassword(ChangePasswordRequestObject requestObject) throws UserDoesNotExistException {
+        Optional<User> foundUser = userService.getUserById(requestObject.getId());
+
+        if (foundUser.isEmpty()) {
+            throw new UserDoesNotExistException(requestObject.getId());
+        }
+
+        User user = foundUser.get();
+        user.setPassword(passwordEncoder.encode(requestObject.getNewPassword()));
+        userService.save(user);
+        emailService.sendPasswordChangeConfirmation(user);
     }
 }
