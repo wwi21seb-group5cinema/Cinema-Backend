@@ -9,6 +9,7 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
 import java.util.UUID;
@@ -36,13 +37,15 @@ public class CinemaHallController {
     }
 
     @GetMapping(path = "/getAll")
-    public ResponseEntity<List<CinemaHall>> getAll() {
+    public ResponseEntity<List<UUID>> getAll() {
         List<CinemaHall> allCinemaHalls = cinemaHallService.getAllCinemaHalls();
 
         if (allCinemaHalls.isEmpty()) {
             return new ResponseEntity<>(HttpStatus.NOT_FOUND);
         } else {
-            return new ResponseEntity<>(allCinemaHalls, HttpStatus.OK);
+            List<UUID> ids = new ArrayList<>();
+            allCinemaHalls.forEach(hall -> ids.add(hall.getId()));
+            return new ResponseEntity<>(ids, HttpStatus.OK);
         }
     }
 
