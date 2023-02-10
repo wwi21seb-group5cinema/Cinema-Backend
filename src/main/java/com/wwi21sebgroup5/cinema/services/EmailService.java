@@ -29,12 +29,14 @@ public class EmailService {
     private final static String CONFIRM_BOOKING = "/email/confirmBooking.html";
     private final static String CONFIRM_REGISTRATION = "/email/confirmRegistration.html";
     private final static String CONFIRM_TOKEN = "/email/confirmToken.html";
+    private final static String CHANGE_PASSWORD = "/email/sendPasswordChange.html";
+    private final static String RESET_PASSWORD = "/email/sendPasswordReset.html";
 
     private final static String BOOKING_SUBJECT = "Vielen Dank für deine Buchung bei Cineverse!";
-
     private final static String REGISTRATION_SUBJECT = "Willkommen bei Cineverse!";
-
     private final static String TOKEN_SUBJECT = "Deine E-Mail wurde bestätigt!";
+    private final static String CHANGE_PASSWORD_SUBJECT = "Dein Passwort wurde geändert!";
+    private final static String RESET_PASSWORD_SUBJECT = "Dein Passwort wurde zurückgesetzt!!";
 
     @Value("classpath:/static/cinemaGroupFiveLogo.ico")
     private Resource logoResource;
@@ -125,16 +127,16 @@ public class EmailService {
         Context context = new Context();
         context.setVariable("user", user);
         context.setVariable("password", password);
-        String msgBody = templateEngine.process(CONFIRM_TOKEN, context);
+        String msgBody = templateEngine.process(RESET_PASSWORD, context);
 
-        sendMail(user.getEmail(), TOKEN_SUBJECT, msgBody);
+        sendMail(user.getEmail(), RESET_PASSWORD_SUBJECT, msgBody);
     }
 
     public void sendPasswordChangeConfirmation(User user) {
         Context context = new Context();
         context.setVariable("user", user);
-        String msgBody = templateEngine.process(CONFIRM_TOKEN, context);
+        String msgBody = templateEngine.process(CHANGE_PASSWORD, context);
 
-        sendMail(user.getEmail(), TOKEN_SUBJECT, msgBody);
+        sendMail(user.getEmail(), CHANGE_PASSWORD_SUBJECT, msgBody);
     }
 }
