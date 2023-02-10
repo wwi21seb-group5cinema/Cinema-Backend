@@ -35,6 +35,17 @@ public class CinemaHallController {
         return new ResponseEntity<>(newCinemaHall, HttpStatus.CREATED);
     }
 
+    @GetMapping(path = "/getAll")
+    public ResponseEntity<List<CinemaHall>> getAll() {
+        List<CinemaHall> allCinemaHalls = cinemaHallService.getAllCinemaHalls();
+
+        if (allCinemaHalls.isEmpty()) {
+            return new ResponseEntity<>(HttpStatus.NOT_FOUND);
+        } else {
+            return new ResponseEntity<>(allCinemaHalls, HttpStatus.OK);
+        }
+    }
+
     @GetMapping(path = "/get", params = "cinemaId")
     public ResponseEntity<List<CinemaHall>> getAllByCinema(@RequestParam UUID cinemaId) {
         List<CinemaHall> allCinemaHalls = cinemaHallService.getAllCinemaHallsByCinema(cinemaId);
