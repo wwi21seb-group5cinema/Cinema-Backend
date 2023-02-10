@@ -122,8 +122,19 @@ public class EmailService {
     }
 
     public void sendPasswordReset(User user, String password) {
+        Context context = new Context();
+        context.setVariable("user", user);
+        context.setVariable("password", password);
+        String msgBody = templateEngine.process(CONFIRM_TOKEN, context);
+
+        sendMail(user.getEmail(), TOKEN_SUBJECT, msgBody);
     }
 
     public void sendPasswordChangeConfirmation(User user) {
+        Context context = new Context();
+        context.setVariable("user", user);
+        String msgBody = templateEngine.process(CONFIRM_TOKEN, context);
+
+        sendMail(user.getEmail(), TOKEN_SUBJECT, msgBody);
     }
 }
